@@ -1,0 +1,113 @@
+# REPORTS - supervisor
+
+## 2026-09-04T19:35:01Z - UA-0001 (completed)
+
+Bootstrapped self-contained project instructions, source-anchored knowledge ledger, operations/rollback notes, work index, supervisor report, local control-plane CLI, and required UseAgent skills. Preserved the real worker identities and recorded manual-runtime limits.
+
+- Report: `work/reports/inbox/UA-0001-20260904T193501Z-9c2b22.md`
+- Next: Create and dispatch discovery/architecture and UI design work items.
+
+## 2026-09-04T19:38:10Z - UA-0002 (completed)
+
+Recorded the scope-corrected supervisor handover with current health, evidence, exact manual worker assignments for antigravity/codex/claude, runtime/credential blockers, QA status, and one next action.
+
+- Report: `work/reports/inbox/UA-0002-20260904T193810Z-88fa19.md`
+- Next: Ingest the three worker reports in the next bounded cycle.
+
+## 2026-09-04T19:41:22Z - UA-0007 (completed)
+
+Refreshed the canonical report and created a checkpoint that accurately distinguishes assigned/in_progress work from reviewed completion, records the partial UI artifact, and preserves blockers and one next action.
+
+- Report: `work/reports/inbox/UA-0007-20260904T194122Z-b72beb.md`
+- Next: Collect worker reports and ingest them in the next bounded cycle.
+
+## 2026-09-04T19:53:42Z - UA-0009 (completed)
+
+Refreshed the source-anchored knowledge index and project map, and added a UI design-system module card with freshness, source anchors, contracts, invariants, verification, dependency edges, and known gaps.
+
+- Report: `work/reports/inbox/UA-0009-20260904T195342Z-5eff7e.md`
+- Next: Use the UI design-system card when implementing the Vite/React app.
+
+## 2026-09-04T19:57:30Z - UA-0010 (completed)
+
+Recorded the manual runtime limitation and explicit Codex fallback policy, preserved Antigravity/Claude identity and original outbox paths, documented sequential disjoint fallback scopes, and recorded the CLI cancellation blocker.
+
+- Report: `work/reports/inbox/UA-0010-20260904T195730Z-9bac2e.md`
+- Next: Fix the scoped CLI cancellation authorization path, then cancel UA-0003/UA-0006 and dispatch Codex architecture fallback.
+
+## 2026-09-04T19:58:14Z - UA-0012 (completed)
+
+Fixed the target-local UseAgent cancellation authorization guard so supervisor-only administrative cancel/replan actions may act on another worker assignment, while owner-bound implementation lifecycle changes remain protected. Verified target validation and successfully cancelled unclaimed UA-0003/UA-0006 via the patched local CLI.
+
+- Report: `work/reports/inbox/UA-0012-20260904T195814Z-05924e.md`
+- Next: Use the patched CLI to dispatch the Codex architecture fallback.
+
+## 2026-09-04T20:06:36Z - UA-0014 (completed)
+
+Recovered and reviewed the partial architecture discovery locally after the failed Codex fallback. Updated attribution and runtime-failure trail, verified the Vite/React/TypeScript, Neon/Drizzle/Better Auth, SSR/SEO, CRUD/auth/comments anti-spam, migration/rollback, env, and Vercel boundaries, and confirmed no application implementation or production claim was introduced.
+
+- Report: `work/reports/inbox/UA-0014-20260904T200636Z-dc27e4.md`
+- Next: Create the scoped Vite/React/TypeScript scaffold and server/persistence implementation item from the reviewed architecture.
+
+## 2026-09-04T20:13:41Z - UA-0016 (completed)
+
+Recovered the failed conformance fallback with a bounded supervisor-local replay fixture. The fixture copies the control-plane inputs into an isolated temporary root, uses the real CLI for init/validate/task DAG/dispatch/worker pull/report/review/done/checkpoint, asserts report and completion artifacts, prints explicit simulation attribution, and cleans up. Updated bilingual docs and conformance decision preserve Claude preference and UA-0015 failure evidence.
+
+- Report: `work/reports/inbox/UA-0016-20260904T201341Z-be5f48.md`
+- Next: Create the first scoped Vite/React/TypeScript application scaffold using the reviewed architecture.
+
+## 2026-09-04T20:17:01Z - UA-0018 (completed)
+
+Refreshed the canonical supervisor report and checkpoint after architecture/conformance recovery. The report records current done/cancelled statuses, preserved manual worker history, Codex fallback/no-progress evidence, QA signals, blockers, and exactly one next implementation action.
+
+- Report: `work/reports/inbox/UA-0018-20260904T201701Z-d0e46d.md`
+- Next: Create and dispatch the first Vite/React/TypeScript scaffold implementation item.
+
+## 2026-09-04T20:29:12Z - UA-0020 (completed)
+
+Recovered and verified the osblog Vite React TypeScript scaffold locally. Added public and admin deep-link placeholder routes, semantic responsive shell, token-based styling, SSR boundary placeholder, and safe tooling configuration; no CRUD, auth, persistence, or external side effects are implemented yet.
+
+- Report: `work/reports/inbox/UA-0020-20260904T202912Z-806007.md`
+- Next: Review scaffold gate, refresh knowledge/report, then open the persistence boundary work item.
+
+## 2026-09-04T20:31:57Z - UA-0021 (completed)
+
+Refreshed the source-anchored knowledge ledger after the verified Vite scaffold. The map now records actual app entry points and public asset root; the architecture card distinguishes verified scaffold interfaces from pending provider-backed persistence, auth, API, CRUD, comments, SEO, and deployment.
+
+- Report: `work/reports/inbox/UA-0021-20260904T203157Z-75263f.md`
+- Next: Review the refreshed ledger, then open the persistence and auth boundary work item.
+
+## 2026-09-04T20:34:06Z - UA-0022 (completed)
+
+Aligned architecture and UI context records with the verified UA-0020 scaffold. Preserved the reviewed Neon/Drizzle/Better Auth design and explicit provider/deployment blockers while removing stale claims that package/source or the scaffold do not exist.
+
+- Report: `work/reports/inbox/UA-0022-20260904T203406Z-cfef5e.md`
+- Next: Open the scoped persistence/auth boundary implementation item.
+
+## 2026-09-04T20:41:42Z - UA-0025 (completed)
+
+Refreshed the canonical supervisor report, latest cycle summary, and checkpoint after UA-0024. The report now states not_ready with verified scaffold/persistence gates, explicitly lists remaining auth/CRUD/content/comments/SSR/provider/deployment work, preserves runtime attribution, and names exactly one next action.
+
+- Report: `work/reports/inbox/UA-0025-20260904T204142Z-4091cd.md`
+- Next: Create and implement the scoped Better Auth/admin-session boundary.
+
+## 2026-09-04T20:57:47Z - UA-0029 (completed)
+
+Updated project map, knowledge architecture card, and architecture document after UA-0028. API health/auth/post handlers and shared server content contracts are now recorded as implemented; provider execution, SSR data/metadata, comments, browser QA, and deployment remain explicit blockers; next action points to comments/moderation and public client integration.
+
+- Report: `work/reports/inbox/UA-0029-20260904T205747Z-36379f.md`
+- Next: Create and implement the scoped anonymous comments/moderation boundary plus public client data integration.
+
+## 2026-09-04T21:17:01Z - UA-0035 (completed)
+
+Synchronized knowledge, architecture docs, canonical supervisor report, latest cycle, and needs-input checkpoint after public comments and SSR gates. The project is accurately marked not_ready with 30 local tests and boundary checks passing; exact remaining provider/release evidence and stop condition are recorded.
+
+- Report: `work/reports/inbox/UA-0035-20260904T211701Z-1ca185.md`
+- Next: Obtain an authorized Neon/Postgres and Better Auth provider target/credentials, then run migration/auth/CRUD/comments/SSR integration QA before any deployment action.
+
+## 2026-09-04T21:20:42Z - UA-0036 (completed)
+
+Prepared open-source repository hygiene: added professional bilingual README, MIT license notice, and safe ignore rules for dependencies/build/local secret files. Knowledge, work evidence, docs, tests, source, and .env.example remain visible. Full local gate, conformance replay, secret scan, and validate pass.
+
+- Report: `work/reports/inbox/UA-0036-20260904T212042Z-9791bd.md`
+- Next: Run final release evidence task: inspect GitHub repo state, commit main, and create/push the public repository only if safety checks remain clean.

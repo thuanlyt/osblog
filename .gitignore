@@ -1,0 +1,19 @@
+# Dependencies and generated build output
+node_modules/
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+
+# Local environment and secrets; keep the safe template tracked
+.env
+.env.*
+!.env.example
+
+# Local editor and operating-system noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Keep knowledge, work evidence, reports, and tests visible to Git.

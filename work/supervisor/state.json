@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "cycle": 12,
+  "ingested_reports": [],
+  "last_qa": {
+    "status": "not_configured",
+    "commands": [],
+    "evidence": null
+  },
+  "last_cycle_id": "cycle-20260904T201747Z-1ca7a6",
+  "last_qa_at": "2026-09-04T20:17:47Z",
+  "last_checkpoint": "work/checkpoints/20260904T211653Z-release-evidence-gate-20260905-public-flows.md"
+}

@@ -1,0 +1,2539 @@
+{
+  "version": 1,
+  "updated_at": "2026-09-04T21:21:07Z",
+  "items": {
+    "UA-0001": {
+      "id": "UA-0001",
+      "title": "Bootstrap project operating state",
+      "objective": "Establish the self-contained UseAgent project brief, control-plane knowledge map, operational conventions, and production definition of done for osblog.",
+      "level": "L0",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "AGENTS.md",
+        "knowledge",
+        "work/INDEX.md",
+        "docs",
+        "tools/useagent.py",
+        ".agents/skills"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Required supervisor bootstrap documents exist and are source-anchored.",
+        "Target contains a runnable local UseAgent CLI and required skills for replayable validation.",
+        "Production definition of done, rollback notes, QA placeholders, and constraints are explicit."
+      ],
+      "verification": [
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        ".agents/skills/useagent/SKILL.md",
+        "AGENTS.md",
+        "docs/autopilot.md",
+        "docs/operations.md",
+        "knowledge/INDEX.md",
+        "knowledge/decisions/0001-stack.md",
+        "knowledge/decisions/0002-workflow.md",
+        "knowledge/project-brief.md",
+        "knowledge/project-map.md",
+        "tools/useagent.py",
+        "work/INDEX.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate (run after required workflow tasks are created)",
+          "recorded_at": "2026-09-04T19:35:01Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py agent list",
+          "recorded_at": "2026-09-04T19:35:01Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor self-review: bootstrap files and copied control-plane assets present; no application code or production claim yet.",
+          "recorded_at": "2026-09-04T19:35:01Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0001-20260904T193501Z-9c2b22.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:33:05Z",
+      "updated_at": "2026-09-04T19:35:11Z",
+      "last_result": "completed"
+    },
+    "UA-0002": {
+      "id": "UA-0002",
+      "title": "Record supervisor bootstrap handover",
+      "objective": "Bring the canonical supervisor report and completion evidence into the scoped lifecycle record after the bootstrap scope correction.",
+      "level": "L0",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Canonical supervisor report states bootstrap health, roster, blockers, evidence, and exactly one next action.",
+        "Completion and report indexes contain the bootstrap handover path."
+      ],
+      "verification": [
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints/20260904T193727Z-cycle-20260904t193727z-b96ea6.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T19:38:10Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: canonical handover is source-anchored, lists all three outbox assignments, explains UA-0004 routing correction, and names one next action.",
+          "recorded_at": "2026-09-04T19:38:10Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0002-20260904T193810Z-88fa19.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:35:52Z",
+      "updated_at": "2026-09-04T19:38:10Z",
+      "assignment_path": "work/agents/supervisor/inbox/UA-0002.md",
+      "dispatched_at": "2026-09-04T19:36:11Z",
+      "last_result": "completed"
+    },
+    "UA-0003": {
+      "id": "UA-0003",
+      "title": "Discover osblog architecture and persistence boundary",
+      "objective": "Inspect the empty target and define the smallest production-suitable Vite/React/TypeScript architecture, routes, data schema, persistence/admin/auth boundary, comments abuse controls, SEO strategy, environment variables, migrations, and rollback constraints.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "antigravity",
+      "scope": [
+        "package.json",
+        "vite.config.ts",
+        "src",
+        "api",
+        "docs/architecture.md",
+        "knowledge/decisions/0003-architecture.md"
+      ],
+      "depends_on": [
+        "UA-0001"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "fullstack",
+        "docs"
+      ],
+      "acceptance": [
+        "Architecture decision names the stack and real persistence/admin approach with rationale and explicit alternatives rejected.",
+        "Routes, entities, CRUD/auth/comment anti-spam flows, SEO output, env vars, migrations/seed, rollback, and Vercel boundaries are documented.",
+        "No application implementation is claimed; discovery outputs are source-anchored and fit the current empty tree."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "Test commands and build command are explicitly identified for later QA"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-04T19:35:53Z",
+      "updated_at": "2026-09-04T19:57:51Z",
+      "assignment_path": "work/agents/antigravity/inbox/UA-0003.md",
+      "dispatched_at": "2026-09-04T19:36:11Z"
+    },
+    "UA-0004": {
+      "id": "UA-0004",
+      "title": "Create persisted osblog UI design system",
+      "objective": "Use UI/UX Pro Max against the requested Vite/React stack to create a persisted minimalist editorial design system for osblog, including typography, palette, spacing, responsive states, interaction/accessibility rules, icon discipline, and page overrides needed by the blog.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": null,
+      "scope": [
+        "design-system",
+        "docs/ui-design.md"
+      ],
+      "depends_on": [
+        "UA-0001"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "frontend",
+        "docs"
+      ],
+      "acceptance": [
+        "design-system/osblog/MASTER.md exists and is the source of truth for the public/admin UI.",
+        "Design choices cover WCAG contrast, visible focus, keyboard interaction, 44px touch targets, mobile-first layout, reduced motion, responsive image treatment, semantic labels, and no emoji icons.",
+        "A UI handover documents how the design system maps to Vite/React components and includes reproducible search commands."
+      ],
+      "verification": [
+        "python F:\\dev\\UseAgent\\.agents\\skills\\ui-ux-pro-max\\scripts\\search.py \"open source bilingual editorial blog minimalist content-first\" --design-system --persist -p \"osblog\" --output-dir F:\\dev\\test-useagent",
+        "python tools/useagent.py validate"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-04T19:35:53Z",
+      "updated_at": "2026-09-04T19:36:58Z"
+    },
+    "UA-0005": {
+      "id": "UA-0005",
+      "title": "Create persisted osblog UI design system",
+      "objective": "Use UI/UX Pro Max against the requested Vite/React stack to create a persisted minimalist editorial design system for osblog, including typography, palette, spacing, responsive states, interaction/accessibility rules, icon discipline, and page overrides needed by the blog.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "codex",
+      "scope": [
+        "design-system",
+        "docs/ui-design.md"
+      ],
+      "depends_on": [
+        "UA-0001"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "frontend"
+      ],
+      "acceptance": [
+        "design-system/osblog/MASTER.md exists and is the source of truth for the public/admin UI.",
+        "Design choices cover WCAG contrast, visible focus, keyboard interaction, 44px touch targets, mobile-first layout, reduced motion, responsive image treatment, semantic labels, and no emoji icons.",
+        "A UI handover documents how the design system maps to Vite/React components and includes reproducible search commands."
+      ],
+      "verification": [
+        "python F:\\dev\\UseAgent\\.agents\\skills\\ui-ux-pro-max\\scripts/search.py \"open source bilingual editorial blog minimalist content-first\" --design-system --persist -p \"osblog\" --output-dir F:\\dev\\test-useagent",
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "design-system/osblog/MASTER.md",
+        "docs/ui-design.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python C:\\Users\\THUANLYT\\.codex\\skills\\ui-ux-pro-max\\scripts\\search.py \"open source bilingual editorial blog minimalist content-first\" --design-system --persist -p \"osblog\" --output-dir F:\\dev\\test-useagent -> completed; existing MASTER preserved without overwrite",
+          "recorded_at": "2026-09-04T19:44:40Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate (cwd F:\\dev\\test-useagent) -> VALID",
+          "recorded_at": "2026-09-04T19:44:40Z"
+        },
+        {
+          "kind": "check",
+          "value": "PowerShell content assertion for MASTER.md + docs/ui-design.md and 11 required markers -> PASS",
+          "recorded_at": "2026-09-04T19:44:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "Node contrast verification -> #09090B/#FAFAFA 19.06:1; #3F3F46/#FAFAFA 10.01:1; #18181B/#FFFFFF 17.72:1; #9D174D/#FAFAFA 7.55:1; #DC2626/#FAFAFA 4.63:1; #EC4899/#09090B 5.64:1",
+          "recorded_at": "2026-09-04T19:44:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "python C:\\Users\\THUANLYT\\.codex\\skills\\ui-ux-pro-max\\scripts\\search.py \"open source bilingual editorial blog minimalist content-first\" --design-system --persist -p \"osblog\" --output-dir F:\\dev\\test-useagent -> completed; persisted search preserved existing Master on rerun",
+          "recorded_at": "2026-09-04T19:44:52Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate (cwd F:\\dev\\test-useagent) -> VALID",
+          "recorded_at": "2026-09-04T19:44:52Z"
+        },
+        {
+          "kind": "check",
+          "value": "PowerShell content assertion -> PASS; both files exist and 11 required markers present",
+          "recorded_at": "2026-09-04T19:44:52Z"
+        },
+        {
+          "kind": "check",
+          "value": "Node contrast verification -> all recorded approved pairs meet threshold: 4.63:1 to 19.06:1",
+          "recorded_at": "2026-09-04T19:44:52Z"
+        },
+        {
+          "kind": "check",
+          "value": "Independent content contract check: MASTER.md and docs/ui-design.md exist; 13 required accessibility/design/bilingual markers present -> PASS.",
+          "recorded_at": "2026-09-04T19:47:09Z"
+        },
+        {
+          "kind": "check",
+          "value": "Independent UI/UX Pro Max rerun: canonical C:\\Users\\THUANLYT\\.codex\\skills\\ui-ux-pro-max\\scripts\\search.py completed with persistence=skipped_exists; existing Master preserved.",
+          "recorded_at": "2026-09-04T19:47:09Z"
+        },
+        {
+          "kind": "check",
+          "value": "Independent contrast check: approved recorded pairs range 4.63:1 to 19.06:1 -> PASS; found hover #DB2777 on --color-on-accent #09090B is 4.33:1 -> FAIL for normal text.",
+          "recorded_at": "2026-09-04T19:47:09Z"
+        },
+        {
+          "kind": "review",
+          "value": "[P1] design-system/osblog/MASTER.md:121-123 — .btn-primary:hover changes background to #DB2777 while text remains #09090B; independently computed contrast is 4.33:1, below the documented 4.5:1 normal-text minimum. Reproduce with the Node contrast command in the supervisor review. Create a scoped debug task to choose a passing hover token and update the recorded verification.",
+          "recorded_at": "2026-09-04T19:47:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "Cross-task verification: UA-0008 done with worker report and review; current Master/ui-design hover token uses --color-accent + --color-on-accent, and independent contrast rerun is 5.64:1.",
+          "recorded_at": "2026-09-04T19:52:30Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor re-review after UA-0008: original P1 hover contrast finding is resolved and cross-task evidence is complete. MASTER.md and docs/ui-design.md agree, failing #DB2777 is absent, all approved pairs meet >=4.5:1, validator is VALID, and no P0/P1 finding remains. No actionable finding for the UA-0005 acceptance scope.",
+          "recorded_at": "2026-09-04T19:52:30Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0005-20260904T194452Z-feccb0.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:36:58Z",
+      "updated_at": "2026-09-04T19:52:30Z",
+      "assignment_path": "work/agents/codex/inbox/UA-0005.md",
+      "dispatched_at": "2026-09-04T19:36:58Z",
+      "last_result": "completed"
+    },
+    "UA-0006": {
+      "id": "UA-0006",
+      "title": "Define UseAgent conformance and replay evidence plan",
+      "objective": "Specify a small reproducible fixture and evidence capture plan that exercises context, DAG, dispatch, worker pull, report/COMPLETED, review, QA, and checkpoint without claiming unavailable vendor runtimes are live.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "claude",
+      "scope": [
+        "docs/conformance.md",
+        "knowledge/decisions/0004-conformance.md",
+        "tests/useagent-conformance"
+      ],
+      "depends_on": [
+        "UA-0001"
+      ],
+      "preferred_agents": [
+        "claude"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "The plan names concrete CLI commands and expected artifacts for the end-to-end UseAgent lifecycle.",
+        "Replay/simulation labeling is explicit and no live Antigravity/Claude activity is fabricated.",
+        "The fixture scope does not overlap application source, architecture, or design-system work."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "A documented replay command can be run from a clean target checkout"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-04T19:37:27Z",
+      "updated_at": "2026-09-04T19:57:51Z",
+      "assignment_path": "work/agents/claude/inbox/UA-0006.md",
+      "dispatched_at": "2026-09-04T19:37:27Z"
+    },
+    "UA-0007": {
+      "id": "UA-0007",
+      "title": "Refresh supervisor handover after partial UI progress",
+      "objective": "Update the canonical supervisor report and checkpoint to reflect the observed UA-0005 in-progress state and partial design-system artifact without overstating worker completion.",
+      "level": "L0",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work"
+      ],
+      "depends_on": [
+        "UA-0002"
+      ],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Canonical report distinguishes in_progress from reviewed/done and records the partial design-system artifact path.",
+        "Checkpoint has exactly one next action and preserves the manual-runtime/credential blockers."
+      ],
+      "verification": [
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints/20260904T193931Z-partial-ui-artifact-observed.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T19:41:22Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: report does not overclaim UI completion; partial artifact and missing report/evidence are explicit.",
+          "recorded_at": "2026-09-04T19:41:22Z"
+        },
+        {
+          "kind": "correction",
+          "value": "Correction: the task report file list contained a mistyped checkpoint timestamp; the actual CLI-created checkpoint is work/checkpoints/20260904T194121Z-partial-ui-artifact-observed.md. Treat the actual path as canonical evidence.",
+          "recorded_at": "2026-09-04T19:41:41Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0007-20260904T194122Z-b72beb.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:40:52Z",
+      "updated_at": "2026-09-04T19:41:41Z",
+      "last_result": "completed"
+    },
+    "UA-0008": {
+      "id": "UA-0008",
+      "title": "Fix UI hover contrast regression",
+      "objective": "Resolve the reviewed P1 contrast failure in the persisted osblog design system without weakening its accessibility contract.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "codex",
+      "scope": [
+        "design-system",
+        "docs/ui-design.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "frontend"
+      ],
+      "acceptance": [
+        "The primary button hover foreground/background pair meets at least 4.5:1 for normal text, or the hover treatment uses a passing semantic token.",
+        "MASTER.md, ui-design.md, and recorded contrast verification agree; no normal-text pink-on-white pairing is introduced.",
+        "The worker report includes the exact contrast command/result and does not modify application source."
+      ],
+      "verification": [
+        "node contrast verification for default and hover button pairs",
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "design-system/osblog/MASTER.md",
+        "docs/ui-design.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Supervisor QA: independent Node contrast verification for default and hover semantic pair -> all recorded pairs >=4.5:1, hover #EC4899/#09090B = 5.64:1.",
+          "recorded_at": "2026-09-04T19:51:44Z"
+        },
+        {
+          "kind": "check",
+          "value": "Supervisor QA: #DB2777 failing hover token absent from MASTER.md and docs/ui-design.md; contract consistency PASS; python tools/useagent.py validate -> VALID.",
+          "recorded_at": "2026-09-04T19:51:44Z"
+        },
+        {
+          "kind": "check",
+          "value": "node contrast verification for default and hover button pairs: default primary button: 5.64:1; hover primary button: 5.64:1 -> PASS",
+          "recorded_at": "2026-09-04T19:51:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "PowerShell content assertion for semantic hover token, recorded ratio, removed legacy #DB2777, and no pink-on-white rule -> PASS",
+          "recorded_at": "2026-09-04T19:51:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "git diff --check -- design-system/osblog/MASTER.md docs/ui-design.md -> exit_code=0",
+          "recorded_at": "2026-09-04T19:51:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "python F:\\\\dev\\\\UseAgent\\\\tools\\\\useagent.py --root F:\\\\dev\\\\test-useagent validate -> VALID",
+          "recorded_at": "2026-09-04T19:51:54Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor independent review: UA-0008 stayed within scope; default and hover semantic pair both compute 5.64:1; legacy #DB2777 is absent; docs and Master agree; git diff --check and validator pass; no application source changed. No actionable P0/P1 finding.",
+          "recorded_at": "2026-09-04T19:52:15Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0008-20260904T195154Z-4aa859.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:47:24Z",
+      "updated_at": "2026-09-04T19:52:15Z",
+      "assignment_path": "work/agents/codex/inbox/UA-0008.md",
+      "dispatched_at": "2026-09-04T19:47:25Z",
+      "last_result": "completed"
+    },
+    "UA-0009": {
+      "id": "UA-0009",
+      "title": "Refresh knowledge ledger for persisted UI system",
+      "objective": "Update the source-anchored knowledge index and project map with the completed osblog UI design system so future workers can retrieve the contract without rereading all design files.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "knowledge/INDEX.md",
+        "knowledge/project-map.md",
+        "knowledge/ui-design-system.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Index links the UI design-system card with source anchors.",
+        "Project map distinguishes persisted design-system scope from still-empty application source.",
+        "The module card includes responsibility, entry points, public contracts, invariants, verification, freshness, and known gaps."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "python tools/useagent.py context --task UA-0005 --max-chars 6000"
+      ],
+      "files": [
+        "knowledge/INDEX.md",
+        "knowledge/project-map.md",
+        "knowledge/ui-design-system.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py context --task UA-0005 --max-chars 6000 -> includes UI design-system card and current active work",
+          "recorded_at": "2026-09-04T19:53:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T19:53:42Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor context review: card is compact, source-anchored, freshness-dated, and explicitly separates persisted design contract from pending application implementation.",
+          "recorded_at": "2026-09-04T19:53:42Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0009-20260904T195342Z-5eff7e.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:53:12Z",
+      "updated_at": "2026-09-04T19:53:42Z",
+      "last_result": "completed"
+    },
+    "UA-0010": {
+      "id": "UA-0010",
+      "title": "Record manual runtime limitation and Codex fallback policy",
+      "objective": "Record why Antigravity and Claude cannot be called from this environment, preserve their original mailbox prompts, and document that Codex fallback execution is attribution-safe and temporary.",
+      "level": "L0",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "knowledge/decisions/0005-runtime-fallback.md",
+        "work/SUPERVISOR_REPORT.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Decision names the configured manual runtime limitation and the exact original tasks affected.",
+        "Decision states Antigravity remains the preferred primary when available and fallback work must be labeled Codex.",
+        "Supervisor report records the limitation and fallback sequencing without claiming unavailable vendor execution."
+      ],
+      "verification": [
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "knowledge/decisions/0005-runtime-fallback.md",
+        "work/SUPERVISOR_REPORT.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Rosters remain antigravity/codex/claude; no vendor runtime fabricated",
+          "recorded_at": "2026-09-04T19:57:30Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: runtime limitation is concrete and attribution-safe; original manual outboxes are preserved; fallback sequencing and CLI blocker are explicit.",
+          "recorded_at": "2026-09-04T19:57:30Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0010-20260904T195730Z-9bac2e.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:55:36Z",
+      "updated_at": "2026-09-04T19:57:31Z",
+      "last_result": "completed"
+    },
+    "UA-0011": {
+      "id": "UA-0011",
+      "title": "Fallback: discover osblog architecture and persistence boundary via Codex",
+      "objective": "Execute the original architecture discovery scope with the actual internal Codex runtime because the preferred Antigravity client is unavailable. Keep attribution explicit: this is Codex fallback, not Antigravity execution.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "antigravity",
+      "scope": [
+        "package.json",
+        "vite.config.ts",
+        "src",
+        "api",
+        "docs/architecture.md",
+        "knowledge/decisions/0003-architecture.md"
+      ],
+      "depends_on": [
+        "UA-0001"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "fullstack"
+      ],
+      "acceptance": [
+        "Architecture decision names Vite/React/TypeScript and a real Vercel-compatible persistence/admin approach with rationale and alternatives.",
+        "Routes, entities, CRUD/auth/comment anti-spam flows, SEO output, env vars, migrations/seed, rollback, and Vercel boundaries are documented.",
+        "No fake CRUD or production claim is introduced; the report labels execution as Codex fallback and preserves the Antigravity preference."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "Architecture docs identify later focused test/build commands"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-04T19:55:36Z",
+      "updated_at": "2026-09-04T19:58:40Z",
+      "assignment_path": "work/agents/antigravity/inbox/UA-0011.md",
+      "dispatched_at": "2026-09-04T19:58:21Z"
+    },
+    "UA-0012": {
+      "id": "UA-0012",
+      "title": "Fix supervisor cancellation authorization in CLI",
+      "objective": "Allow an authorized supervisor to cancel or administratively reset an assigned worker task when the worker has not claimed it, while preserving review authorization and worker ownership checks for active implementation changes.",
+      "level": "L0",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "tools/useagent.py"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "coordination"
+      ],
+      "acceptance": [
+        "Supervisor administrative updates can cancel an assigned unclaimed task through the CLI without hand-editing registry.json.",
+        "A worker cannot use the same path to perform supervisor-only review/cancel actions.",
+        "Existing validation and task lifecycle gates remain passing."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "CLI regression exercise on assigned task cancellation"
+      ],
+      "files": [
+        "tools/useagent.py"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T19:58:14Z"
+        },
+        {
+          "kind": "check",
+          "value": "target-local CLI supervisor cancellation of assigned UA-0003 and UA-0006 -> PASS",
+          "recorded_at": "2026-09-04T19:58:14Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: guard is scoped to administrative_action, review authorization still runs first, and implementation status changes remain assignment-bound. Regression validation passed; no application code changed.",
+          "recorded_at": "2026-09-04T19:58:14Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0012-20260904T195814Z-05924e.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:56:35Z",
+      "updated_at": "2026-09-04T19:58:14Z",
+      "last_result": "completed"
+    },
+    "UA-0013": {
+      "id": "UA-0013",
+      "title": "Fallback: discover osblog architecture and persistence boundary via Codex",
+      "objective": "Execute architecture and persistence discovery with the actual internal Codex runtime because the preferred Antigravity client is unavailable. This replacement uses only capabilities registered for Codex and labels attribution as Codex fallback.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "codex",
+      "scope": [
+        "package.json",
+        "vite.config.ts",
+        "src",
+        "api",
+        "docs/architecture.md",
+        "knowledge/decisions/0003-architecture.md"
+      ],
+      "depends_on": [
+        "UA-0001"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "backend",
+        "frontend"
+      ],
+      "acceptance": [
+        "Architecture decision names Vite/React/TypeScript and a real Vercel-compatible persistence/admin approach with rationale and alternatives.",
+        "Routes, entities, CRUD/auth/comment anti-spam flows, SEO output, env vars, migrations/seed, rollback, and Vercel boundaries are documented.",
+        "No fake CRUD or production claim is introduced; the report labels execution as Codex fallback and preserves the Antigravity preference."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "Architecture docs identify later focused test/build commands"
+      ],
+      "files": [],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "PowerShell architecture marker contract: 16 required markers present; no affirmative production/CRUD/deployment claim tokens; no out-of-scope task changes -> PASS",
+          "recorded_at": "2026-09-04T20:03:58Z"
+        },
+        {
+          "kind": "runtime_failure",
+          "value": "Codex fallback worker Pascal was shut down after multiple bounded waits with no worker report and registry files=[]; architecture files appeared partially in scope but completion/evidence handover was absent. Treat this as a failed worker attempt, not completion.",
+          "recorded_at": "2026-09-04T20:05:04Z"
+        }
+      ],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-04T19:58:40Z",
+      "updated_at": "2026-09-04T20:05:05Z",
+      "assignment_path": "work/agents/codex/inbox/UA-0013.md",
+      "dispatched_at": "2026-09-04T19:58:40Z"
+    },
+    "UA-0014": {
+      "id": "UA-0014",
+      "title": "Recover and review partial osblog architecture locally",
+      "objective": "Review the partial architecture discovery produced during failed Codex fallback, complete only the architecture decision/documentation boundary locally, and leave application implementation for a later scoped task.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "docs/architecture.md",
+        "knowledge/decisions/0003-architecture.md",
+        "knowledge/decisions/0005-runtime-fallback.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Architecture docs and decision are internally consistent, source-anchored, and explicitly labeled Codex fallback plus supervisor recovery, not Antigravity execution.",
+        "The documented stack, routes, persistence/admin/auth, comment abuse controls, SEO, env vars, migration/seed, rollback, Vercel boundary, and later QA commands are complete enough to create the next implementation task.",
+        "No application source, package manifest, credentials, database, or deployment is created or claimed by this recovery."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "PowerShell architecture marker and no-production-claim assertion"
+      ],
+      "files": [
+        "docs/architecture.md",
+        "knowledge/decisions/0003-architecture.md",
+        "knowledge/decisions/0005-runtime-fallback.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Supervisor recovery QA: 15 architecture markers present, affirmative production-claim lines 0, architecture_contract=PASS.",
+          "recorded_at": "2026-09-04T20:06:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "Supervisor recovery QA: application_implementation_absent=PASS; no provider/database/deployment claim; trailing_whitespace=PASS; validate=VALID.",
+          "recorded_at": "2026-09-04T20:06:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T20:06:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "architecture marker/no-affirmative-production-claim assertion -> PASS",
+          "recorded_at": "2026-09-04T20:06:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "application_implementation_absent -> PASS",
+          "recorded_at": "2026-09-04T20:06:36Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: recovery stays within architecture/decision scope, preserves Codex fallback attribution and failed-attempt evidence, has no P0/P1 finding, and is ready to gate the next implementation work item.",
+          "recorded_at": "2026-09-04T20:06:36Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0014-20260904T200636Z-dc27e4.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:05:05Z",
+      "updated_at": "2026-09-04T20:06:37Z",
+      "last_result": "completed"
+    },
+    "UA-0015": {
+      "id": "UA-0015",
+      "title": "Fallback: build UseAgent conformance and replay fixture via Codex",
+      "objective": "Execute the original Claude-preferred UseAgent usability/conformance scope with the internal Codex runtime because Claude is unavailable. Create a small reproducible fixture that exercises the real control-plane lifecycle without claiming simulated activity is live vendor execution.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "codex",
+      "scope": [
+        "docs/conformance.md",
+        "knowledge/decisions/0004-conformance.md",
+        "tests/useagent-conformance"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "tests"
+      ],
+      "acceptance": [
+        "The fixture exercises context, DAG/task creation, dispatch, worker pull/claim, report/COMPLETED, review, QA/validation, and checkpoint artifacts using the real CLI.",
+        "The fixture is bounded, reproducible from a clean target checkout, and labels replay/simulation versus real Codex execution explicitly.",
+        "The conformance decision preserves Claude as preferred when callable and labels this item Codex fallback; no application code or external deployment is changed."
+      ],
+      "verification": [
+        "A documented PowerShell/Python replay command completes with expected registry/report/checkpoint evidence",
+        "python tools/useagent.py validate"
+      ],
+      "files": [],
+      "evidence": [
+        {
+          "kind": "runtime_failure",
+          "value": "Codex fallback worker Poincare was shut down after multiple bounded waits with no fixture files and no worker report; task remained in_progress with registry files=[]; treat as failed runtime attempt, not completion.",
+          "recorded_at": "2026-09-04T20:11:09Z"
+        }
+      ],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:07:12Z",
+      "updated_at": "2026-09-04T20:11:09Z",
+      "assignment_path": "work/agents/codex/inbox/UA-0015.md",
+      "dispatched_at": "2026-09-04T20:07:12Z"
+    },
+    "UA-0016": {
+      "id": "UA-0016",
+      "title": "Recover UseAgent conformance and replay fixture locally",
+      "objective": "Build and run a bounded supervisor-local conformance fixture after the Codex fallback runtime failed, exercising the real CLI lifecycle in an isolated temporary root and clearly labeling replay/simulation.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "docs/conformance.md",
+        "knowledge/decisions/0004-conformance.md",
+        "tests/useagent-conformance"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "A reproducible fixture invokes the real CLI for context, task creation/DAG, dispatch, worker pull/claim, report/COMPLETED, review gate, validation QA, and checkpoint.",
+        "The fixture uses an isolated temporary root with cleanup, preserves the target registry, and records expected artifact checks.",
+        "Docs and decision label this as supervisor-local replay/simulation, preserve Claude as preferred when callable, and record the failed Codex attempt without claiming live vendor execution."
+      ],
+      "verification": [
+        "python tests/useagent-conformance/replay.py",
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "docs/conformance.md",
+        "knowledge/decisions/0004-conformance.md",
+        "tests/useagent-conformance/replay.py"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tests/useagent-conformance/replay.py -> REPLAY_PASS",
+          "recorded_at": "2026-09-04T20:13:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T20:13:41Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: replay passes twice in an isolated temporary root, proves real CLI lifecycle artifacts and explicit simulation attribution, leaves target registry intact, and introduces no P0/P1 finding.",
+          "recorded_at": "2026-09-04T20:13:42Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0016-20260904T201341Z-be5f48.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:11:10Z",
+      "updated_at": "2026-09-04T20:13:42Z",
+      "last_result": "completed"
+    },
+    "UA-0017": {
+      "id": "UA-0017",
+      "title": "Refresh knowledge ledger for architecture and conformance",
+      "objective": "Update source-anchored context after reviewed architecture and replay recovery so implementation workers can use compact cards and avoid stale bootstrap assumptions.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "knowledge/INDEX.md",
+        "knowledge/project-map.md",
+        "knowledge/architecture.md",
+        "knowledge/conformance.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Index links architecture and conformance cards with current source anchors.",
+        "Project map records docs/architecture.md, conformance fixture, and the fact that application source is still absent.",
+        "Cards include responsibility, entry points, contracts/invariants, dependencies, verification, freshness, and known gaps."
+      ],
+      "verification": [
+        "python tools/useagent.py context --task UA-0014 --max-chars 6000",
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "knowledge/INDEX.md",
+        "knowledge/architecture.md",
+        "knowledge/conformance.md",
+        "knowledge/project-map.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py context --task UA-0014 --max-chars 6000 -> includes architecture and conformance cards",
+          "recorded_at": "2026-09-04T20:14:49Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T20:14:49Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor context review: cards are source-anchored, freshness-dated, and no longer claim architecture/conformance are bootstrap-only; application implementation remains explicitly pending.",
+          "recorded_at": "2026-09-04T20:14:50Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0017-20260904T201449Z-ef21f8.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:14:01Z",
+      "updated_at": "2026-09-04T20:14:50Z",
+      "last_result": "completed"
+    },
+    "UA-0018": {
+      "id": "UA-0018",
+      "title": "Refresh supervisor report after recovery wave",
+      "objective": "Synchronize the canonical supervisor report and checkpoint with the reviewed architecture/conformance recovery, runtime failures, current roster state, and the single next implementation action.",
+      "level": "L0",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Report lists cancelled manual/fallback attempts, successful recovery evidence, current status counts, QA status, blockers, and exact active/next work.",
+        "Checkpoint has exactly one next action: create and dispatch the first Vite/React/TypeScript scaffold item.",
+        "No report wording claims unavailable Antigravity/Claude execution or app production readiness."
+      ],
+      "verification": [
+        "python tools/useagent.py validate",
+        "python tests/useagent-conformance/replay.py"
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints/20260904T201701Z-recovery-wave-before-scaffold.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-04T20:17:01Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tests/useagent-conformance/replay.py -> REPLAY_PASS twice",
+          "recorded_at": "2026-09-04T20:17:01Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: report/checkpoint are current, attribution-safe, and do not overclaim app or vendor execution; next action is singular and implementation-ready.",
+          "recorded_at": "2026-09-04T20:17:01Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0018-20260904T201701Z-d0e46d.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:15:25Z",
+      "updated_at": "2026-09-04T20:17:02Z",
+      "last_result": "completed"
+    },
+    "UA-0019": {
+      "id": "UA-0019",
+      "title": "Fallback: implement Vite React TypeScript SSR scaffold via Codex",
+      "objective": "Build the first real osblog application scaffold from the reviewed architecture and UI design system using the internal Codex runtime as explicit fallback because Antigravity is unavailable. Keep this slice limited to app/toolchain shell and deep-linkable route structure.",
+      "level": "L2",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "codex",
+      "scope": [
+        "package.json",
+        "package-lock.json",
+        "index.html",
+        "vite.config.ts",
+        "tsconfig.json",
+        "tsconfig.node.json",
+        "vercel.json",
+        "src",
+        "public"
+      ],
+      "depends_on": [
+        "UA-0018"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "frontend"
+      ],
+      "acceptance": [
+        "A runnable Vite + React + TypeScript scaffold exists with client entry, route-aware SSR entry boundary or documented equivalent, and deep-linkable public/admin placeholder routes.",
+        "The shell consumes the persisted UI tokens, includes semantic landmarks, skip link, visible focus, responsive structure, and no placeholder fake CRUD or external side effect.",
+        "Package scripts identify install, lint, typecheck, test, and build commands; the worker report labels Codex fallback and records exact command results."
+      ],
+      "verification": [
+        "npm ci",
+        "npm run lint",
+        "npm run typecheck",
+        "npm run test",
+        "npm run build",
+        "python tools/useagent.py validate"
+      ],
+      "files": [],
+      "evidence": [
+        {
+          "kind": "runtime_failure",
+          "value": "Codex fallback worker Plato was stopped after multiple bounded waits with no scaffold files and no worker report; registry remained files=[] and the target app scope stayed empty. Treat as failed runtime attempt, not completion.",
+          "recorded_at": "2026-09-04T20:21:56Z"
+        }
+      ],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:17:34Z",
+      "updated_at": "2026-09-04T20:21:56Z",
+      "assignment_path": "work/agents/codex/inbox/UA-0019.md",
+      "dispatched_at": "2026-09-04T20:17:47Z"
+    },
+    "UA-0020": {
+      "id": "UA-0020",
+      "title": "Recover minimal Vite React TypeScript scaffold locally",
+      "objective": "Implement the smallest real osblog Vite + React + TypeScript scaffold locally after the Codex runtime stalled, using the reviewed architecture/UI contracts and leaving persistence/admin CRUD for a later work item.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "eslint.config.js",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public",
+        "src",
+        "src/app/App.test.tsx",
+        "src/app/App.tsx",
+        "src/entry-server.tsx",
+        "src/main.tsx",
+        "src/styles.css",
+        "src/test/setup.ts",
+        "tsconfig.app.json",
+        "tsconfig.json",
+        "tsconfig.node.json",
+        "vercel.json",
+        "vite.config.ts"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "A runnable Vite + React + TypeScript client scaffold exists with deep-linkable public/admin placeholder routes and a clear SSR boundary or documented limitation.",
+        "The shell consumes UI tokens, has semantic landmarks, skip link, visible focus, mobile-first responsive structure, reduced motion, and no fake CRUD or external side effect.",
+        "Scripts identify lint, typecheck, test, and build; local checks are reproducible and no credentials/deployment are claimed."
+      ],
+      "verification": [
+        "npm install",
+        "npm run lint",
+        "npm run typecheck",
+        "npm run test",
+        "npm run build",
+        "python tools/useagent.py validate"
+      ],
+      "files": [
+        "eslint.config.js",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/.gitkeep",
+        "src/app/App.test.tsx",
+        "src/app/App.tsx",
+        "src/entry-server.tsx",
+        "src/main.tsx",
+        "src/styles.css",
+        "src/test/setup.ts",
+        "tsconfig.app.json",
+        "tsconfig.json",
+        "tsconfig.node.json",
+        "vercel.json",
+        "vite.config.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm install: exit 0, 267 packages added, 0 vulnerabilities",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 2 tests passed",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0, Vite production bundle generated",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "Local Vite smoke: /, /admin, /post/hello returned HTTP 200 with root markup",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "Scaffold contract scan: required paths present and unsafe/fake CRUD markers absent",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:29:12Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent review: scaffold is within the expanded task scope; npm audit high=0, lint/typecheck/test/build all pass, local deep-link smoke passes for /, /admin, /post/hello, required-path and unsafe-marker scan passes, and no production/deployment/credential claim is present. No P0/P1 finding; residual scope is intentional: persistence/auth/admin CRUD/SEO runtime/deployment remain future work.",
+          "recorded_at": "2026-09-04T20:29:18Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0020-20260904T202912Z-806007.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:21:56Z",
+      "updated_at": "2026-09-04T20:29:25Z",
+      "last_result": "completed"
+    },
+    "UA-0021": {
+      "id": "UA-0021",
+      "title": "Refresh knowledge after app scaffold",
+      "objective": "Update the source-anchored knowledge ledger so the repository accurately describes the verified Vite app scaffold and remaining product/runtime gaps.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "knowledge/INDEX.md",
+        "knowledge/project-map.md",
+        "knowledge/architecture.md"
+      ],
+      "depends_on": [
+        "UA-0020"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "INDEX and project-map point to the current app scaffold; architecture card records the verified client/SSR boundary and explicitly separates implemented scaffold from pending persistence/auth/SEO/deployment; no stale claim says application source is absent."
+      ],
+      "verification": [
+        "rg stale absence claims and inspect changed cards; python tools/useagent.py validate"
+      ],
+      "files": [
+        "knowledge/INDEX.md",
+        "knowledge/architecture.md",
+        "knowledge/project-map.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Stale scaffold-absence scan: PASS",
+          "recorded_at": "2026-09-04T20:31:57Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:31:57Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent review: INDEX, project-map, and architecture card consistently anchor the verified UA-0020 scaffold; stale absence scan is clean and control-plane validate is VALID. No P0/P1 finding; remaining product gaps are explicitly recorded.",
+          "recorded_at": "2026-09-04T20:32:02Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0021-20260904T203157Z-75263f.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:29:43Z",
+      "updated_at": "2026-09-04T20:32:03Z",
+      "last_result": "completed"
+    },
+    "UA-0022": {
+      "id": "UA-0022",
+      "title": "Align architecture records with scaffold",
+      "objective": "Remove stale discovery-only claims from the architecture and UI context documents while preserving provider and deployment blockers.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "docs/architecture.md",
+        "knowledge/ui-design-system.md",
+        "knowledge/decisions/0001-stack.md",
+        "knowledge/decisions/0003-architecture.md"
+      ],
+      "depends_on": [
+        "UA-0020",
+        "UA-0021"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Architecture records the verified UA-0020 scaffold and current pending boundaries; UI card records that implementation exists while visual browser QA remains pending; no document claims package/source is absent; provider credentials and production readiness remain explicitly unverified."
+      ],
+      "verification": [
+        "rg stale absence claims across the scoped documents; python tools/useagent.py validate"
+      ],
+      "files": [
+        "docs/architecture.md",
+        "knowledge/decisions/0001-stack.md",
+        "knowledge/decisions/0003-architecture.md",
+        "knowledge/ui-design-system.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Scoped stale-claim scan: PASS",
+          "recorded_at": "2026-09-04T20:34:06Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:34:06Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent review: architecture, UI, and decisions consistently reference the verified client scaffold; stale absence scan is clean; provider credentials, migrations, API/auth runtime, and deployment remain explicitly pending. validate=VALID. No P0/P1 finding.",
+          "recorded_at": "2026-09-04T20:34:10Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0022-20260904T203406Z-cfef5e.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:32:42Z",
+      "updated_at": "2026-09-04T20:34:11Z",
+      "last_result": "completed"
+    },
+    "UA-0023": {
+      "id": "UA-0023",
+      "title": "Implement durable persistence boundary",
+      "objective": "Add the smallest real server-only Neon/Drizzle persistence boundary for osblog without pretending provider credentials or product CRUD are available.",
+      "level": "L2",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": null,
+      "scope": [
+        "package.json",
+        "package-lock.json",
+        "drizzle.config.ts",
+        "drizzle",
+        "src/server",
+        "api",
+        "tests/server",
+        ".env.example"
+      ],
+      "depends_on": [
+        "UA-0020",
+        "UA-0022"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "backend"
+      ],
+      "acceptance": [
+        "Add typed Postgres schema for categories, posts, comments, rate-limit buckets, and audit events; add fail-closed server environment validation; add Neon HTTP/Drizzle connection code with no in-memory fallback; add a read-only health endpoint that reports configuration state without secrets; add migration/seed scripts or explicit guarded placeholders; keep server-only modules out of client imports; add focused tests for schema contracts, environment failure modes, and health response; preserve local lint/typecheck/test/build and validate."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg client imports of src/server"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-04T20:34:36Z",
+      "updated_at": "2026-09-04T20:35:18Z"
+    },
+    "UA-0024": {
+      "id": "UA-0024",
+      "title": "Recover durable persistence boundary locally",
+      "objective": "Add the smallest real server-only Neon/Drizzle persistence boundary for osblog without pretending provider credentials or product CRUD are available.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor-local",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "package.json",
+        "package-lock.json",
+        "drizzle.config.ts",
+        "drizzle",
+        "src/server",
+        "api",
+        "tests/server",
+        ".env.example"
+      ],
+      "depends_on": [
+        "UA-0020",
+        "UA-0022"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "backend"
+      ],
+      "acceptance": [
+        "Add typed Postgres schema for categories, posts, comments, rate-limit buckets, and audit events; add fail-closed server environment validation; add Neon HTTP/Drizzle connection code with no in-memory fallback; add a read-only health endpoint that reports configuration state without secrets; add migration/seed scripts or explicit guarded placeholders; keep server-only modules out of client imports; add focused tests for schema contracts, environment failure modes, and health response; preserve local lint/typecheck/test/build and validate."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg client imports of src/server"
+      ],
+      "files": [
+        ".env.example",
+        "api/healthz.ts",
+        "drizzle/0000_durable_content.sql",
+        "drizzle/README.md",
+        "package-lock.json",
+        "package.json",
+        "src/server/db.ts",
+        "src/server/env.ts",
+        "src/server/schema.ts",
+        "tests/server/env.test.ts",
+        "tests/server/healthz.test.ts",
+        "tests/server/schema.test.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm install dependencies: exit 0, audit clean",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 4 files and 8 tests passed",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "Client/server boundary scan: PASS, no client imports of src/server or api",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "Migration shape scan: PASS",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:39:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "Direct server/API tsc: exit 0 for api/healthz.ts and src/server/*.ts",
+          "recorded_at": "2026-09-04T20:39:46Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: schema covers category/post/comment/rate-limit/audit tables with FK/unique/index boundaries; env validation fails closed in production and database access has no memory fallback; health JSON exposes only status/checks/requestId; direct API/server tsc exits 0; client secret/side-effect scan passes; npm audit high and production-only audit report 0; validate=VALID. No P0/P1 finding. Residual blockers: no authorized provider target, no Better Auth tables/handler, no migration execution, no CRUD/comments/SEO runtime.",
+          "recorded_at": "2026-09-04T20:40:03Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0024-20260904T203910Z-17fbaa.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:35:29Z",
+      "updated_at": "2026-09-04T20:40:12Z",
+      "last_result": "completed"
+    },
+    "UA-0025": {
+      "id": "UA-0025",
+      "title": "Refresh supervisor report after persistence gate",
+      "objective": "Replace the generic all-done resume message with an evidence-backed production snapshot and one next implementation action.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints",
+        "work/supervisor/LATEST_CYCLE.md"
+      ],
+      "depends_on": [
+        "UA-0024"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Canonical report lists UA-0020 through UA-0024 accurately, states scaffold and persistence boundary status, records provider/auth/CRUD/SEO/deployment gaps, and names exactly one next action; checkpoint records work, blockers, next action, and stop condition."
+      ],
+      "verification": [
+        "Inspect report/checkpoint; python tools/useagent.py validate"
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints/20260904T204134Z-recovery-wave-20260905-scaffold-persistence.md",
+        "work/supervisor/LATEST_CYCLE.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Canonical report reflects scaffold and persistence status: PASS",
+          "recorded_at": "2026-09-04T20:41:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "Checkpoint has work, blocker, next action, and stop condition: PASS",
+          "recorded_at": "2026-09-04T20:41:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:41:42Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent review: canonical report and latest cycle match current completed gates and explicitly keep production not_ready; checkpoint contains blocker, one next action, and stop condition; no stale all-done release instruction remains. validate=VALID.",
+          "recorded_at": "2026-09-04T20:41:51Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0025-20260904T204142Z-4091cd.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:40:36Z",
+      "updated_at": "2026-09-04T20:41:58Z",
+      "last_result": "completed"
+    },
+    "UA-0026": {
+      "id": "UA-0026",
+      "title": "Implement admin authentication boundary",
+      "objective": "Add the server-only Better Auth admin session boundary and explicit role policy without claiming provider-backed login in this credential-free workspace.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor-local",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        ".env.example",
+        "api/auth",
+        "package-lock.json",
+        "package.json",
+        "src/server/auth-policy.ts",
+        "src/server/auth-schema.ts",
+        "src/server/auth.ts",
+        "tests/server/auth.test.ts"
+      ],
+      "depends_on": [
+        "UA-0024",
+        "UA-0025"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "backend"
+      ],
+      "acceptance": [
+        "Configure Better Auth through a lazy server-only factory using the Drizzle adapter and reviewed schema; disable public sign-up; require a configured admin allow-list/role for admin authorization; expose only the server auth handler boundary; add tests for fail-closed missing configuration, role policy, and sign-up policy; keep auth modules out of client imports; preserve lint/typecheck/test/build/audit/validate; do not claim provider login or invent credentials."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg client imports of auth modules"
+      ],
+      "files": [
+        ".env.example",
+        "api/auth/index.ts",
+        "package-lock.json",
+        "package.json",
+        "src/server/auth-policy.ts",
+        "src/server/auth-schema.ts",
+        "src/server/auth.ts",
+        "tests/server/auth.test.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 5 files and 12 tests passed",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "Direct auth/API tsc: exit 0",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "Auth client/server boundary scan: PASS",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "Client secret scan: PASS",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:46:43Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: Better Auth 1.7.2 and Drizzle adapter compile; auth table schema and lazy server-only factory are typed; public signup is disabled and admin role/email policy is tested; auth API tsc exits 0; lint/typecheck/12-test/build/audit/validate gate passes; client has no auth or secret imports. No P0/P1 finding. Residual follow-up is explicit: add and review the Better Auth SQL migration companion, then verify live provider login only with authorized credentials.",
+          "recorded_at": "2026-09-04T20:47:18Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0026-20260904T204643Z-5acf84.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:42:17Z",
+      "updated_at": "2026-09-04T20:47:18Z",
+      "last_result": "completed"
+    },
+    "UA-0027": {
+      "id": "UA-0027",
+      "title": "Add Better Auth migration companion",
+      "objective": "Check in the reviewed SQL migration for the Better Auth tables so the server auth schema has an explicit provider-executable migration shape.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor-local",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "drizzle/0001_auth_tables.sql",
+        "tests/server/auth-schema-migration.test.ts"
+      ],
+      "depends_on": [
+        "UA-0026"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "backend"
+      ],
+      "acceptance": [
+        "Migration creates user, session, account, and verification tables with required Better Auth columns, role field, foreign keys, unique constraints, and indexes; a focused static contract test passes; no migration is executed without authorized provider access."
+      ],
+      "verification": [
+        "npm run test; npm run lint; npm run typecheck; npm audit --audit-level=high; python tools/useagent.py validate"
+      ],
+      "files": [
+        "drizzle/0001_auth_tables.sql",
+        "tests/server/auth-schema-migration.test.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 6 files and 13 tests passed",
+          "recorded_at": "2026-09-04T20:48:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T20:48:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T20:48:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "Direct auth/API tsc: exit 0",
+          "recorded_at": "2026-09-04T20:48:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T20:48:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T20:48:41Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:48:41Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: migration markers match auth-schema.ts tables and required Better Auth fields; static migration test passes; lint/typecheck/13-test/build/direct auth API tsc/audit/validate pass. No P0/P1 finding. Migration execution remains intentionally unverified without authorized Neon/Postgres access.",
+          "recorded_at": "2026-09-04T20:48:47Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0027-20260904T204841Z-404bfd.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:47:07Z",
+      "updated_at": "2026-09-04T20:48:51Z",
+      "last_result": "completed"
+    },
+    "UA-0028": {
+      "id": "UA-0028",
+      "title": "Implement content API and admin CRUD boundary",
+      "objective": "Add server-backed published post reads and admin-only post create/update/archive handlers using Drizzle and Better Auth, with validation, stable envelopes, optimistic concurrency, and audit writes.",
+      "level": "L3",
+      "status": "done",
+      "owner": "supervisor-local",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "src/server/content-contract.ts",
+        "src/server/content.ts",
+        "src/server/http.ts",
+        "api/posts/index.ts",
+        "api/posts/[id].ts",
+        "tests/server/content.test.ts",
+        "tests/server/http.test.ts"
+      ],
+      "depends_on": [
+        "UA-0026",
+        "UA-0027"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "backend"
+      ],
+      "acceptance": [
+        "GET /api/posts and GET /api/posts/:id return only published content through Drizzle; POST/PATCH/DELETE post mutations require a Better Auth session whose user passes admin role/email policy; inputs use shared Zod-style schemas; responses use {data,error,requestId}; updates use expected updated_at and archive by default; mutations write non-sensitive audit events; 400/401/403/404/409/500/503 paths are explicit; no in-memory fallback or client import; focused tests and lint/typecheck/test/build/audit/validate pass; no live provider claim without authorized database."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg client imports of src/server/content or api/posts"
+      ],
+      "files": [
+        "api/posts/[id].ts",
+        "api/posts/index.ts",
+        "src/server/content-contract.ts",
+        "src/server/content.ts",
+        "src/server/http.ts",
+        "tests/server/content.test.ts",
+        "tests/server/http.test.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "check",
+          "value": "Direct content API tsc: exit 0",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 8 files and 20 tests passed",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "check",
+          "value": "Content client/server boundary scan: PASS",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:55:38Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: public queries constrain status=published and category.isArchived=false; writes require Better Auth session plus admin role/email policy; Zod validation, UUID route identity, expectedUpdatedAt concurrency, archive semantics, audit summaries, and generic error envelopes are covered by code/tests. Direct API tsc, lint/typecheck/20-test/build/audit/validate and client-boundary scan pass. No P0/P1 finding. Live Neon integration and provider credentials remain unverified.",
+          "recorded_at": "2026-09-04T20:55:45Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0028-20260904T205538Z-434440.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:49:33Z",
+      "updated_at": "2026-09-04T20:55:49Z",
+      "last_result": "completed"
+    },
+    "UA-0029": {
+      "id": "UA-0029",
+      "title": "Refresh knowledge after content API",
+      "objective": "Update source-anchored architecture records to reflect the verified content API/admin CRUD boundary and remaining provider/runtime gaps.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "knowledge/project-map.md",
+        "knowledge/architecture.md",
+        "docs/architecture.md"
+      ],
+      "depends_on": [
+        "UA-0028"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Project map marks api/posts and shared server content/http modules as implemented; architecture cards record published-read/admin-CRUD/audit boundaries and explicit no-live-provider evidence; docs no longer claim API/source is absent and next action points to comments/SEO runtime; validate passes."
+      ],
+      "verification": [
+        "rg stale API-absence claims in scoped documents; python tools/useagent.py validate"
+      ],
+      "files": [
+        "docs/architecture.md",
+        "knowledge/architecture.md",
+        "knowledge/project-map.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Scoped stale API-absence scan: PASS",
+          "recorded_at": "2026-09-04T20:57:47Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T20:57:47Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent review: project map, architecture card, and docs agree on implemented scaffold/auth/content API boundaries and pending provider/SSR/comments work; stale scan clean; validate=VALID. No P0/P1 finding.",
+          "recorded_at": "2026-09-04T20:57:53Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0029-20260904T205747Z-36379f.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:56:01Z",
+      "updated_at": "2026-09-04T20:57:53Z",
+      "last_result": "completed"
+    },
+    "UA-0030": {
+      "id": "UA-0030",
+      "title": "Implement comments and moderation boundary",
+      "objective": "Add server-backed anonymous comment submission and admin moderation contracts with privacy, anti-abuse, and pending-only defaults.",
+      "level": "L3",
+      "status": "done",
+      "owner": "supervisor-local",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        ".env.example",
+        "src/server/env.ts",
+        "src/server/comment-contract.ts",
+        "src/server/comment-policy.ts",
+        "src/server/comments.ts",
+        "api/comments/index.ts",
+        "api/admin/comments/index.ts",
+        "api/admin/comments/[id].ts",
+        "tests/server/comments.test.ts"
+      ],
+      "depends_on": [
+        "UA-0028",
+        "UA-0029"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "backend"
+      ],
+      "acceptance": [
+        "POST /api/comments validates email/body/post/form token, encrypts email only with a configured server key, hashes sensitive identifiers, atomically checks rate-limit state through Drizzle, and persists only pending or spam; public responses never expose email/IP/user-agent; GET/PATCH admin comment handlers require Better Auth admin policy and record moderation audit; invalid/unauthorized/rate-limited/missing cases use stable envelopes; no client import or memory fallback; focused tests/lint/typecheck/direct API tsc/test/build/audit/validate pass; no live provider claim."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg public email/IP exposure and client imports"
+      ],
+      "files": [
+        ".env.example",
+        "api/admin/comments/[id].ts",
+        "api/admin/comments/index.ts",
+        "api/comments/index.ts",
+        "src/server/comment-contract.ts",
+        "src/server/comment-policy.ts",
+        "src/server/comments.ts",
+        "src/server/env.ts",
+        "tests/server/comments.test.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "check",
+          "value": "Direct comments API tsc: exit 0",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 9 files and 25 tests passed",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "check",
+          "value": "Moderation response privacy scan: PASS",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T21:01:29Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: submission is fail-closed on missing auth/encryption secrets, validates short-lived HMAC form token, hashes IP/email/user-agent, AES-GCM encrypts email, rate-limits via atomic Drizzle upsert, accepts only pending/spam, and checks published post plus active category. Public/admin selections omit raw/encrypted email and fingerprints; admin moderation requires Better Auth policy and writes audit. Lint/typecheck/direct API tsc/25-test/audit/validate pass. No P0/P1 finding; live provider/Turnstile/mail verification remains open.",
+          "recorded_at": "2026-09-04T21:02:15Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0030-20260904T210129Z-bb2c39.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T20:58:19Z",
+      "updated_at": "2026-09-04T21:02:20Z",
+      "last_result": "completed"
+    },
+    "UA-0031": {
+      "id": "UA-0031",
+      "title": "Integrate public content client",
+      "objective": "Connect public React routes to server-backed published post reads and expose the comment form-token boundary without inventing local content.",
+      "level": "L2",
+      "status": "cancelled",
+      "owner": "supervisor-local",
+      "assigned_to": null,
+      "scope": [
+        "src/app/App.tsx",
+        "src/app/content-api.ts",
+        "src/styles.css",
+        "api/posts/slug/[slug].ts",
+        "api/comments/token.ts",
+        "tests/server/public-api-contract.test.ts",
+        "src/app/App.test.tsx"
+      ],
+      "depends_on": [
+        "UA-0028",
+        "UA-0030"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "frontend"
+      ],
+      "acceptance": [
+        "Home and post routes request published data through typed API envelopes, render loading/error/empty/data states with semantic status messaging, and never use localStorage/module memory as content storage; slug API returns only published active-category posts; comment token endpoint signs a short-lived token and fails closed without server secret; client has no server-secret imports; focused tests/lint/typecheck/direct API tsc/test/build/audit/validate pass."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg client server-secret imports and local content storage"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-04T21:02:51Z",
+      "updated_at": "2026-09-04T21:03:04Z"
+    },
+    "UA-0032": {
+      "id": "UA-0032",
+      "title": "Recover public content client locally",
+      "objective": "Connect public React routes to server-backed published post reads and expose the comment form-token boundary without inventing local content.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor-local-frontend",
+      "assigned_to": "supervisor-local-frontend",
+      "scope": [
+        "src/app/App.tsx",
+        "src/app/content-api.ts",
+        "src/styles.css",
+        "api/posts/slug/[slug].ts",
+        "api/comments/token.ts",
+        "tests/server/public-api-contract.test.ts",
+        "src/app/App.test.tsx"
+      ],
+      "depends_on": [
+        "UA-0028",
+        "UA-0030"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "frontend"
+      ],
+      "acceptance": [
+        "Home and post routes request published data through typed API envelopes, render loading/error/empty/data states with semantic status messaging, and never use localStorage/module memory as content storage; slug API returns only published active-category posts; comment token endpoint signs a short-lived token and fails closed without server secret; client has no server-secret imports; focused tests/lint/typecheck/direct API tsc/test/build/audit/validate pass."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg client server-secret imports and local content storage"
+      ],
+      "files": [
+        "api/comments/token.ts",
+        "api/posts/slug/[slug].ts",
+        "src/app/App.test.tsx",
+        "src/app/App.tsx",
+        "src/app/content-api.ts",
+        "src/styles.css",
+        "tests/server/public-api-contract.test.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "check",
+          "value": "Direct public API tsc: exit 0",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 10 files and 27 tests passed",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "check",
+          "value": "Public client security/storage scan: PASS",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T21:06:39Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: public Home and Article routes consume typed API fetches and expose loading/error/empty/data states; slug handler serves published active-category rows; token endpoint is GET-only and fail-closed on missing secret; client imports no server secrets or server modules and no local content storage. Lint/typecheck/direct tsc/27-test/build/audit/validate pass. No P0/P1 finding; SSR metadata, live provider, comments form submission, and browser visual QA remain open.",
+          "recorded_at": "2026-09-04T21:07:30Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0032-20260904T210639Z-564fdd.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T21:03:13Z",
+      "updated_at": "2026-09-04T21:07:34Z",
+      "last_result": "completed"
+    },
+    "UA-0033": {
+      "id": "UA-0033",
+      "title": "Implement SSR SEO runtime boundary",
+      "objective": "Add route-aware SSR HTML metadata and public crawl handlers for osblog while preserving explicit noindex/private route rules.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor-local",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "src/entry-server.tsx",
+        "src/server/seo.ts",
+        "api/render.ts",
+        "api/seo/sitemap.ts",
+        "api/seo/robots.ts",
+        "vercel.json",
+        "tests/server/seo.test.ts"
+      ],
+      "depends_on": [
+        "UA-0032",
+        "UA-0030"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "backend"
+      ],
+      "acceptance": [
+        "SSR render returns a complete HTML document with escaped title/description/canonical metadata, language and noindex rules for search/admin, and route-aware public defaults; sitemap emits only server-query results from published active posts through the existing content service; robots disallows admin/private APIs and links sitemap; Vercel rewrites route public pages to render while preserving API/assets and SPA fallback; no secret/client imports; focused tests/direct API tsc/lint/typecheck/test/build/audit/validate pass; no provider-backed SEO claim."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; npx tsc direct SSR/API"
+      ],
+      "files": [
+        "api/render.ts",
+        "api/seo/robots.ts",
+        "api/seo/sitemap.ts",
+        "src/entry-server.tsx",
+        "src/server/seo.ts",
+        "tests/server/seo.test.ts",
+        "vercel.json"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Direct SSR/API tsc with JSX: exit 0",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 11 files and 29 tests passed",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "SSR noindex/canonical/robots/sitemap contract scan: PASS",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T21:11:10Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: SSR output escapes metadata, sets canonical/lang/robots, marks /search and /admin noindex, render/robots/sitemap are GET-only, sitemap reads only existing published active-category service rows, and Vercel rewrites preserve SPA fallback. Direct SSR/API tsc, lint/typecheck/29-test/build/audit/validate pass. No P0/P1 finding. Residual gates are hashed-client-asset hydration/data snapshot, full sitemap pagination, live database/provider execution, and browser/performance QA.",
+          "recorded_at": "2026-09-04T21:11:17Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0033-20260904T211110Z-571898.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T21:08:14Z",
+      "updated_at": "2026-09-04T21:11:23Z",
+      "last_result": "completed"
+    },
+    "UA-0034": {
+      "id": "UA-0034",
+      "title": "Complete public comment form flow",
+      "objective": "Connect the public article page to the server-issued comment token and pending-only submission API with accessible form state.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor-local-frontend",
+      "assigned_to": "supervisor-local-frontend",
+      "scope": [
+        "src/app/App.tsx",
+        "src/app/content-api.ts",
+        "src/styles.css",
+        "src/app/App.test.tsx"
+      ],
+      "depends_on": [
+        "UA-0030",
+        "UA-0032",
+        "UA-0033"
+      ],
+      "preferred_agents": [
+        "antigravity"
+      ],
+      "capabilities": [
+        "frontend"
+      ],
+      "acceptance": [
+        "Published article view exposes a server-token-backed anonymous comment form; client validates email/body, submits post id/token without local storage, shows loading/success/error states, and never renders moderator-only fields; aborts on unmount; focused UI tests/lint/typecheck/test/build/audit/validate pass."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; rg localStorage/sessionStorage/client secrets"
+      ],
+      "files": [
+        "src/app/App.test.tsx",
+        "src/app/App.tsx",
+        "src/app/content-api.ts",
+        "src/styles.css"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T21:14:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T21:14:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 11 files and 30 tests passed",
+          "recorded_at": "2026-09-04T21:14:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T21:14:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T21:14:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "Client secret/local-storage scan: PASS",
+          "recorded_at": "2026-09-04T21:14:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T21:14:15Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: article UI connects slug-loaded published data to token fetch and pending comment POST, uses labels/required fields/aria status, never stores content locally or imports secrets, and aborts both token and submit requests on unmount. Lint/typecheck/30-test/build/audit/validate pass. No P0/P1 finding; live provider and browser a11y/performance remain open.",
+          "recorded_at": "2026-09-04T21:14:22Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0034-20260904T211415Z-d3849b.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T21:11:52Z",
+      "updated_at": "2026-09-04T21:14:22Z",
+      "last_result": "completed"
+    },
+    "UA-0035": {
+      "id": "UA-0035",
+      "title": "Refresh release checkpoint after public flows",
+      "objective": "Synchronize knowledge and canonical supervisor handover after public content, comments, and SSR gates; stop at the evidence-backed provider/release blocker.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "knowledge/project-map.md",
+        "knowledge/architecture.md",
+        "docs/architecture.md",
+        "work/SUPERVISOR_REPORT.md",
+        "work/supervisor/LATEST_CYCLE.md",
+        "work/checkpoints"
+      ],
+      "depends_on": [
+        "UA-0033",
+        "UA-0034"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Knowledge records public client/comment/SSR API slices as implemented; docs and canonical report state exact remaining provider-backed integration, hydrated SSR data, browser QA, deployment and rollback gaps; report production remains not_ready and names exactly one next action requiring authorized provider target/credentials; checkpoint includes work, blocker, next action, stop condition; validate passes."
+      ],
+      "verification": [
+        "rg stale pending-flow claims; inspect report/checkpoint; python tools/useagent.py validate"
+      ],
+      "files": [
+        "docs/architecture.md",
+        "knowledge/architecture.md",
+        "knowledge/project-map.md",
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints/20260904T211653Z-release-evidence-gate-20260905-public-flows.md",
+        "work/supervisor/LATEST_CYCLE.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Stale pending-flow scan: PASS",
+          "recorded_at": "2026-09-04T21:17:01Z"
+        },
+        {
+          "kind": "check",
+          "value": "Canonical report production snapshot: not_ready",
+          "recorded_at": "2026-09-04T21:17:01Z"
+        },
+        {
+          "kind": "check",
+          "value": "Checkpoint status: needs_input with blocker/next action/stop condition",
+          "recorded_at": "2026-09-04T21:17:01Z"
+        },
+        {
+          "kind": "check",
+          "value": "useagent validate: VALID",
+          "recorded_at": "2026-09-04T21:17:01Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent supervisor review: knowledge/docs/report/checkpoint reflect every completed local slice through UA-0034, preserve runtime attribution, mark production not_ready, and name exactly one provider/credentials next action with an explicit stop condition. validate=VALID; no P0/P1 finding.",
+          "recorded_at": "2026-09-04T21:17:08Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0035-20260904T211701Z-1ca185.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T21:15:05Z",
+      "updated_at": "2026-09-04T21:17:08Z",
+      "last_result": "completed"
+    },
+    "UA-0036": {
+      "id": "UA-0036",
+      "title": "Prepare open-source repository hygiene",
+      "objective": "Add professional bilingual repository entrypoint, MIT notice, and safe ignore rules without hiding source-controlled work evidence.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "README.md",
+        "LICENSE",
+        ".gitignore"
+      ],
+      "depends_on": [
+        "UA-0035"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "README is bilingual and accurately documents osblog purpose, implemented boundaries, local setup/verification, architecture links, and not_ready provider/release gate; LICENSE contains MIT notice; .gitignore excludes node_modules/dist/.env runtime files while preserving .env.example, source, docs, knowledge, work evidence, and tests; no generated junk or secrets are added."
+      ],
+      "verification": [
+        "Inspect README/LICENSE/.gitignore; rg secret markers and generated artifacts; npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate"
+      ],
+      "files": [
+        ".gitignore",
+        "LICENSE",
+        "README.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 11 files and 30 tests passed",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tests/useagent-conformance/replay.py: REPLAY_PASS",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "Secret scan: PASS",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "check",
+          "value": "Generated artifact ignore check: node_modules and dist ignored; source/evidence not ignored",
+          "recorded_at": "2026-09-04T21:20:42Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent review: README is bilingual and accurately marks provider/release not_ready; MIT notice is complete; .gitignore excludes node_modules/dist/local env/editor noise while unignoring .env.example and not ignoring work/knowledge/docs/tests/source. Full local gate, replay, secret scan, and validate pass. No P0/P1 finding.",
+          "recorded_at": "2026-09-04T21:20:49Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0036-20260904T212042Z-9791bd.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T21:19:12Z",
+      "updated_at": "2026-09-04T21:20:49Z",
+      "last_result": "completed"
+    },
+    "UA-0037": {
+      "id": "UA-0037",
+      "title": "Finalize release evidence and public repository",
+      "objective": "Run the final local preflight, commit the intended main branch, and create/push the public GitHub repository only when no secret/generated-artifact safety issue is present.",
+      "level": "L2",
+      "status": "in_progress",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        ".",
+        "work/SUPERVISOR_REPORT.md",
+        "work/supervisor/LATEST_CYCLE.md",
+        "work/checkpoints"
+      ],
+      "depends_on": [
+        "UA-0036"
+      ],
+      "preferred_agents": [
+        "codex"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Preflight confirms main branch, authenticated thuanlyt GitHub CLI, absent or safe target repo, no secrets, no generated junk in commit, and full local gates pass; intended source/docs/knowledge/work evidence is committed; public thuanlyt/osblog is created only if absent and main is pushed; report/checkpoint preserve exact URLs/commit/evidence and keep production not_ready with provider blocker; no Vercel/Neon deployment."
+      ],
+      "verification": [
+        "git status; git diff --cached --check; git ls-files secret scan; npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; gh repo view/create/push evidence"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-04T21:21:04Z",
+      "updated_at": "2026-09-04T21:21:07Z"
+    }
+  }
+}
