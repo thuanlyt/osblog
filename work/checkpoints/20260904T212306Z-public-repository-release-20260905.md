@@ -7,7 +7,7 @@
 
 ## Summary
 
-Open-source repository created and pushed successfully to https://github.com/thuanlyt/osblog at commit 46b16ce8fa8790ce45b5b179d69b0bf5ea4ec096. Local gates remain green; production is not_ready because provider integration, deployment, and rollback evidence are not authorized/configured.
+Open-source repository created and pushed successfully to https://github.com/thuanlyt/osblog at verified current main commit 691032738a245d7c33065cd292b531a5ed928d1e. Vercel CLI v57.0.0 is callable/authenticated as thuanlyt via npx; no deployment was performed. Local gates remain green; production is not_ready because Neon/Better Auth provider integration, deployment, and rollback evidence are not authorized/configured.
 
 ## Tasks
 
@@ -16,7 +16,7 @@ Open-source repository created and pushed successfully to https://github.com/thu
 
 ## Blockers and risks
 
-- No authorized Neon/Postgres or Better Auth target/credentials; no Vercel/domain/deployment authorization or rollback evidence.
+- No authorized Neon/Postgres or Better Auth target/credentials; Vercel CLI identity is available but no deployment was authorized; no domain/deployment/rollback evidence exists.
 - none
 
 ## Resume instructions

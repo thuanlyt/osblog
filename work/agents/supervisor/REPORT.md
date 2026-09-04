@@ -118,3 +118,10 @@ Final release preflight passed. Main was committed at 46b16ce, the public GitHub
 
 - Report: `work/reports/inbox/UA-0037-20260904T212354Z-e53b91.md`
 - Next: Obtain and securely configure the authorized Neon/Postgres and Better Auth provider target/credentials, then run migration/auth/CRUD/comments/SSR integration and release QA before any deployment.
+
+## 2026-09-04T21:28:37Z - UA-0038 (completed)
+
+Corrected the final release evidence to current HEAD 691032738a245d7c33065cd292b531a5ed928d1e, removed stale prior SHA references from scoped report/checkpoint/release evidence, and recorded Vercel CLI v57.0.0 as callable/authenticated for thuanlyt via npx. No deployment was performed; production remains not_ready pending Neon/Better Auth integration.
+
+- Report: `work/reports/inbox/UA-0038-20260904T212837Z-3ea133.md`
+- Next: Commit and push this evidence correction, then leave deployment blocked until provider integration and release authorization exist.
