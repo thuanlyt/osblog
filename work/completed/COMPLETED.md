@@ -51,3 +51,5 @@
 - 2026-09-04T21:17:01Z - `UA-0035` - Refresh release checkpoint after public flows - worker completed, pending supervisor/reviewer - `work/reports/inbox/UA-0035-20260904T211701Z-1ca185.md`
 
 - 2026-09-04T21:20:42Z - `UA-0036` - Prepare open-source repository hygiene - worker completed, pending supervisor/reviewer - `work/reports/inbox/UA-0036-20260904T212042Z-9791bd.md`
+
+- 2026-09-04T21:23:54Z - `UA-0037` - Finalize release evidence and public repository - worker completed, pending supervisor/reviewer - `work/reports/inbox/UA-0037-20260904T212354Z-e53b91.md`

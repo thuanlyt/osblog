@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-04T21:21:07Z",
+  "updated_at": "2026-09-04T21:24:02Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -2504,7 +2504,7 @@
       "title": "Finalize release evidence and public repository",
       "objective": "Run the final local preflight, commit the intended main branch, and create/push the public GitHub repository only when no secret/generated-artifact safety issue is present.",
       "level": "L2",
-      "status": "in_progress",
+      "status": "done",
       "owner": "supervisor",
       "assigned_to": "supervisor",
       "scope": [
@@ -2528,12 +2528,88 @@
       "verification": [
         "git status; git diff --cached --check; git ls-files secret scan; npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high; python tools/useagent.py validate; gh repo view/create/push evidence"
       ],
-      "files": [],
-      "evidence": [],
-      "reports": [],
+      "files": [
+        ".gitignore",
+        "LICENSE",
+        "README.md",
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints/20260904T212306Z-public-repository-release-20260905.md",
+        "work/supervisor/LATEST_CYCLE.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "git branch: main",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "git diff --cached --check: PASS before release commits",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "Secret scan: PASS",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 11 files and 30 tests passed",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tests/useagent-conformance/replay.py: REPLAY_PASS",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "GitHub: thuanlyt/osblog public, default main, remote head matches 426569d",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "check",
+          "value": "No deployment/provider execution claim",
+          "recorded_at": "2026-09-04T21:23:54Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent final release review: main commit/push succeeded; GitHub API confirms public thuanlyt/osblog with default main and matching remote head; staged diff check and secret scan were clean; local 30-test/lint/typecheck/build/audit/replay/validate gates passed; README/LICENSE/.gitignore are present; no Vercel/Neon production claim. Remaining blocker is authorized provider/release evidence only. No P0/P1 finding.",
+          "recorded_at": "2026-09-04T21:24:01Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0037-20260904T212354Z-e53b91.md"
+      ],
       "attempts": 1,
       "created_at": "2026-09-04T21:21:04Z",
-      "updated_at": "2026-09-04T21:21:07Z"
+      "updated_at": "2026-09-04T21:24:02Z",
+      "last_result": "completed"
     }
   }
 }

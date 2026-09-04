@@ -111,3 +111,10 @@ Prepared open-source repository hygiene: added professional bilingual README, MI
 
 - Report: `work/reports/inbox/UA-0036-20260904T212042Z-9791bd.md`
 - Next: Run final release evidence task: inspect GitHub repo state, commit main, and create/push the public repository only if safety checks remain clean.
+
+## 2026-09-04T21:23:54Z - UA-0037 (completed)
+
+Final release preflight passed. Main was committed at 46b16ce, the public GitHub repository thuanlyt/osblog was created, and main was pushed; release-evidence update is now at remote commit 426569d. GitHub API verifies public visibility/default main and matching remote head. No Vercel/Neon deployment was performed.
+
+- Report: `work/reports/inbox/UA-0037-20260904T212354Z-e53b91.md`
+- Next: Obtain and securely configure the authorized Neon/Postgres and Better Auth provider target/credentials, then run migration/auth/CRUD/comments/SSR integration and release QA before any deployment.
