@@ -1,7 +1,7 @@
 # UseAgent supervisor report
 
-- **Cycle:** `release-evidence-gate-20260905-public-flows`
-- **Generated:** 2026-09-05T04:20:00+07:00
+- **Cycle:** `public-repository-release-20260905`
+- **Generated:** 2026-09-05T04:23:06+07:00
 - **Next action:** Obtain an authorized Neon/Postgres and Better Auth provider target/credentials, then run migration/auth/CRUD/comments/SSR integration QA before any deployment action.
 - **Production snapshot:** `not_ready`
 
@@ -10,6 +10,8 @@
 The control plane is valid. The project now has reviewed UI/design contracts, architecture and conformance evidence, a Vite/React/TypeScript client, server-only Drizzle/Neon and Better Auth boundaries, post CRUD APIs, privacy-safe comments/moderation APIs, public client data/token flow, SSR metadata, sitemap/robots handlers, and a public comment form. Local contract gates are green; no provider execution has been performed.
 
 The product is not production-ready. Remaining gates are authorized Neon/Postgres migration and seed replay, live Better Auth cookie/session and admin authorization, provider-backed post/comment API integration, Turnstile/mail policy verification, hydrated SSR data snapshots and hashed client assets, full sitemap pagination, admin screens, browser WCAG/performance/E2E QA, deployment, domain, backup/restore, and rollback evidence. No credentials, external account, deployment, or production claim is made.
+
+The open-source repository is public at [github.com/thuanlyt/osblog](https://github.com/thuanlyt/osblog), with `main` pushed at commit `46b16ce8fa8790ce45b5b179d69b0bf5ea4ec096`. GitHub CLI verification confirms `isPrivate=false`, default branch `main`, and matching remote head. No Vercel or provider deployment was performed.
 
 ## Runtime attribution and recovery
 
@@ -30,6 +32,7 @@ The product is not production-ready. Remaining gates are authorized Neon/Postgre
 - Comments/privacy/rate limits/moderation: UA-0030.
 - Public client content and comment form: UA-0032, UA-0034.
 - SSR metadata/canonical/noindex, render, sitemap, robots, and rewrites: UA-0033.
+- Open-source hygiene and public repository release: UA-0036, UA-0037 — bilingual README, MIT license, safe ignore rules, clean staged safety scan, commit/push verification.
 - Every completed item passed its explicit review gate; no open P0/P1 review finding exists.
 
 ## Cancelled or failed attempts
@@ -41,6 +44,7 @@ UA-0003, UA-0004, UA-0006, UA-0011, UA-0013, UA-0015, UA-0019, UA-0023, and UA-0
 - Control-plane validation: `python tools/useagent.py validate` → `VALID`.
 - Conformance replay: `python tests/useagent-conformance/replay.py` → repeated `REPLAY_PASS` in isolated runs.
 - Current local product gate: 30 tests pass, lint/typecheck/build/direct API or SSR tsc/high-severity audit and security boundary scans pass.
+- Repository release gate: `main` clean except ignored `dist/` and `node_modules/`; `git diff --cached --check` clean before commit; secret scan clean; public GitHub remote head matches local commit.
 - Product QA commands are not globally configured; live integration, browser accessibility/performance/E2E, and deployment/rollback checks remain manual blockers.
 
 ## Evidence anchors
@@ -51,6 +55,8 @@ UA-0003, UA-0004, UA-0006, UA-0011, UA-0013, UA-0015, UA-0019, UA-0023, and UA-0
 - `work/reports/inbox/UA-0030-20260904T210129Z-bb2c39.md`
 - `work/reports/inbox/UA-0033-20260904T211110Z-571898.md`
 - `work/reports/inbox/UA-0034-20260904T211415Z-d3849b.md`
+- `work/reports/inbox/UA-0036-20260904T212042Z-9791bd.md`
+- `work/checkpoints/20260904T212306Z-public-repository-release-20260905.md`
 - `knowledge/project-map.md`
 - `knowledge/architecture.md`
 - `docs/architecture.md`
