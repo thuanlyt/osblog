@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-04T21:28:45Z",
+  "updated_at": "2026-09-04T21:38:17Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -2694,6 +2694,118 @@
       "attempts": 1,
       "created_at": "2026-09-04T21:26:56Z",
       "updated_at": "2026-09-04T21:28:45Z",
+      "last_result": "completed"
+    },
+    "UA-0039": {
+      "id": "UA-0039",
+      "title": "Normalize final release evidence references",
+      "objective": "Remove stale literal commit references from canonical release evidence and record stable audit-time HEAD verification while preserving accurate Vercel and provider not_ready status.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/supervisor/LATEST_CYCLE.md",
+        "work/checkpoints/20260904T212306Z-public-repository-release-20260905.md",
+        "work/reports/inbox/UA-0037-20260904T212354Z-e53b91.md",
+        "work/reports/inbox/UA-0038-20260904T212837Z-3ea133.md"
+      ],
+      "depends_on": [
+        "UA-0038"
+      ],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Canonical report, latest cycle, checkpoint, and release reports contain no stale literal SHA values; they use stable audit-time git verification wording; Vercel remains documented as callable/authenticated as thuanlyt with no deployment; production remains not_ready because Neon/Better Auth provider integration is missing; validate, credential scan, and release checks pass; changes are committed and pushed."
+      ],
+      "verification": [
+        "git rev-parse HEAD; git ls-remote origin refs/heads/main; python tools/useagent.py validate; credential-pattern scan; git diff --check; npm run lint; npm run typecheck; npm run test; npm run build; npm audit --audit-level=high"
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/checkpoints/20260904T212306Z-public-repository-release-20260905.md",
+        "work/reports/inbox/UA-0037-20260904T212354Z-e53b91.md",
+        "work/reports/inbox/UA-0038-20260904T212837Z-3ea133.md",
+        "work/supervisor/LATEST_CYCLE.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "Credential-pattern scan: PASS",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "Canonical stale literal SHA scan: PASS",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "git diff --check: PASS",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: exit 0",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: exit 0",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run test: exit 0, 11 files and 30 tests passed",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: exit 0",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: found 0 vulnerabilities",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tests/useagent-conformance/replay.py: REPLAY_PASS",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "Vercel CLI v57.0.0 callable/authenticated as thuanlyt via npx; no deployment performed",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "check",
+          "value": "Production remains not_ready pending Neon/Better Auth provider integration",
+          "recorded_at": "2026-09-04T21:37:55Z"
+        },
+        {
+          "kind": "review",
+          "value": "Independent review: canonical report, latest cycle, checkpoint, UA-0037 release report, and UA-0038 correction report contain no stale literal release SHA; reproducible local/remote HEAD verification wording is used; Vercel remains callable/authenticated as thuanlyt with no deployment; validate, credential scan, diff check, full npm gate, audit, and conformance replay pass; no P0/P1 finding.",
+          "recorded_at": "2026-09-04T21:38:01Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0039-20260904T213755Z-def16b.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T21:35:47Z",
+      "updated_at": "2026-09-04T21:38:17Z",
       "last_result": "completed"
     }
   }

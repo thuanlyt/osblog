@@ -35,3 +35,5 @@
 - 2026-09-04T21:23:54Z - `UA-0037` - Finalize release evidence and public repository - pending review - `work/reports/inbox/UA-0037-20260904T212354Z-e53b91.md`
 
 - 2026-09-04T21:28:37Z - `UA-0038` - Correct final release SHA evidence - pending review - `work/reports/inbox/UA-0038-20260904T212837Z-3ea133.md`
+
+- 2026-09-04T21:37:55Z - `UA-0039` - Normalize final release evidence references - pending review - `work/reports/inbox/UA-0039-20260904T213755Z-def16b.md`

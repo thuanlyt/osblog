@@ -11,7 +11,7 @@ The control plane is valid. The project now has reviewed UI/design contracts, ar
 
 The product is not production-ready. Remaining gates are authorized Neon/Postgres migration and seed replay, live Better Auth cookie/session and admin authorization, provider-backed post/comment API integration, Turnstile/mail policy verification, hydrated SSR data snapshots and hashed client assets, full sitemap pagination, admin screens, browser WCAG/performance/E2E QA, deployment, domain, backup/restore, and rollback evidence. No credentials, external account, deployment, or production claim is made.
 
-The open-source repository is public at [github.com/thuanlyt/osblog](https://github.com/thuanlyt/osblog), with the SHA correction pushed at verified main commit `7d4d79afd22c1950476678061d7e7732a2ef2459`. GitHub CLI verification confirms `isPrivate=false`, default branch `main`, and matching remote head at the correction audit. Vercel CLI is callable/authenticated as `thuanlyt` via `npx --yes vercel` (v57.0.0); no Vercel or provider deployment was performed.
+The open-source repository is public at [github.com/thuanlyt/osblog](https://github.com/thuanlyt/osblog). GitHub CLI verification confirms `isPrivate=false`, default branch `main`; the correction audit verified local and remote head equality with `git rev-parse HEAD` and `git ls-remote origin refs/heads/main`. Vercel CLI is callable/authenticated as `thuanlyt` via `npx --yes vercel` (v57.0.0); no Vercel or provider deployment was performed.
 
 ## Runtime attribution and recovery
 
@@ -44,7 +44,7 @@ UA-0003, UA-0004, UA-0006, UA-0011, UA-0013, UA-0015, UA-0019, UA-0023, and UA-0
 - Control-plane validation: `python tools/useagent.py validate` → `VALID`.
 - Conformance replay: `python tests/useagent-conformance/replay.py` → repeated `REPLAY_PASS` in isolated runs.
 - Current local product gate: 30 tests pass, lint/typecheck/build/direct API or SSR tsc/high-severity audit and security boundary scans pass.
-- Repository release gate: `main` clean except ignored `dist/` and `node_modules/`; `git diff --cached --check` clean before correction commit; secret scan clean; public GitHub remote head matched correction commit `7d4d79afd22c1950476678061d7e7732a2ef2459`.
+- Repository release gate: `main` clean except ignored `dist/` and `node_modules/`; `git diff --cached --check` clean before correction commit; secret scan clean; public GitHub local and remote heads matched during the correction audit using `git rev-parse HEAD` and `git ls-remote origin refs/heads/main`.
 - Product QA commands are not globally configured; live integration, browser accessibility/performance/E2E, and deployment/rollback checks remain manual blockers.
 
 ## Evidence anchors
