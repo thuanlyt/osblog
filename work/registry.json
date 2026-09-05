@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T08:46:56Z",
+  "updated_at": "2026-09-05T08:49:08Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -2981,7 +2981,7 @@
       "title": "Write bilingual OSBlog docs and open-source release content",
       "objective": "Create practical beginner-facing co-located Markdown documentation, professional bilingual README, changelog and introduction for the modern OSBlog release.",
       "level": "L2",
-      "status": "needs_review",
+      "status": "done",
       "owner": "claude",
       "assigned_to": "claude",
       "scope": [
@@ -3006,13 +3006,19 @@
         "Markdown links and implementation consistency reviewed"
       ],
       "files": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "kind": "review",
+          "value": "Supervisor review: final EN/VI README and co-located docs match current runtime, commands and live Vercel status; link/source audit and current 64-test/build/browser evidence pass. Remaining Netlify/VPS/rollback gaps are explicitly documented, not overstated.",
+          "recorded_at": "2026-09-05T08:49:05Z"
+        }
+      ],
       "reports": [
         "work/reports/inbox/UA-0042-20260905T000631Z-a59d7c.md"
       ],
       "attempts": 0,
       "created_at": "2026-09-04T23:49:24Z",
-      "updated_at": "2026-09-05T00:14:44Z",
+      "updated_at": "2026-09-05T08:49:05Z",
       "assignment_path": "work/agents/claude/inbox/UA-0042.md",
       "dispatched_at": "2026-09-04T23:49:33Z",
       "started_at": "2026-09-04T23:52:38Z",
@@ -3023,7 +3029,7 @@
       "title": "Complete modern public and admin React UI after worker quota failure",
       "objective": "Implement actual complete bilingual Markdown publishing UI and integrated docs against agreed shared Fetch API.",
       "level": "L2",
-      "status": "needs_review",
+      "status": "done",
       "owner": "claude",
       "assigned_to": "claude",
       "scope": [
@@ -3102,6 +3108,11 @@
           "kind": "check",
           "value": "live GET against supervisor's running SSR dev server (:5173): /, /archive?q=&sort=, /post/:slug, /docs, /docs/:slug, /about, /admin/login, /admin (303 -> /admin/login), /?lang=vi all rendered correctly",
           "recorded_at": "2026-09-05T00:43:15Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: current public/admin UI and editor are covered by component tests plus compiled browser E2E for bilingual Markdown publishing, anonymous comment moderation, responsive docs and Axe/no-overflow checks; final build/lint/typecheck pass.",
+          "recorded_at": "2026-09-05T08:49:06Z"
         }
       ],
       "reports": [
@@ -3109,7 +3120,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T00:14:31Z",
-      "updated_at": "2026-09-05T06:39:37Z",
+      "updated_at": "2026-09-05T08:49:06Z",
       "last_result": "completed"
     },
     "UA-0044": {
@@ -3117,7 +3128,7 @@
       "title": "Recover transactional runtime SSR and deployment adapters",
       "objective": "Complete saved Astra backend with shared Fetch router, hydrated SSR, hashed assets, migrations/bootstrap, local Vercel Netlify adapters and real SQL integration tests.",
       "level": "L3",
-      "status": "needs_review",
+      "status": "cancelled",
       "owner": "supervisor",
       "assigned_to": "supervisor-local",
       "scope": [
@@ -3170,7 +3181,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T00:14:31Z",
-      "updated_at": "2026-09-05T07:09:29Z",
+      "updated_at": "2026-09-05T08:49:07Z",
       "last_result": "completed"
     },
     "UA-0045": {
@@ -3178,7 +3189,7 @@
       "title": "Reconcile bilingual release docs with the implemented runtime",
       "objective": "Replace obsolete scaffold instructions with reproducible installation, admin editor and multiplatform runtime guidance and current evidence.",
       "level": "L2",
-      "status": "reported",
+      "status": "done",
       "owner": "claude-docs",
       "assigned_to": "claude-docs",
       "scope": [
@@ -3247,6 +3258,11 @@
           "kind": "check",
           "value": "Manual reconciliation against package.json, src/server/{env,router,provision,schema,content,seo,auth,auth-policy,comment-policy,comment-contract}.ts, tools/server/{database,start,configure-vercel}.ts, tools/build/build.ts, vercel.json, netlify.toml, api/index.ts, netlify/functions/osblog.mts, src/app/admin/AdminPostEditorPage.tsx, src/app/pages/DocsPage.tsx, entry-server.tsx",
           "recorded_at": "2026-09-05T00:59:52Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: reconciled EN/VI docs are source-anchored, current, and live at /docs; deployment page records Vercel/Neon smoke and honest Netlify/VPS/rollback limitations; README, changelog, security and contributor links are present.",
+          "recorded_at": "2026-09-05T08:49:07Z"
         }
       ],
       "reports": [
@@ -3254,7 +3270,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T00:42:22Z",
-      "updated_at": "2026-09-05T00:59:52Z",
+      "updated_at": "2026-09-05T08:49:07Z",
       "last_result": "completed"
     },
     "UA-0046": {
@@ -3494,7 +3510,7 @@
       "title": "Implement runtime release regressions after Astra audit",
       "objective": "Resolve all four independently reproduced UA-0048 defects with focused regression tests and preserve current auth, SSR, SQL and request-boundary contracts.",
       "level": "L3",
-      "status": "planned",
+      "status": "cancelled",
       "owner": "supervisor-local",
       "assigned_to": null,
       "scope": [
@@ -3520,7 +3536,7 @@
       "reports": [],
       "attempts": 0,
       "created_at": "2026-09-05T07:07:44Z",
-      "updated_at": "2026-09-05T07:07:44Z"
+      "updated_at": "2026-09-05T08:49:08Z"
     },
     "UA-0052": {
       "id": "UA-0052",
