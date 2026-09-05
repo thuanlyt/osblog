@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T08:36:46Z",
+  "updated_at": "2026-09-05T08:46:56Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -2813,7 +2813,7 @@
       "title": "OSBlog modern release roadmap and external deployment",
       "objective": "Deliver modern Markdown publishing, co-located docs, Vercel domains and real Cap media using Astra xhigh and Claude Sonnet high workers.",
       "level": "L4",
-      "status": "in_progress",
+      "status": "done",
       "owner": "supervisor",
       "assigned_to": "supervisor",
       "scope": [
@@ -2849,12 +2849,76 @@
       "verification": [
         "Review runtime, deployment and end-to-end evidence"
       ],
-      "files": [],
-      "evidence": [],
-      "reports": [],
+      "files": [
+        "README.md",
+        "README.vi.md",
+        "docs/deployment.md",
+        "docs/media.md",
+        "docs/vi/deployment.md",
+        "public/media/osblog-cap-demo.gif",
+        "public/media/osblog-cap-demo.mp4",
+        "tests/browser/publishing.spec.ts",
+        "work/SUPERVISOR_REPORT.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "64 unit/component/SQL integration tests passed",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "2 compiled-browser E2E tests passed",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate -> VALID",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "python -B tests/useagent-conformance/replay.py -> REPLAY_PASS",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "check",
+          "value": "Both live hostnames passed HTTP route, SEO, admin redirect and media smoke",
+          "recorded_at": "2026-09-05T08:46:24Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor release-gate review on 2026-09-05: 64 unit/component/SQL tests, 2 compiled-browser E2E, typecheck, lint, build, high-severity audit, lifecycle 16/16, validator VALID, conformance REPLAY_PASS, real Cap media validation and both Vercel host live route/SEO smoke all passed. UA-0058 found no application P0/P1/P2; independent final Astra rerun was unavailable due account usage limit and is explicitly retained as a limitation. Remaining gaps are Turnstile, Netlify/VPS execution and backup/rollback drills.",
+          "recorded_at": "2026-09-05T08:46:40Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0040-20260905T084624Z-5b07cc.md"
+      ],
       "attempts": 1,
       "created_at": "2026-09-04T23:49:23Z",
-      "updated_at": "2026-09-05T07:40:09Z"
+      "updated_at": "2026-09-05T08:46:40Z",
+      "last_result": "completed"
     },
     "UA-0041": {
       "id": "UA-0041",
@@ -3653,7 +3717,7 @@
       "title": "Fix residual auth and Node adapter review findings",
       "objective": "Resolve Astra UA-0053 F1 and F2: preserve Better Auth cookie-clearing headers on unauthorized renewal failures for admin API and SSR, and make Node oversized-body tests prove reuse of the same keep-alive socket.",
       "level": "L3",
-      "status": "reported",
+      "status": "done",
       "owner": "supervisor",
       "assigned_to": "supervisor-local",
       "scope": [
@@ -3701,6 +3765,11 @@
           "kind": "check",
           "value": "Focused runtime and Node adapter tests: 14/14 passed",
           "recorded_at": "2026-09-05T07:58:30Z"
+        },
+        {
+          "kind": "review",
+          "value": "Astra UA-0058 independent review recommends accepting UA-0056 runtime fixes; focused runtime evidence and local 14/14 regression tests pass with no application P0/P1/P2 finding.",
+          "recorded_at": "2026-09-05T08:46:54Z"
         }
       ],
       "reports": [
@@ -3708,7 +3777,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T07:50:05Z",
-      "updated_at": "2026-09-05T07:58:30Z",
+      "updated_at": "2026-09-05T08:46:55Z",
       "last_result": "completed"
     },
     "UA-0057": {
@@ -3844,7 +3913,7 @@
       "title": "Harden supervisor-only lifecycle reconciliation",
       "objective": "Address Astra UA-0058 findings in the UseAgent CLI: require the latest referenced worker report to explicitly record result completed, and enforce that only a registered supervisor can reconcile an invalid completion marker.",
       "level": "L2",
-      "status": "reported",
+      "status": "done",
       "owner": "supervisor",
       "assigned_to": "supervisor-local",
       "scope": [
@@ -3881,6 +3950,11 @@
           "kind": "check",
           "value": "python tests/useagent-conformance/replay.py: REPLAY_PASS",
           "recorded_at": "2026-09-05T08:11:17Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review of tools/useagent.py plus disposable lifecycle fixture: supervisor-only authorization, completed-report proof and refusal matrix pass 16/16; validate VALID and conformance REPLAY_PASS. Independent follow-up Astra run was unavailable due usage limit and is not claimed.",
+          "recorded_at": "2026-09-05T08:46:55Z"
         }
       ],
       "reports": [
@@ -3888,7 +3962,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T08:10:12Z",
-      "updated_at": "2026-09-05T08:11:17Z",
+      "updated_at": "2026-09-05T08:46:56Z",
       "last_result": "completed"
     },
     "UA-0060": {
@@ -3926,7 +4000,7 @@
       "title": "Correct reconcile command authorization help",
       "objective": "Align the UseAgent reconcile subcommand help text with the enforced supervisor-only authorization after Astra UA-0060 review found a misleading release-gate phrase.",
       "level": "L1",
-      "status": "reported",
+      "status": "done",
       "owner": "supervisor",
       "assigned_to": "supervisor-local",
       "scope": [
@@ -3967,6 +4041,11 @@
           "kind": "check",
           "value": "python -B tests/useagent-conformance/replay.py",
           "recorded_at": "2026-09-05T08:21:00Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review confirms reconcile help says registered supervisor identity (supervisor-only); lifecycle fixture passes 16/16, validator VALID and conformance REPLAY_PASS.",
+          "recorded_at": "2026-09-05T08:46:56Z"
         }
       ],
       "reports": [
@@ -3974,7 +4053,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T08:17:47Z",
-      "updated_at": "2026-09-05T08:21:00Z",
+      "updated_at": "2026-09-05T08:46:56Z",
       "last_result": "completed"
     },
     "UA-0062": {

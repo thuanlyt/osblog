@@ -132,3 +132,10 @@ Normalized canonical release evidence to stable audit-time HEAD verification wit
 
 - Report: `work/reports/inbox/UA-0039-20260904T213755Z-def16b.md`
 - Next: Commit and push the evidence correction, then verify the exact post-push SHA locally and remotely; report that SHA separately because a committed file cannot contain its own final commit hash.
+
+## 2026-09-05T08:46:24Z - UA-0040 (completed)
+
+Delivered the modern bilingual OSBlog release: real Markdown admin publishing, co-located docs, Neon-backed Vercel production, both requested hostnames, genuine Cap GIF/MP4, browser E2E and reconciled open-source documentation.
+
+- Report: `work/reports/inbox/UA-0040-20260905T084624Z-5b07cc.md`
+- Next: Keep the live Vercel/Neon path monitored; schedule backup/rollback drill and optional Turnstile/Netlify/VPS follow-up.

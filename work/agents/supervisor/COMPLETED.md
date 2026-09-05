@@ -37,3 +37,5 @@
 - 2026-09-04T21:28:37Z - `UA-0038` - Correct final release SHA evidence - pending review - `work/reports/inbox/UA-0038-20260904T212837Z-3ea133.md`
 
 - 2026-09-04T21:37:55Z - `UA-0039` - Normalize final release evidence references - pending review - `work/reports/inbox/UA-0039-20260904T213755Z-def16b.md`
+
+- 2026-09-05T08:46:24Z - `UA-0040` - OSBlog modern release roadmap and external deployment - pending review - `work/reports/inbox/UA-0040-20260905T084624Z-5b07cc.md`
