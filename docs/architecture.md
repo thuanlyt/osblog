@@ -2,7 +2,7 @@
 
 *Tiếng Việt (tóm tắt): [docs/vi/architecture.md](vi/architecture.md)*
 
-**Status:** implemented and reviewed. This replaces an earlier scaffold-era version of this document that described `api/render.ts`, per-route Vercel functions, and a placeholder admin UI — none of that shape exists anymore. What is described below is the current single-router architecture, verified locally with 64 passing unit/component/SQL integration tests plus 2 compiled-browser E2E tests. Production deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` is live on both requested Vercel hostnames and passed the dated route smoke recorded in [Deployment](deployment.md).
+**Status:** implemented and reviewed. This replaces an earlier scaffold-era version of this document that described `api/render.ts`, per-route Vercel functions, and a placeholder admin UI — none of that shape exists anymore. What is described below is the current single-router architecture, verified locally with 64 passing unit/component/SQL integration tests plus 2 compiled-browser E2E tests. The GitHub-linked Vercel production deployment on `main` is live on both requested hostnames and passed the dated route smoke recorded in [Deployment](deployment.md).
 
 ## Decision in one paragraph
 

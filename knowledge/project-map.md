@@ -18,7 +18,7 @@ OSBlog has a real Vite/React SSR application, SQL-backed admin/comments and co-l
 | Assets | `public/assets/`: original editorial SVGs; local font packages |
 | Verification | `tests/server/`, `src/app/*.test.tsx`, `tests/browser/`, `tests/useagent-conformance/replay.py` |
 
-Vercel production deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` is READY and live on both requested hostnames; health and route smoke confirmed Neon connectivity and SSR/media outputs. A genuine Cap walkthrough is tracked under `public/media/`, and local unit/browser/build gates pass. Netlify is an implemented adapter, not a verified deployment; rollback/restore drills remain open. Consult the live registry for writer ownership. Secrets, draft and raw test recordings stay ignored.
+The GitHub-linked Vercel production deployment on `main` is READY and live on both requested hostnames; health and route smoke confirmed Neon connectivity and SSR/media outputs. A genuine Cap walkthrough is tracked under `public/media/`, and local unit/browser/build gates pass. Netlify is an implemented adapter, not a verified deployment; rollback/restore drills remain open. Consult the live registry for writer ownership. Secrets, draft and raw test recordings stay ignored.
 
 ## Archived scaffold map (historical only)
 
