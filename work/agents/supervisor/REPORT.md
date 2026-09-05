@@ -153,3 +153,10 @@ Vercel alias rollback rehearsal passed against the live primary alias and was re
 
 - Report: `work/reports/inbox/UA-0066-20260905T090716Z-e0114d.md`
 - Next: Authenticate Neon CLI, create a short-lived disposable branch, and run the non-production backup/restore rehearsal before the next schema migration.
+
+## 2026-09-05T09:13:07Z - UA-0068 (completed)
+
+Refreshed recovery evidence after the fa7f343 documentation deployment; latest READY Vercel deployment and four OSBlog aliases are recorded, and both production hosts passed the post-deploy smoke.
+
+- Report: `work/reports/inbox/UA-0068-20260905T091307Z-511e92.md`
+- Next: Keep UA-0067 planned until Neon CLI authentication is available, then run the disposable non-production backup/restore rehearsal.

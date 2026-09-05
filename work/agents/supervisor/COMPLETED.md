@@ -43,3 +43,5 @@
 - 2026-09-05T08:54:37Z - `UA-0065` - Audit superseded Astra handover - pending review - `work/reports/inbox/UA-0065-20260905T085437Z-184086.md`
 
 - 2026-09-05T09:07:16Z - `UA-0066` - Run disposable Neon backup restore and Vercel alias rollback drill - pending review - `work/reports/inbox/UA-0066-20260905T090716Z-e0114d.md`
+
+- 2026-09-05T09:13:07Z - `UA-0068` - Refresh live recovery evidence after documentation deploy - pending review - `work/reports/inbox/UA-0068-20260905T091307Z-511e92.md`

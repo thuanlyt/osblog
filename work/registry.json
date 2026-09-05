@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T09:09:42Z",
+  "updated_at": "2026-09-05T09:13:21Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -4342,6 +4342,63 @@
       "attempts": 0,
       "created_at": "2026-09-05T09:09:42Z",
       "updated_at": "2026-09-05T09:09:42Z"
+    },
+    "UA-0068": {
+      "id": "UA-0068",
+      "title": "Refresh live recovery evidence after documentation deploy",
+      "objective": "Keep the recovery evidence anchored to the latest GitHub-linked production deployment after the UA-0066 documentation push.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence/UA-0068-review.md",
+        "work/evidence/ops-recovery-drill.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Inspect the latest READY Vercel deployment for commit fa7f343; verify both production aliases point to it; rerun concise live smoke for health, home, docs, sitemap, robots, GIF and MP4; update the historical evidence without exposing secrets; record a reviewable command/result."
+      ],
+      "verification": [
+        "Vercel inspect is READY, alias mapping is current, both hosts pass expected HTTP/content checks, useagent validate and git diff --check pass."
+      ],
+      "files": [
+        "work/evidence/ops-recovery-drill.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Latest Vercel deployment for fa7f343 inspected READY",
+          "recorded_at": "2026-09-05T09:13:07Z"
+        },
+        {
+          "kind": "check",
+          "value": "Both production aliases and the project aliases map to the latest deployment",
+          "recorded_at": "2026-09-05T09:13:07Z"
+        },
+        {
+          "kind": "check",
+          "value": "Both production hosts passed health, SSR/docs, sitemap, robots, GIF and MP4 smoke",
+          "recorded_at": "2026-09-05T09:13:07Z"
+        },
+        {
+          "kind": "review",
+          "value": "UA-0068 review passed: post-push READY deployment fa7f343 is recorded, current alias mapping and both-host live smoke are evidenced, and no actionable finding exists. See work/evidence/UA-0068-review.md.",
+          "recorded_at": "2026-09-05T09:13:21Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0068-20260905T091307Z-511e92.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T09:12:20Z",
+      "updated_at": "2026-09-05T09:13:21Z",
+      "last_result": "completed"
     }
   }
 }

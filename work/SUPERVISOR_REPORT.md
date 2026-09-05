@@ -11,7 +11,7 @@ This is the current supervisor snapshot. The requested Vercel/Neon production pa
 - **Live smoke:** both hosts returned `200` for `/api/healthz`, `/`, a seeded article, `/docs`, Vietnamese docs, `/docs/deployment`, `/sitemap.xml`, `/robots.txt`, the Cap GIF and MP4; `/admin` returned `303` to the primary `/admin/login`. Health reported `database=connected`; article HTML exposed BlogPosting JSON-LD, OG image and hreflang. A reversible rollback rehearsal temporarily pointed the primary alias at the previous READY deployment, passed health/docs/content smoke, and restored the current deployment.
 - **Media:** genuine Cap walkthrough files are committed at `public/media/osblog-cap-demo.gif` and `public/media/osblog-cap-demo.mp4`; raw forensic trace bundles remain ignored.
 - **Local gates:** 17 Vitest files / 64 tests passed; 2 compiled-browser E2E tests passed; typecheck, lint, production build, `npm audit --audit-level=high`, `python tools/useagent.py validate` (`VALID`), conformance replay (`REPLAY_PASS`) and staged/repository secret-path checks passed.
-- **Control plane:** 45 tasks are `done`, 21 are `cancelled`, 1 is `planned`, and none are active/reported/blocked. UA-0041's failed Astra handover was audited in UA-0065 and mapped to later fallback evidence; UA-0066 recorded the recovery rehearsal and UA-0067 is queued for the authenticated Neon drill.
+- **Control plane:** 46 tasks are `done`, 21 are `cancelled`, 1 is `planned`, and none are active/reported/blocked. UA-0041's failed Astra handover was audited in UA-0065 and mapped to later fallback evidence; UA-0066 recorded the recovery rehearsal, UA-0068 refreshed post-push evidence, and UA-0067 is queued for the authenticated Neon drill.
 
 ## Remaining operational gaps
 
@@ -32,6 +32,7 @@ This is the current supervisor snapshot. The requested Vercel/Neon production pa
 - [UA-0061 help-contract report](reports/inbox/UA-0061-20260905T082100Z-ff66cd.md)
 - [UA-0066 operations recovery evidence](evidence/ops-recovery-drill.md)
 - [UA-0066 review evidence](evidence/UA-0066-review.md)
+- [UA-0068 post-push review evidence](evidence/UA-0068-review.md)
 - [latest conformance checkpoint](checkpoints/20260905T085209Z-isolated-conformance-replay.md)
 
 ## Next action

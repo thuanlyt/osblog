@@ -59,3 +59,7 @@ Both `https://osblog.thuanlyt.id.vn` and `https://osblog.vercel.app` returned `2
 ## Remaining action
 
 Authenticate Neon CLI, create a disposable branch with a short TTL, and perform a non-production backup/restore rehearsal. Do not run a destructive restore against the production branch as part of that first exercise.
+
+## Post-push verification
+
+The documentation commit `fa7f343` produced Vercel deployment `dpl_3zAiAohhMcEPSgRygr1msH1zedo2` (`osblog-aphdmwdo2-thuanlyts-projects.vercel.app`), which inspected as `READY`. After that deploy, Vercel showed `osblog.thuanlyt.id.vn`, `osblog.vercel.app`, `osblog-git-main-thuanlyts-projects.vercel.app`, and `osblog-thuanlyts-projects.vercel.app` all pointing to the new deployment. Both production hosts again returned `200` with expected markers for `/api/healthz`, `/`, `/docs`, `/docs/backups-and-rollback`, `/sitemap.xml`, `/robots.txt`, and the Cap GIF/MP4; the GIF and MP4 response types were `image/gif` and `video/mp4`.
