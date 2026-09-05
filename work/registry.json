@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T15:02:19Z",
+  "updated_at": "2026-09-05T15:11:48Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -5174,7 +5174,7 @@
       "title": "Roll out published-slug history to Neon and Vercel",
       "objective": "Safely apply migration 0004 after backup and preflight, deploy the reviewed redirect-aware code, and verify historical URL behavior on both production aliases.",
       "level": "L4",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "supervisor",
       "assigned_to": "supervisor",
       "scope": [
@@ -5220,15 +5220,112 @@
           "kind": "check",
           "value": "No db:migrate, push, Vercel deployment or production mutation executed",
           "recorded_at": "2026-09-05T14:52:58Z"
+        },
+        {
+          "kind": "check",
+          "value": "Neon disposable branch backup/restore rehearsal: PASS",
+          "recorded_at": "2026-09-05T15:06:50Z"
+        },
+        {
+          "kind": "check",
+          "value": "Production preflight and migration 0004/replay: PASS",
+          "recorded_at": "2026-09-05T15:06:50Z"
+        },
+        {
+          "kind": "check",
+          "value": "GitHub main push and Vercel READY deployment: PASS",
+          "recorded_at": "2026-09-05T15:06:50Z"
+        },
+        {
+          "kind": "check",
+          "value": "Both aliases live current/unknown/docs/feed/sitemap/robots smoke: PASS",
+          "recorded_at": "2026-09-05T15:06:50Z"
+        },
+        {
+          "kind": "check",
+          "value": "Positive live historical 308: not run; no existing historical alias and no content mutation authorized",
+          "recorded_at": "2026-09-05T15:06:50Z"
         }
       ],
       "reports": [
-        "work/reports/inbox/UA-0080-20260905T145258Z-7a1111.md"
+        "work/reports/inbox/UA-0080-20260905T145258Z-7a1111.md",
+        "work/reports/inbox/UA-0080-20260905T150650Z-f528ba.md"
       ],
       "attempts": 2,
       "created_at": "2026-09-05T14:50:38Z",
-      "updated_at": "2026-09-05T15:02:19Z",
+      "updated_at": "2026-09-05T15:06:50Z",
       "last_result": "blocked"
+    },
+    "UA-0081": {
+      "id": "UA-0081",
+      "title": "Refresh public docs after slug-history production rollout",
+      "objective": "Make README, changelog, architecture and recovery docs accurately reflect the live migration 0004 deployment and remaining historical-alias evidence boundary.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "README.md",
+        "README.vi.md",
+        "CHANGELOG.md",
+        "docs/architecture.md",
+        "docs/backups-and-rollback.md",
+        "docs/vi/architecture.md",
+        "docs/vi/backups-and-rollback.md",
+        "knowledge/architecture.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "Bilingual public docs state that production runs migrations 0000-0004 and current slug-history code is deployed; backup/restore evidence and live current-route evidence are linked; no stale pending-0004 claim remains; the lack of a positive live historical alias fixture is explicit."
+      ],
+      "verification": [
+        "rg stale migration/status claims; python tools/useagent.py validate; git diff --check."
+      ],
+      "files": [
+        "CHANGELOG.md",
+        "README.md",
+        "README.vi.md",
+        "docs/architecture.md",
+        "docs/backups-and-rollback.md",
+        "docs/vi/architecture.md",
+        "docs/vi/backups-and-rollback.md",
+        "knowledge/architecture.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "rg stale pending-0004/four-migration/64-test claims in touched docs: none",
+          "recorded_at": "2026-09-05T15:11:47Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-05T15:11:47Z"
+        },
+        {
+          "kind": "check",
+          "value": "git diff --check: no content errors; LF/CRLF normalization warnings only",
+          "recorded_at": "2026-09-05T15:11:47Z"
+        },
+        {
+          "kind": "review",
+          "value": "PASS — bilingual public docs match the current Neon/Vercel deployment and explicitly disclose the remaining positive live historical-alias fixture boundary; no stale migration state claims remain.",
+          "recorded_at": "2026-09-05T15:11:48Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0081-20260905T151147Z-08cb76.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T15:07:09Z",
+      "updated_at": "2026-09-05T15:11:48Z",
+      "last_result": "completed"
     }
   }
 }

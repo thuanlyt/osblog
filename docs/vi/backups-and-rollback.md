@@ -2,11 +2,11 @@
 
 *English: [docs/backups-and-rollback.md](../backups-and-rollback.md)*
 
-**Trạng thái hiện tại (2026-09-05):** một database Neon Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát và liên kết với deployment Vercel production đang live. Các migration `0000` đến `0003` đã chạy trên đó, và chạy lại các migration production này cho kết quả nhất quán (idempotent). Repository hiện có thêm migration bổ sung `0004_post_slug_history.sql`, đã kiểm tra cục bộ nhưng chưa áp dụng vào production. Smoke route live và rehearsal rollback alias Vercel có thể hoàn tác đã pass. Backup/restore Neon vẫn chưa được xác minh vì phiên Neon CLI local chưa đăng nhập.
+**Trạng thái hiện tại (2026-09-05):** một database Neon Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát và liên kết với deployment Vercel production đang live. Các migration `0000` đến `0004` đã chạy trên đó, và replay bộ migration production cho kết quả nhất quán (idempotent). Smoke route live, rehearsal restore branch Neon dùng một lần, và rehearsal rollback alias Vercel có thể hoàn tác đều pass. Công cụ dump/restore native và fixture alias lịch sử live vẫn còn mở.
 
 ## Migration database
 
-Nguồn schema chính là [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Có năm file migration đã rà soát trong [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/); chỉ bốn file đầu đã áp dụng vào production:
+Nguồn schema chính là [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Có năm file migration đã rà soát trong [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/); cả năm đã áp dụng vào production sau cổng backup/preflight của UA-0080:
 
 | Migration | Nội dung |
 |---|---|
@@ -14,9 +14,9 @@ Nguồn schema chính là [`src/server/schema.ts`](https://github.com/thuanlyt/o
 | `0001_auth_tables.sql` | Các bảng `user`, `session`, `account`, và bảng verification của Better Auth. |
 | `0002_precision_and_constraints.sql` | Chỉnh độ chính xác và ràng buộc bổ sung cho schema nội dung. |
 | `0003_auth_issuer.sql` | Sửa trường `issuer` của account auth, dùng để phân biệt tài khoản dựa trên credential. |
-| `0004_post_slug_history.sql` | Bảng bổ sung, backfill xác định được, và trigger giữ quyền sở hữu slug đã xuất bản vĩnh viễn; đang chờ cổng rollout provider. |
+| `0004_post_slug_history.sql` | Registry bổ sung, backfill xác định được, và trigger giữ quyền sở hữu slug đã xuất bản vĩnh viễn; đã áp dụng sau rehearsal restore branch và preflight không có xung đột. |
 
-`npm run db:migrate` (xem [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) áp dụng mọi file migration trong một transaction duy nhất, được bảo vệ bởi advisory lock của Postgres (để các lần chạy đồng thời không xung đột) và một bảng theo dõi `osblog_migration` khóa theo tên kèm checksum SHA-256 của nội dung file. Chạy lại sau khi mọi migration hiện có đã áp dụng là no-op; chạy trên một file mà nội dung đã áp dụng bị thay đổi sẽ ném lỗi thay vì âm thầm áp dụng lại. Bộ chạy đã được replay cục bộ đến `0004`; production hiện vẫn ở `0003` cho đến khi cổng backup/preflight/migration riêng biệt đạt.
+`npm run db:migrate` (xem [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) áp dụng mọi file migration trong một transaction duy nhất, được bảo vệ bởi advisory lock của Postgres (để các lần chạy đồng thời không xung đột) và một bảng theo dõi `osblog_migration` khóa theo tên kèm checksum SHA-256 của nội dung file. Chạy lại sau khi mọi migration hiện có đã áp dụng là no-op; chạy trên một file mà nội dung đã áp dụng bị thay đổi sẽ ném lỗi thay vì âm thầm áp dụng lại. Bộ chạy đã áp dụng trên branch dùng một lần và production, sau đó replay cả hai đều không có migration mới.
 
 Trước khi chạy migration trên một target thật:
 
@@ -33,7 +33,7 @@ Neon Postgres cung cấp point-in-time restore và branching ngay ở gói miễ
 - Sao lưu hoặc mở branch dùng một lần ngay trước khi chạy bất kỳ migration nào trên database production.
 - Ghi lại định danh bản sao lưu/branch cùng bằng chứng migration trong báo cáo công việc, không chỉ trong tin nhắn chat.
 
-Việc sao lưu/restore từ branch của Neon chưa được thực hiện thử nghiệm đầu-cuối cho dự án này — hãy coi các bước trên là quy trình, không phải một lần diễn tập đã hoàn tất. Cycle vận hành ngày 2026-09-05 không thể tạo branch disposable: `npx neon@latest profile list -o json` trả về profile `DEFAULT` chưa xác thực (`account: "-"`), và `neon status` yêu cầu OAuth qua trình duyệt. Không có mutation nào trên database production. Hãy đăng nhập Neon CLI, tạo branch có thời hạn ngắn, ghi lại định danh, rồi thực hiện rehearsal restore trước migration schema tiếp theo.
+UA-0080 đã diễn tập branching Neon đầu-cuối mà không thay đổi dữ liệu production: tạo `useagent-slug-rollout-20260905` từ `main`, migrate/replay, giữ snapshot dưới tên `useagent-slug-migrated-20260905`, rồi restore branch dùng một lần về `^parent`. Branch sau restore trở lại `0000`–`0003` không có bảng history, còn snapshot giữ `0004`. ID branch và thời hạn được ghi trong evidence công việc; host chưa có `pg_dump`/`pg_restore` native.
 
 ## Rollback mã nguồn
 
@@ -50,7 +50,7 @@ Vì post và category dùng soft delete (trạng thái `archived`, không xóa c
 
 ## Những gì vẫn chưa xác minh
 
-- Sao lưu/restore từ branch của Neon chưa được thử nghiệm cho một sự cố thật; blocker hiện tại là Neon CLI chưa xác thực.
+- Sao lưu/restore từ branch Neon dùng một lần đã được thử nghiệm và xác minh; dump/restore native và load-test tranh chấp lock provider vẫn còn mở.
 - Rollback alias triển khai đã được rehearsal an toàn trên alias production chính và khôi phục thành công.
 - Cơ chế khóa migration khi chạy đồng thời được bảo vệ bởi advisory lock nhưng chưa được load-test.
 - Mục tiêu thời gian khôi phục và mức mất dữ liệu chấp nhận được chưa được chủ dự án định nghĩa.

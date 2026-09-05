@@ -109,3 +109,7 @@
 - 2026-09-05T14:50:02Z - `UA-0079` - `supervisor` - completed - `work/reports/inbox/UA-0079-20260905T145002Z-fe0c92.md`
 
 - 2026-09-05T14:52:58Z - `UA-0080` - `supervisor` - blocked - `work/reports/inbox/UA-0080-20260905T145258Z-7a1111.md`
+
+- 2026-09-05T15:06:50Z - `UA-0080` - `supervisor` - blocked - `work/reports/inbox/UA-0080-20260905T150650Z-f528ba.md`
+
+- 2026-09-05T15:11:47Z - `UA-0081` - `supervisor` - completed - `work/reports/inbox/UA-0081-20260905T151147Z-08cb76.md`

@@ -2,11 +2,11 @@
 
 *Tiếng Việt: [docs/vi/backups-and-rollback.md](vi/backups-and-rollback.md)*
 
-**Current status (2026-09-05):** a real Neon Postgres database (`osblog-db`, Singapore region) is provisioned and linked to the live Vercel production deployment. Migrations `0000` through `0003` have run against it, and replaying those production migrations is idempotent. The repository now also contains additive `0004_post_slug_history.sql`, locally verified but not applied to production. Live route smoke and a reversible Vercel alias rollback rehearsal have passed. Neon backup/restore remains unverified because the local Neon CLI session is not authenticated.
+**Current status (2026-09-05):** a real Neon Postgres database (`osblog-db`, Singapore region) is provisioned and linked to the live Vercel production deployment. Migrations `0000` through `0004` have run against it, and replaying the production migration runner is idempotent. Live route smoke, a disposable Neon branch restore rehearsal, and a reversible Vercel alias rollback rehearsal have passed. Native dump/restore tooling and a positive live historical-alias fixture remain open.
 
 ## Database migrations
 
-The schema source of truth is [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Five reviewed migration files exist under [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/); only the first four have been applied to production:
+The schema source of truth is [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Five reviewed migration files exist under [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/); all five have been applied to production after the UA-0080 backup/preflight gate:
 
 | Migration | Covers |
 |---|---|
@@ -14,9 +14,9 @@ The schema source of truth is [`src/server/schema.ts`](https://github.com/thuanl
 | `0001_auth_tables.sql` | Better Auth's `user`, `session`, `account`, and verification tables. |
 | `0002_precision_and_constraints.sql` | Additional precision and constraint fixes on the content schema. |
 | `0003_auth_issuer.sql` | Fixes the auth account `issuer` field used to distinguish credential-based accounts. |
-| `0004_post_slug_history.sql` | Locally verified additive registry, deterministic backfill, and database ownership trigger for permanent published slugs; pending the provider rollout gate. |
+| `0004_post_slug_history.sql` | Additive registry, deterministic backfill, and database ownership trigger for permanent published slugs; applied after disposable-branch restore rehearsal and zero-conflict preflight. |
 
-`npm run db:migrate` (see [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) applies every migration file inside a single transaction, guarded by a Postgres advisory lock (so concurrent runs don't race) and an `osblog_migration` tracking table keyed by name and a SHA-256 checksum of the file contents. Re-running it after all available migrations are applied is a no-op; running it against a file whose already-applied contents changed throws instead of silently reapplying. The runner has been replayed locally through `0004`; production currently remains at `0003` until the separate backup/preflight/migration gate passes.
+`npm run db:migrate` (see [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) applies every migration file inside a single transaction, guarded by a Postgres advisory lock (so concurrent runs don't race) and an `osblog_migration` tracking table keyed by name and a SHA-256 checksum of the file contents. Re-running it after all available migrations are applied is a no-op; running it against a file whose already-applied contents changed throws instead of silently reapplying. The runner was applied to the disposable branch and production, then replayed on both with no additional migrations.
 
 Before running a migration against a real target:
 
@@ -33,7 +33,7 @@ Neon Postgres provides point-in-time restore and branching on the free tier used
 - Take a provider backup or disposable branch immediately before running any migration against the production database.
 - Record the backup/branch identifier alongside the migration evidence in the work report, not just in a chat message.
 
-Neon backup/branch-restore has not been exercised end to end against this project yet — treat the steps above as the procedure, not a completed drill. The 2026-09-05 operations cycle could not create a disposable branch: `npx neon@latest profile list -o json` reported the unauthenticated `DEFAULT` profile (`account: "-"`), and `neon status` required browser OAuth. No production database mutation was made. Authenticate the Neon CLI, create a short-lived branch, record its identifier, and run the restore rehearsal before the next schema migration.
+UA-0080 exercised Neon branching end to end without changing production data: `useagent-slug-rollout-20260905` was created from `main`, migrated and replayed, preserved as `useagent-slug-migrated-20260905`, and the disposable branch was restored to `^parent`. The restored branch returned to `0000`–`0003` with no history table while the preserved snapshot retained `0004`. Branch identifiers and expiry are recorded in the work evidence; native `pg_dump`/`pg_restore` remain unavailable on the host.
 
 ## Code rollback
 
@@ -50,7 +50,7 @@ Because posts and categories use soft deletion (`archived` status, not a hard de
 
 ## What is still unverified
 
-- Neon backup/branch-restore has not been exercised for an actual incident; the current blocker is CLI authentication.
+- Neon disposable-branch backup/restore has been exercised and verified; native dump/restore and provider lock-contention load testing remain open.
 - Deployment-alias rollback has been rehearsed safely against the live primary alias and restored successfully.
 - Migration locking behavior under concurrent operator runs is guarded by an advisory lock but has not been load-tested.
 - Recovery time and acceptable data-loss objectives have not been defined by the project owner.

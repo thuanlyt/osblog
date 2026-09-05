@@ -202,3 +202,17 @@ Read-only production preflight is clean (all four ownership-conflict counters ar
 
 - Report: `work/reports/inbox/UA-0080-20260905T145258Z-7a1111.md`
 - Next: Authenticate Neon in an operator-controlled browser/session, create and verify a disposable backup/restore checkpoint, then rerun UA-0080 before applying migration 0004 or pushing/deploying commit 68034d9.
+
+## 2026-09-05T15:06:50Z - UA-0080 (blocked)
+
+Neon backup/restore, clean preflight, production migration 0004, replay idempotence, GitHub push and Vercel READY deployment all passed. Both public aliases pass live current-route/health/docs/feed/sitemap/robots and unknown HTML/API safety smoke. The only unclosed acceptance evidence is a positive live historical 308 fixture: production has no existing old-slug alias, and creating one solely for testing would mutate public content.
+
+- Report: `work/reports/inbox/UA-0080-20260905T150650Z-f528ba.md`
+- Next: When a real published post is intentionally renamed, rerun live HTML/API 308 plus final canonical/hreflang/JSON-LD/sitemap smoke and attach the result; do not create a production fixture without an explicit content decision.
+
+## 2026-09-05T15:11:47Z - UA-0081 (completed)
+
+Synchronized README, README.vi.md, CHANGELOG.md, bilingual architecture and recovery docs, and knowledge architecture with live state: migrations 0000-0004 applied, branch restore and Vercel deployment verified, current/unknown route smoke passed, and no live historical alias fixture exists.
+
+- Report: `work/reports/inbox/UA-0081-20260905T151147Z-08cb76.md`
+- Next: Keep the documented historical-alias evidence boundary; rerun live 308/canonical/sitemap smoke after an intentional published-post rename, and continue separate Turnstile/non-Vercel/provider-contention work.

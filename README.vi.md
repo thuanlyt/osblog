@@ -13,10 +13,10 @@
 | Hạng mục | Trạng thái |
 |---|---|
 | Mã ứng dụng | Trang quản trị, trang công khai, bình luận, SEO, và cả hai adapter triển khai (Vercel, Netlify) đã được xây dựng và rà soát. |
-| Test tự động | 64 test unit/component/SQL integration đạt; 2 test E2E trên browser compile đạt; lint và typecheck đạt. |
-| Database | Một project Neon Free Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát. Các migration `0000`–`0003` đã chạy và replay lại vẫn nhất quán (idempotent); tài khoản admin đã được bootstrap; ba bài viết giới thiệu song ngữ đã được seed. |
+| Test tự động | 93 test unit/component/SQL integration đạt; 2 test E2E trên browser compile đạt; lint và typecheck đạt. |
+| Database | Một project Neon Free Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát. Các migration `0000`–`0004` đã chạy và replay lại vẫn nhất quán (idempotent); tài khoản admin đã được bootstrap; ba bài viết giới thiệu song ngữ đã được seed. |
 | Build production tại local | `npm run build` + `npm start` phục vụ dữ liệu bài viết thật và asset đã hash qua HTTP 200 trên `127.0.0.1`. |
-| Triển khai thật | **Đang live trên Vercel.** `https://osblog.thuanlyt.id.vn` là domain chính và `https://osblog.vercel.app` là alias phụ của deployment production liên kết GitHub trên `main`; cả hai đã đạt smoke test live gồm health Neon, trang SSR, sitemap, robots, redirect admin, GIF và MP4. Netlify đã có adapter nhưng chưa từng deploy. |
+| Triển khai thật | **Đang live trên Vercel.** `https://osblog.thuanlyt.id.vn` là domain chính và `https://osblog.vercel.app` là alias phụ của deployment production liên kết GitHub trên `main`; cả hai đã đạt smoke test live gồm health Neon, trang SSR/API hiện tại, an toàn slug, feed, sitemap, robots, GIF và MP4. Netlify đã có adapter nhưng chưa từng deploy. |
 | QA trình duyệt/E2E và media | Cổng browser compile đạt các luồng publish/comment/moderation thực và docs responsive; đã có walkthrough Cap thật trong [Media](docs/vi/media.md). |
 
 Mọi thông tin ở trên chỉ chính xác tại thời điểm ghi; xem [`work/SUPERVISOR_REPORT.md`](https://github.com/thuanlyt/osblog/blob/main/work/SUPERVISOR_REPORT.md) để biết trạng thái release được cập nhật liên tục.
@@ -29,6 +29,8 @@ Kho mã đã có [GIF walkthrough Cap thật](https://raw.githubusercontent.com/
 
 - **Mô hình nội dung song ngữ.** Mỗi bài viết có tiêu đề, tóm tắt, nội dung, alt text ảnh bìa, và trường SEO cho cả tiếng Anh lẫn tiếng Việt — không có bản nháp riêng theo ngôn ngữ.
 - **Trang quản trị thật** tại `/admin` (yêu cầu phiên đăng nhập Better Auth): toolbar Markdown, chế độ xem edit/preview/split, tab riêng cho từng ngôn ngữ, slug tự sinh từ tiêu đề tiếng Anh, URL ảnh bìa kèm alt text bắt buộc, tiêu đề/mô tả SEO riêng từng ngôn ngữ, trạng thái và ngày xuất bản, khôi phục bản nháp chưa lưu từ `localStorage`, và cảnh báo xung đột (optimistic concurrency) khi bài viết đã thay đổi kể từ lúc tải.
+- **Quyền sở hữu slug đã xuất bản vĩnh viễn.** Slug đã xuất bản được giữ trong registry bổ sung; bài public đổi tên sẽ redirect trực tiếp một bước `308` từ URL HTML/API cũ, nội dung ẩn vẫn `404`, còn canonical/sitemap chỉ dùng slug hiện tại.
+- **Feed RSS và Atom.** Endpoint `/feed.xml` và `/feed.atom` giới hạn số lượng, chỉ lấy bài đã xuất bản, hỗ trợ song ngữ, cache validator và được discover từ trang SSR công khai.
 - **Bình luận ẩn danh, có kiểm duyệt.** Độc giả chỉ cần gửi email và nội dung — không cần tài khoản. Mọi bình luận bắt đầu ở trạng thái `pending`, được bảo vệ bằng token form đã ký và giới hạn thời gian, một trường honeypot, và giới hạn tốc độ bền vững lưu trong database theo hash của IP và hash của email. Email người bình luận được mã hóa khi lưu trữ và không bao giờ trả về cho client công khai.
 - **Xóa có thể khôi phục cho nội dung, xóa vĩnh viễn cho bình luận.** Xóa bài viết hoặc category sẽ lưu trữ (archive, có thể khôi phục); xóa bình luận là xóa thật, vĩnh viễn.
 - **Trang công khai render phía server** kèm sitemap, robots, và metadata SEO cho từng bài viết, xây trên một router request dùng chung để cùng logic chạy được trên Vercel, Netlify, hoặc một server Node thuần.
@@ -67,7 +69,7 @@ npm test
 npm run build
 ```
 
-Tính đến 2026-09-05, các lệnh trên đạt tại local: 64 test unit/component/SQL integration, 2 test E2E trên browser compile, lint, typecheck, và build production. Cổng E2E dùng executable Chromium đã cài khi browser do Playwright quản lý chưa có sẵn; xem [docs/vi/getting-started.md](docs/vi/getting-started.md).
+Tính đến 2026-09-05, các lệnh trên đạt tại local: 93 test unit/component/SQL integration, 2 test E2E trên browser compile, lint, typecheck, và build production. Cổng E2E dùng executable Chromium đã cài khi browser do Playwright quản lý chưa có sẵn; xem [docs/vi/getting-started.md](docs/vi/getting-started.md).
 
 ## Kiến trúc, tóm tắt
 

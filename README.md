@@ -13,10 +13,10 @@
 | Area | State |
 |---|---|
 | Application code | Admin editor, public site, comments, SEO, and both deployment adapters (Vercel, Netlify) are implemented and reviewed. |
-| Automated tests | 64 unit/component/SQL integration tests pass; 2 compiled-browser E2E tests pass; lint and typecheck pass. |
-| Database | A real Neon Free Postgres project (`osblog-db`, Singapore region) is provisioned. Migrations `0000`–`0003` have run and replay is idempotent; the admin account is bootstrapped; three bilingual introduction posts are seeded. |
+| Automated tests | 93 unit/component/SQL integration tests pass; 2 compiled-browser E2E tests pass; lint and typecheck pass. |
+| Database | A real Neon Free Postgres project (`osblog-db`, Singapore region) is provisioned. Migrations `0000`–`0004` have run and replay is idempotent; the admin account is bootstrapped; three bilingual introduction posts are seeded. |
 | Local production build | `npm run build` + `npm start` serves real article data and hashed assets over HTTP 200 on `127.0.0.1`. |
-| Live deployment | **Live on Vercel.** `https://osblog.thuanlyt.id.vn` is primary and `https://osblog.vercel.app` is the secondary alias for the GitHub-linked production deployment on `main`; both passed live route smoke, including Neon health, SSR pages, sitemap, robots, admin redirect, GIF and MP4. Netlify has an implemented adapter but no deployment has been attempted. |
+| Live deployment | **Live on Vercel.** `https://osblog.thuanlyt.id.vn` is primary and `https://osblog.vercel.app` is the secondary alias for the GitHub-linked production deployment on `main`; both passed live route smoke, including Neon health, current SSR/API pages, slug safety, feeds, sitemap, robots, GIF and MP4. Netlify has an implemented adapter but no deployment has been attempted. |
 | Browser/E2E QA and media | The compiled-browser gate passes the real publishing/comment/moderation and responsive-docs flows; a genuine Cap walkthrough is available in [Media](docs/media.md). |
 
 Treat every claim above as current only as of the date shown; see [`work/SUPERVISOR_REPORT.md`](https://github.com/thuanlyt/osblog/blob/main/work/SUPERVISOR_REPORT.md) for the live release-gate record.
@@ -29,6 +29,8 @@ The repository includes a genuine [Cap walkthrough GIF](https://raw.githubuserco
 
 - **Bilingual content model.** Every post carries English and Vietnamese title, excerpt, body, cover alt text, and SEO fields side by side — there is no separate draft per language.
 - **Real admin editor** at `/admin` (Better Auth session required): a Markdown toolbar, edit/preview/split view, per-language tabs, slug auto-derived from the English title, cover image URL + mandatory alt text, per-language SEO title/description, status and publish date, unsaved-draft recovery from `localStorage`, and an optimistic-concurrency conflict prompt when a post changed since it was loaded.
+- **Permanent published-slug ownership.** Published slugs are retained in an additive registry; renamed visible posts resolve old HTML/API URLs with direct one-hop `308` redirects, while hidden content remains `404` and canonical/sitemap output stays current-only.
+- **RSS and Atom feeds.** Bounded, published-only, bilingual `/feed.xml` and `/feed.atom` endpoints include cache validators and are discoverable from public SSR pages.
 - **Anonymous, moderated comments.** Readers submit an email and a message only — no account. Every comment starts `pending`, protected by a signed, time-boxed form token, a honeypot field, and durable database-backed rate limits keyed by hashed IP and hashed email. Commenter email is encrypted at rest and never returned to public clients.
 - **Recoverable deletes for content, permanent for comments.** Deleting a post or category archives it (recoverable); deleting a comment is a real, permanent delete.
 - **Server-rendered public site** with sitemap, robots, and per-post SEO metadata, built on a single shared request router so the same logic runs on Vercel, Netlify, or a plain Node server.
@@ -67,7 +69,7 @@ npm test
 npm run build
 ```
 
-As of 2026-09-05 these pass locally: 64 unit/component/SQL integration tests, 2 compiled-browser E2E tests, lint, typecheck, and the production build. The E2E gate uses an installed Chromium executable when the latest Playwright-managed browser is unavailable; see [docs/getting-started.md](docs/getting-started.md).
+As of 2026-09-05 these pass locally: 93 unit/component/SQL integration tests, 2 compiled-browser E2E tests, lint, typecheck, and the production build. The E2E gate uses an installed Chromium executable when the latest Playwright-managed browser is unavailable; see [docs/getting-started.md](docs/getting-started.md).
 
 ## Architecture, in brief
 
