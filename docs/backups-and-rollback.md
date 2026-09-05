@@ -2,11 +2,11 @@
 
 *Tiếng Việt: [docs/vi/backups-and-rollback.md](vi/backups-and-rollback.md)*
 
-**Current status (2026-09-05):** a real Neon Postgres database (`osblog-db`, Singapore region) is provisioned and linked to the live Vercel production deployment. Migrations `0000` through `0003` have run against it, and replaying the migration runner is idempotent. Live route smoke is verified, and a reversible Vercel alias rollback rehearsal has now passed. Neon backup/restore remains unverified because the local Neon CLI session is not authenticated.
+**Current status (2026-09-05):** a real Neon Postgres database (`osblog-db`, Singapore region) is provisioned and linked to the live Vercel production deployment. Migrations `0000` through `0003` have run against it, and replaying those production migrations is idempotent. The repository now also contains additive `0004_post_slug_history.sql`, locally verified but not applied to production. Live route smoke and a reversible Vercel alias rollback rehearsal have passed. Neon backup/restore remains unverified because the local Neon CLI session is not authenticated.
 
 ## Database migrations
 
-The schema source of truth is [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Four reviewed migrations exist under [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/):
+The schema source of truth is [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Five reviewed migration files exist under [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/); only the first four have been applied to production:
 
 | Migration | Covers |
 |---|---|
@@ -14,8 +14,9 @@ The schema source of truth is [`src/server/schema.ts`](https://github.com/thuanl
 | `0001_auth_tables.sql` | Better Auth's `user`, `session`, `account`, and verification tables. |
 | `0002_precision_and_constraints.sql` | Additional precision and constraint fixes on the content schema. |
 | `0003_auth_issuer.sql` | Fixes the auth account `issuer` field used to distinguish credential-based accounts. |
+| `0004_post_slug_history.sql` | Locally verified additive registry, deterministic backfill, and database ownership trigger for permanent published slugs; pending the provider rollout gate. |
 
-`npm run db:migrate` (see [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) applies these inside a single transaction, guarded by a Postgres advisory lock (so concurrent runs don't race) and an `osblog_migration` tracking table keyed by name and a SHA-256 checksum of the file contents. Re-running it after all migrations are applied is a no-op; running it against a file whose already-applied contents changed throws instead of silently reapplying — this has been verified by replaying the runner against the four migrations above.
+`npm run db:migrate` (see [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) applies every migration file inside a single transaction, guarded by a Postgres advisory lock (so concurrent runs don't race) and an `osblog_migration` tracking table keyed by name and a SHA-256 checksum of the file contents. Re-running it after all available migrations are applied is a no-op; running it against a file whose already-applied contents changed throws instead of silently reapplying. The runner has been replayed locally through `0004`; production currently remains at `0003` until the separate backup/preflight/migration gate passes.
 
 Before running a migration against a real target:
 

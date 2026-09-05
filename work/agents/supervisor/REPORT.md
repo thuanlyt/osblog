@@ -181,3 +181,24 @@ Supervisor takeover completed after Astra quota exhaustion. Audited and retained
 
 - Report: `work/reports/inbox/UA-0077-20260905T144559Z-3f9ddf.md`
 - Next: Close review gate, then create the separate authorized Neon rollout task for backup/restore, count-only preflight, migration 0004 and live historical-URL smoke; do not apply production migration in this task.
+
+## 2026-09-05T14:49:10Z - UA-0078 (completed)
+
+Aligned bilingual architecture and backup/rollback docs with the current repository and provider state: five migration files exist, 0000-0003 are applied to production, 0004 is locally verified but pending backup/preflight rollout; updated local test count and corrected stale rollback wording.
+
+- Report: `work/reports/inbox/UA-0078-20260905T144910Z-c05965.md`
+- Next: Create and run the authorized provider rollout gate before pushing 0004-dependent code to the live Vercel aliases.
+
+## 2026-09-05T14:50:02Z - UA-0079 (completed)
+
+Refreshed the supervisor report after UA-0077/UA-0078 closure. It now records 53 done, 23 cancelled and 2 blocked tasks, local slug-history verification, feed live evidence, and the separate Neon backup/preflight/migration/live-smoke rollout gate.
+
+- Report: `work/reports/inbox/UA-0079-20260905T145002Z-fe0c92.md`
+- Next: Create and execute the authorized provider rollout gate; keep 0004-dependent source unpushed until the database migration is safely applied.
+
+## 2026-09-05T14:52:58Z - UA-0080 (blocked)
+
+Read-only production preflight is clean (all four ownership-conflict counters are zero) and production is confirmed at migrations 0000-0003 with no post_slug_history table. The rollout cannot safely proceed because Neon CLI is unauthenticated and no native pg_dump/pg_restore tools are available for a verified backup/restore checkpoint.
+
+- Report: `work/reports/inbox/UA-0080-20260905T145258Z-7a1111.md`
+- Next: Authenticate Neon in an operator-controlled browser/session, create and verify a disposable backup/restore checkpoint, then rerun UA-0080 before applying migration 0004 or pushing/deploying commit 68034d9.

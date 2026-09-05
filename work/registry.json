@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T14:46:09Z",
+  "updated_at": "2026-09-05T14:52:58Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -5053,6 +5053,182 @@
       "created_at": "2026-09-05T14:39:46Z",
       "updated_at": "2026-09-05T14:46:09Z",
       "last_result": "completed"
+    },
+    "UA-0078": {
+      "id": "UA-0078",
+      "title": "Align migration rollout documentation after slug-history review",
+      "objective": "Keep bilingual backup and architecture documentation truthful about repository migration 0004 versus the migrations already applied to production.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "docs/backups-and-rollback.md",
+        "docs/vi/backups-and-rollback.md",
+        "docs/architecture.md",
+        "docs/vi/architecture.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "English and Vietnamese docs distinguish five migration files in the repository from migrations 0000-0003 applied to production, describe 0004 as locally verified and pending provider rollout, and contain no stale count or ownership claim."
+      ],
+      "verification": [
+        "rg migration count/status wording across the touched docs; python tools/useagent.py validate; git diff --check."
+      ],
+      "files": [
+        "docs/architecture.md",
+        "docs/backups-and-rollback.md",
+        "docs/vi/architecture.md",
+        "docs/vi/backups-and-rollback.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "rg stale migration-count/status wording in touched docs: no stale four-file claim remains",
+          "recorded_at": "2026-09-05T14:49:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-05T14:49:10Z"
+        },
+        {
+          "kind": "check",
+          "value": "git diff --check: no content errors; LF/CRLF normalization warnings only",
+          "recorded_at": "2026-09-05T14:49:10Z"
+        },
+        {
+          "kind": "review",
+          "value": "PASS — English and Vietnamese docs consistently distinguish repository migration 0004 from production state 0000-0003; local verification and provider rollout blockers are explicit; no stale count or false production claim found.",
+          "recorded_at": "2026-09-05T14:49:11Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0078-20260905T144910Z-c05965.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T14:47:26Z",
+      "updated_at": "2026-09-05T14:49:11Z",
+      "last_result": "completed"
+    },
+    "UA-0079": {
+      "id": "UA-0079",
+      "title": "Refresh supervisor report after slug takeover",
+      "objective": "Record the current task counts, local slug-history gate, and explicit provider rollout next action in the supervisor report.",
+      "level": "L0",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/SUPERVISOR_REPORT.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "acceptance": [
+        "Supervisor report matches current registry status, links UA-0077/UA-0078 evidence, records local gates and states the separate Neon rollout blocker/next action without claiming production migration or redirect deployment."
+      ],
+      "verification": [
+        "python tools/useagent.py task list; python tools/useagent.py validate; inspect work/SUPERVISOR_REPORT.md."
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py task list: counts recorded in report match registry",
+          "recorded_at": "2026-09-05T14:50:02Z"
+        },
+        {
+          "kind": "check",
+          "value": "Evidence anchors include UA-0077 review, UA-0078 report and feed live smoke",
+          "recorded_at": "2026-09-05T14:50:02Z"
+        },
+        {
+          "kind": "review",
+          "value": "PASS — supervisor report matches the current registry counts and links the authoritative local verification/evidence; no production migration or redirect deployment is claimed.",
+          "recorded_at": "2026-09-05T14:50:02Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0079-20260905T145002Z-fe0c92.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T14:49:28Z",
+      "updated_at": "2026-09-05T14:50:02Z",
+      "last_result": "completed"
+    },
+    "UA-0080": {
+      "id": "UA-0080",
+      "title": "Roll out published-slug history to Neon and Vercel",
+      "objective": "Safely apply migration 0004 after backup and preflight, deploy the reviewed redirect-aware code, and verify historical URL behavior on both production aliases.",
+      "level": "L4",
+      "status": "blocked",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/evidence/slug-history-rollout.md",
+        "work/SUPERVISOR_REPORT.md",
+        "docs/backups-and-rollback.md",
+        "docs/vi/backups-and-rollback.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "acceptance": [
+        "A verified Neon backup or disposable restore checkpoint exists; preflight reports no ownership conflicts and reviewed skipped evidence; migration 0004 applies idempotently; reviewed source commit is pushed and deployed; both production aliases pass health, current/historical HTML/API redirect, hidden-target safety, SEO/sitemap and rollback smoke; evidence contains no secrets. If provider recovery authority is unavailable, record a precise blocker and do not mutate production."
+      ],
+      "verification": [
+        "Use authenticated provider tooling or protected operator environment; run preflight and migration exactly once with backup checkpoint; inspect Vercel READY deployment; run live HTTP/SQL smoke and record deployment/backup identifiers without credentials."
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence/slug-history-rollout.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Neon CLI profile read-only check: DEFAULT account/auth unavailable",
+          "recorded_at": "2026-09-05T14:52:58Z"
+        },
+        {
+          "kind": "check",
+          "value": "preflightSlugHistory read-only production check: malformed=0, missing=0, multiOwner=0, currentOwnerConflicts=0",
+          "recorded_at": "2026-09-05T14:52:58Z"
+        },
+        {
+          "kind": "check",
+          "value": "Production osblog_migration rows: 0000 through 0003; post_slug_history table: null",
+          "recorded_at": "2026-09-05T14:52:58Z"
+        },
+        {
+          "kind": "check",
+          "value": "No db:migrate, push, Vercel deployment or production mutation executed",
+          "recorded_at": "2026-09-05T14:52:58Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0080-20260905T145258Z-7a1111.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T14:50:38Z",
+      "updated_at": "2026-09-05T14:52:58Z",
+      "last_result": "blocked"
     }
   }
 }

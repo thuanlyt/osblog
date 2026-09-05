@@ -32,7 +32,7 @@ Shared request router (src/server/router.ts)
 - `src/server/` owns the router, schema, query services (`content.ts`, `comments.ts`, `docs.ts`, `pages.ts`), validation contracts, and auth configuration. It is imported only by server entry points and must never be bundled for the client.
 - `src/server/node-adapter.ts` adapts the `Request/Response`-based router to Node's `IncomingMessage`/`ServerResponse`, used by both `tools/server/start.ts` and, indirectly, by the Vercel/Netlify adapters (which run the same built router in their own request model).
 - `api/index.ts` and `netlify/functions/osblog.mts` are thin re-exports of the built `dist/server/index.js` handler — neither contains routing logic of its own.
-- `drizzle/` owns the four previously applied SQL migrations and additive `0004_post_slug_history.sql`, verified locally but not applied to production under UA-0073. `src/server/provision.ts` owns migration execution, slug-history preflight, admin bootstrap, and the optional content seed.
+- `drizzle/` owns the four previously applied SQL migrations and additive `0004_post_slug_history.sql`, verified locally under UA-0073/UA-0077 but not applied to production. `src/server/provision.ts` owns migration execution, slug-history preflight, admin bootstrap, and the optional content seed.
 
 ## Routes
 
@@ -136,11 +136,11 @@ npm run db:bootstrap    # creates the single admin account; never overwrites an 
 npm run db:seed         # optional, idempotent bilingual introduction content
 ```
 
-Migrations `0000_durable_content.sql` through `0003_auth_issuer.sql` have run against the provisioned Neon database and replay is idempotent (see [Backups and rollback](backups-and-rollback.md)). None of these three commands runs automatically as part of `npm run build` or any deployment — they are explicit operator steps.
+Migrations `0000_durable_content.sql` through `0003_auth_issuer.sql` have run against the provisioned Neon database and replay is idempotent (see [Backups and rollback](backups-and-rollback.md)). None of these operations runs automatically as part of `npm run build` or any deployment — they are explicit operator steps.
 
 Migration `0004_post_slug_history.sql` is an additive, local implementation awaiting its own production rollout gate. It locks post/audit writes while backfilling current published slugs and valid `before_summary.slug` values whose audited status was published. Candidates join to an existing post by ID, are deduplicated by slug/owner and retain the earliest available timestamp. Missing targets and malformed audit slugs are excluded. A slug associated with multiple posts, or with a different current owner (even a draft), aborts the entire migration before any changes commit. An operator must reconcile ambiguous ownership; the migration never chooses a winner.
 
-Before an authorized production rollout, call the read-only `preflightSlugHistory(db)` helper with the operator's database handle. It returns counts only: malformed published audit candidates, missing targets, multiple historical owners, and conflicts with current owners. It can run on the pre-0004 schema. Review any skipped evidence and require zero ownership conflicts, a verified backup/recovery checkpoint, a lock-duration check and a separate two-session PostgreSQL contention check. Local PGlite tests exercise competing application calls but serialize database sessions; they do not measure provider lock contention. No production preflight or Neon mutation was performed by UA-0073.
+Before an authorized production rollout, call the read-only `preflightSlugHistory(db)` helper with the operator's database handle. It returns counts only: malformed published audit candidates, missing targets, multiple historical owners, and conflicts with current owners. It can run on the pre-0004 schema. Review any skipped evidence and require zero ownership conflicts, a verified backup/recovery checkpoint, a lock-duration check and a separate two-session PostgreSQL contention check. Local PGlite tests exercise competing application calls but serialize database sessions; they do not measure provider lock contention. No production preflight or Neon mutation was performed by UA-0073/UA-0077.
 
 Apply the additive migration before deploying redirect-aware code. Older instances then preserve publication history through the trigger. A stale seed invocation racing a rename can still receive a collision; retry the idempotent seed after the concurrent write completes. Audit records cannot recover unaudited renames, deleted posts or missing historical events. Preservation for those unknown names starts at migration time, unless an operator separately supplies a reviewed mapping.
 
@@ -154,7 +154,7 @@ Rollback is two-dimensional: for code-only failures, point the deployment target
 npm ci
 npm run lint
 npm run typecheck
-npm test          # 64 unit/component/SQL integration tests as of 2026-09-05
+npm test          # 93 unit/component/SQL integration tests as of 2026-09-05
 npm run build
 npm run test:e2e  # 2 compiled-browser E2E tests as of 2026-09-05
 ```
@@ -165,7 +165,7 @@ What is verified as of 2026-09-05: schema, environment parsing, auth policy, com
 
 - **Slug redirects await rollout.** Registry, one-hop redirects and editor feedback are locally implemented; production backup, count-only preflight, lock/contending-session verification and migration 0004 remain separate operator gates.
 - **Turnstile is unwired.** The secret is accepted but unused; comments are not CAPTCHA-protected today.
-- **Non-Vercel operations remain open.** Netlify's adapter and the VPS path have not been exercised on their live platforms; Neon backup/restore and Vercel alias rollback drills are also pending. See [Deployment](deployment.md) and [Backups and rollback](backups-and-rollback.md).
+- **Non-Vercel and provider recovery remain open.** Netlify's adapter and the VPS path have not been exercised on their live platforms; Neon backup/restore and provider lock/contending-session checks remain pending. Vercel alias rollback has been rehearsed successfully. See [Deployment](deployment.md) and [Backups and rollback](backups-and-rollback.md).
 - **Coverage boundary.** The compiled-browser gate proves the tested publishing/comment/moderation and responsive-docs flows; it does not replace provider rollback/restore drills or a full exploratory audit of every admin screen.
 
 **Next action:** document and run a backup/rollback drill before the next material schema change, then consider Turnstile and non-Vercel deployment as separate follow-on work.

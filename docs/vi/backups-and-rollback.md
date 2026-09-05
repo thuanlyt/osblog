@@ -2,11 +2,11 @@
 
 *English: [docs/backups-and-rollback.md](../backups-and-rollback.md)*
 
-**Trạng thái hiện tại (2026-09-05):** một database Neon Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát và liên kết với deployment Vercel production đang live. Các migration `0000` đến `0003` đã chạy trên đó, và chạy lại (replay) bộ chạy migration cho kết quả nhất quán (idempotent). Smoke route live đã được xác minh, và rehearsal rollback alias Vercel có thể hoàn tác đã pass. Backup/restore Neon vẫn chưa được xác minh vì phiên Neon CLI local chưa đăng nhập.
+**Trạng thái hiện tại (2026-09-05):** một database Neon Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát và liên kết với deployment Vercel production đang live. Các migration `0000` đến `0003` đã chạy trên đó, và chạy lại các migration production này cho kết quả nhất quán (idempotent). Repository hiện có thêm migration bổ sung `0004_post_slug_history.sql`, đã kiểm tra cục bộ nhưng chưa áp dụng vào production. Smoke route live và rehearsal rollback alias Vercel có thể hoàn tác đã pass. Backup/restore Neon vẫn chưa được xác minh vì phiên Neon CLI local chưa đăng nhập.
 
 ## Migration database
 
-Nguồn schema chính là [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Bốn migration đã rà soát nằm trong [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/):
+Nguồn schema chính là [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Có năm file migration đã rà soát trong [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/); chỉ bốn file đầu đã áp dụng vào production:
 
 | Migration | Nội dung |
 |---|---|
@@ -14,8 +14,9 @@ Nguồn schema chính là [`src/server/schema.ts`](https://github.com/thuanlyt/o
 | `0001_auth_tables.sql` | Các bảng `user`, `session`, `account`, và bảng verification của Better Auth. |
 | `0002_precision_and_constraints.sql` | Chỉnh độ chính xác và ràng buộc bổ sung cho schema nội dung. |
 | `0003_auth_issuer.sql` | Sửa trường `issuer` của account auth, dùng để phân biệt tài khoản dựa trên credential. |
+| `0004_post_slug_history.sql` | Bảng bổ sung, backfill xác định được, và trigger giữ quyền sở hữu slug đã xuất bản vĩnh viễn; đang chờ cổng rollout provider. |
 
-`npm run db:migrate` (xem [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) áp dụng các migration này trong một transaction duy nhất, được bảo vệ bởi advisory lock của Postgres (để các lần chạy đồng thời không xung đột) và một bảng theo dõi `osblog_migration` khóa theo tên kèm checksum SHA-256 của nội dung file. Chạy lại sau khi mọi migration đã áp dụng là no-op; chạy trên một file mà nội dung đã áp dụng bị thay đổi sẽ ném lỗi thay vì âm thầm áp dụng lại — điều này đã được xác minh bằng cách replay bộ chạy trên bốn migration ở trên.
+`npm run db:migrate` (xem [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) áp dụng mọi file migration trong một transaction duy nhất, được bảo vệ bởi advisory lock của Postgres (để các lần chạy đồng thời không xung đột) và một bảng theo dõi `osblog_migration` khóa theo tên kèm checksum SHA-256 của nội dung file. Chạy lại sau khi mọi migration hiện có đã áp dụng là no-op; chạy trên một file mà nội dung đã áp dụng bị thay đổi sẽ ném lỗi thay vì âm thầm áp dụng lại. Bộ chạy đã được replay cục bộ đến `0004`; production hiện vẫn ở `0003` cho đến khi cổng backup/preflight/migration riêng biệt đạt.
 
 Trước khi chạy migration trên một target thật:
 

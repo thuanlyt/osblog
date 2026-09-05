@@ -31,7 +31,7 @@ Router request dùng chung (src/server/router.ts)
 - `src/entry-server.tsx` render mọi route thành chuỗi qua `renderToString` và dựng tài liệu HTML đầy đủ (thẻ SEO, JSON-LD, link asset đã hash) qua [`src/server/seo.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/seo.ts).
 - `src/server/` sở hữu router, schema, service truy vấn, contract validate, và cấu hình auth — chỉ được import bởi entry point phía server, không bao giờ vào bundle client.
 - `api/index.ts` và `netlify/functions/osblog.mts` chỉ re-export handler đã build từ `dist/server/index.js` — không chứa logic routing riêng.
-- `drizzle/` sở hữu bốn migration SQL đã áp dụng; [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts) sở hữu việc chạy migration, bootstrap admin, và seed nội dung tùy chọn.
+- `drizzle/` sở hữu bốn migration SQL đã áp dụng và migration bổ sung `0004_post_slug_history.sql` đã kiểm tra cục bộ nhưng chờ rollout; [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts) sở hữu việc chạy migration, preflight slug, bootstrap admin, và seed nội dung tùy chọn.
 
 ## Bảng route (tóm tắt)
 
@@ -50,13 +50,13 @@ Xem bảng API đầy đủ, hợp đồng entity, biến môi trường, kế h
 
 ## Trạng thái đã xác minh so với chưa xác minh
 
-**Đã xác minh cục bộ:** schema, chính sách auth, API post/comment/category, trang quản trị (component), health check, helper SEO, 64 test unit/component/SQL integration và 2 test browser compile đạt trên schema thật, tính đến 2026-09-05 (xem [`docs/architecture.md`](../architecture.md#verification-boundaries)). Database Neon thật đã được cấp phát, migrate (`0000`–`0003`), và seed.
+**Đã xác minh cục bộ:** schema, chính sách auth, API post/comment/category, trang quản trị (component), health check, helper SEO, 93 test unit/component/SQL integration và 2 test browser E2E đạt trên schema thật, tính đến 2026-09-05 (xem [`docs/architecture.md`](../architecture.md#verification-boundaries)). Database Neon thật đã được cấp phát, migrate (`0000`–`0003`), và seed.
 
 **Chưa xác minh:** xác minh Turnstile (chưa nối vào mã), triển khai Netlify/VPS, và drill sao lưu/khôi phục/rollback. Vercel/Neon production, browser E2E, SSR và media smoke đã đạt. Xem [Triển khai](deployment.md) và [Sao lưu và khôi phục](backups-and-rollback.md).
 
 ## Lịch sử slug đã xuất bản
 
-UA-0073 bổ sung migration `0004_post_slug_history.sql`, bảng `post_slug_history`, bộ phân giải URL cũ và cảnh báo trong editor. Thay đổi này được kiểm tra cục bộ; UA-0073 không chạy preflight trên production, không áp dụng migration và không ghi dữ liệu Neon.
+UA-0073/UA-0077 bổ sung và hoàn thiện migration `0004_post_slug_history.sql`, bảng `post_slug_history`, bộ phân giải URL cũ và cảnh báo trong editor. Thay đổi này được kiểm tra cục bộ; không task nào trong hai task chạy preflight trên production, áp dụng migration hay ghi dữ liệu Neon.
 
 Mỗi slug từng có trạng thái `published` (kể cả bài hẹn giờ) được giữ cho đúng một ID bài viết. Trigger cơ sở dữ liệu chạy sau INSERT hoặc UPDATE slug/status, dùng advisory lock trong transaction và trả SQLSTATE `23505` khi trùng quyền sở hữu. Slug đã xuất bản không được tái sử dụng, kể cả bởi chính bài cũ. Slug chỉ dùng cho bản nháp không bị giữ lại; bỏ xuất bản hoặc lưu trữ không giải phóng tên đã xuất bản. Ứng dụng chỉ lưu trữ bài; thao tác xóa vĩnh viễn được người vận hành cho phép riêng mới có thể xóa lịch sử theo cascade.
 

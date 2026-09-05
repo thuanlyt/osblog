@@ -51,3 +51,7 @@
 - 2026-09-05T09:53:36Z - `UA-0076` - Verify production RSS and Atom feeds - pending review - `work/reports/inbox/UA-0076-20260905T095336Z-790de0.md`
 
 - 2026-09-05T14:45:59Z - `UA-0077` - Take over slug-history implementation and verification - pending review - `work/reports/inbox/UA-0077-20260905T144559Z-3f9ddf.md`
+
+- 2026-09-05T14:49:10Z - `UA-0078` - Align migration rollout documentation after slug-history review - pending review - `work/reports/inbox/UA-0078-20260905T144910Z-c05965.md`
+
+- 2026-09-05T14:50:02Z - `UA-0079` - Refresh supervisor report after slug takeover - pending review - `work/reports/inbox/UA-0079-20260905T145002Z-fe0c92.md`

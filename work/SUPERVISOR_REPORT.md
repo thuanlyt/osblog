@@ -1,6 +1,6 @@
 # UseAgent supervisor report
 
-## Current cycle — slug-history takeover and local production gate (2026-09-05)
+## Current cycle — slug-history local gate and provider rollout blocked (2026-09-05)
 
 OSBlog remains a bilingual, open-source Vite + React + TypeScript Markdown blog with real Neon Postgres persistence, Better Auth admin access, post/category CRUD, editor preview, custom slug/cover/SEO fields, moderated email-only comments, SSR SEO, co-located docs, Cap media, and Vercel/Netlify/Node adapters.
 
@@ -10,7 +10,7 @@ OSBlog remains a bilingual, open-source Vite + React + TypeScript Markdown blog 
 - **Existing live evidence:** both production hosts previously passed health, SSR homepage/article/docs, sitemap, robots, admin redirect, Cap GIF and MP4 smoke; health reported `database=connected`, and article metadata exposed BlogPosting JSON-LD, OG image and hreflang.
 - **Recovery:** Vercel alias rollback was rehearsed against the previous READY deployment and restored. Neon backup/branch restore remains unverified because the local Neon CLI is unauthenticated; UA-0067 is explicitly blocked on that external state.
 - **Local gates:** 18 Vitest files / 93 tests passed; 2 compiled-browser E2E tests passed; typecheck, lint, production build, `npm audit --audit-level=high` (0 vulnerabilities), `python tools/useagent.py validate` (`VALID`), conformance replay (`REPLAY_PASS`) and diff/secret-path checks passed. UA-0077 review evidence covers the slug-history matrix.
-- **Control plane:** 51 tasks are `done`, 23 are `cancelled`, 2 are `blocked`, and UA-0077 is `in_progress` under supervisor takeover; none are assigned or reported. UA-0073 is blocked only because its Astra worker exhausted runtime quota without a report; UA-0076 closed the feed release gate; UA-0074 refreshed the knowledge ledger and Decision 0005.
+- **Control plane:** 53 tasks are `done`, 23 are `cancelled`, and 3 are `blocked`; none are active, assigned or reported. UA-0073 is blocked because its Astra worker exhausted runtime quota without a report; UA-0077 closed the local slug-history implementation gate; UA-0078 aligned bilingual rollout documentation; UA-0076 closed the feed release gate; UA-0080 is blocked on authenticated Neon backup/restore tooling.
 
 ## Remaining gaps
 
@@ -33,9 +33,11 @@ OSBlog remains a bilingual, open-source Vite + React + TypeScript Markdown blog 
 - [UA-0074 context review](evidence/UA-0074-review.md)
 - [UA-0076 feed live smoke](evidence/feed-live-smoke.md)
 - [UA-0077 takeover review](evidence/UA-0077-review.md)
+- [UA-0078 documentation report](reports/inbox/UA-0078-20260905T144910Z-c05965.md)
+- [UA-0080 rollout gate](evidence/slug-history-rollout.md)
 - [UA-0066 recovery evidence](evidence/ops-recovery-drill.md)
 - [UA-0067 blocked Neon item](items/UA-0067.md)
 
 ## Next action
 
-Close UA-0077 after this report review, then create the separate authorized provider rollout gate for Neon backup/restore, count-only preflight, migration 0004 and live historical-URL smoke; do not infer production redirects from local tests.
+Authenticate Neon in an operator-controlled browser/session, create and verify a disposable backup/restore checkpoint, then rerun UA-0080; until that external gate passes, keep commit `68034d9` local and do not deploy migration-dependent code.
