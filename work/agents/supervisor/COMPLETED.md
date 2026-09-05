@@ -39,3 +39,5 @@
 - 2026-09-04T21:37:55Z - `UA-0039` - Normalize final release evidence references - pending review - `work/reports/inbox/UA-0039-20260904T213755Z-def16b.md`
 
 - 2026-09-05T08:46:24Z - `UA-0040` - OSBlog modern release roadmap and external deployment - pending review - `work/reports/inbox/UA-0040-20260905T084624Z-5b07cc.md`
+
+- 2026-09-05T08:54:37Z - `UA-0065` - Audit superseded Astra handover - pending review - `work/reports/inbox/UA-0065-20260905T085437Z-184086.md`
