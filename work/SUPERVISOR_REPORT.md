@@ -1,40 +1,40 @@
 # UseAgent supervisor report
 
-## Current cycle — production release and recovery rehearsal (2026-09-05)
+## Current cycle — feed expansion and release gate preparation (2026-09-05)
 
-This is the current supervisor snapshot. The requested Vercel/Neon production path is **live and verified**; this does not imply that optional providers or disaster-recovery drills are complete.
+OSBlog remains a bilingual, open-source Vite + React + TypeScript Markdown blog with real Neon Postgres persistence, Better Auth admin access, post/category CRUD, editor preview, custom slug/cover/SEO fields, moderated email-only comments, SSR SEO, co-located docs, Cap media, and Vercel/Netlify/Node adapters.
 
-- **Product:** OSBlog is a bilingual Vite + React + TypeScript Markdown blog with real Neon Postgres persistence, Better Auth admin access, post/category CRUD, Markdown preview/editor, custom slug/cover/alt/SEO fields, anonymous moderated comments, SSR SEO, co-located docs and Vercel/Netlify/Node adapters.
-- **Worker attribution:** Claude delivered the bilingual docs and UI polish work recorded in UA-0042/0043/0046; Astra delivered independent runtime reviews in UA-0048/0053/0058. Astra's later bounded re-review attempt was stopped by the account usage limit before producing a report, so it is not counted as evidence. Supervisor-local completed the runtime and lifecycle follow-ups under UA-0056/0059/0061.
-- **Database:** Neon `osblog-db` (Free, Singapore) is connected to production; migrations `0000`–`0003` were applied idempotently, three bilingual seed posts exist, and the single admin identity was bootstrapped. Secrets and generated access details remain outside Git.
-- **Production:** the GitHub-linked `main` deployment is READY on Vercel and serves [`osblog.thuanlyt.id.vn`](https://osblog.thuanlyt.id.vn) as primary plus [`osblog.vercel.app`](https://osblog.vercel.app) as secondary. Both aliases point to the same application; HTML canonical metadata points to the primary.
-- **Live smoke:** both hosts returned `200` for `/api/healthz`, `/`, a seeded article, `/docs`, Vietnamese docs, `/docs/deployment`, `/sitemap.xml`, `/robots.txt`, the Cap GIF and MP4; `/admin` returned `303` to the primary `/admin/login`. Health reported `database=connected`; article HTML exposed BlogPosting JSON-LD, OG image and hreflang. A reversible rollback rehearsal temporarily pointed the primary alias at the previous READY deployment, passed health/docs/content smoke, and restored the current deployment.
-- **Media:** genuine Cap walkthrough files are committed at `public/media/osblog-cap-demo.gif` and `public/media/osblog-cap-demo.mp4`; raw forensic trace bundles remain ignored.
-- **Local gates:** 17 Vitest files / 64 tests passed; 2 compiled-browser E2E tests passed; typecheck, lint, production build, `npm audit --audit-level=high`, `python tools/useagent.py validate` (`VALID`), conformance replay (`REPLAY_PASS`) and staged/repository secret-path checks passed.
-- **Control plane:** 46 tasks are `done`, 21 are `cancelled`, 1 is `planned`, and none are active/reported/blocked. UA-0041's failed Astra handover was audited in UA-0065 and mapped to later fallback evidence; UA-0066 recorded the recovery rehearsal, UA-0068 refreshed post-push evidence, and UA-0067 is queued for the authenticated Neon drill.
+- **New capability:** UA-0069/UA-0072 add bounded RSS 2.0 (`/feed.xml`) and Atom 1.0 (`/feed.atom`) feeds with English/Vietnamese selection, published-only filtering, deterministic order, safe single-boundary XML escaping, ETag/HEAD/304, five-minute public caching and SSR discovery links. Focused tests cover exact text round trips and private/error-page omission.
+- **Worker attribution:** Astra (`Dirac`, `gpt-6-astra`, xhigh) implemented UA-0069 and corrected it in UA-0072. Codex fallback (`Turing`, `gpt-5.6-sol`, high) completed the read-only UA-0071 slug-history audit. Claude Sonnet 5 is not exposed in this runtime, so no Claude execution is claimed.
+- **Production:** the GitHub-linked `main` deployment is READY on Vercel at `osblog.thuanlyt.id.vn` (primary) and `osblog.vercel.app` (secondary). Neon `osblog-db` is connected; migrations `0000`–`0003` and the admin bootstrap are live. Feed code is implemented locally but has not yet been promoted; live feed smoke is the next release gate.
+- **Existing live evidence:** both production hosts previously passed health, SSR homepage/article/docs, sitemap, robots, admin redirect, Cap GIF and MP4 smoke; health reported `database=connected`, and article metadata exposed BlogPosting JSON-LD, OG image and hreflang.
+- **Recovery:** Vercel alias rollback was rehearsed against the previous READY deployment and restored. Neon backup/branch restore remains unverified because the local Neon CLI is unauthenticated; UA-0067 is explicitly blocked on that external state.
+- **Local gates:** 18 Vitest files / 83 tests passed; 2 compiled-browser E2E tests passed; typecheck, lint, production build, `npm audit --audit-level=high` (0 vulnerabilities), `python tools/useagent.py validate` (`VALID`), conformance replay (`REPLAY_PASS`) and diff/secret-path checks passed.
+- **Control plane:** 50 tasks are `done`, 22 are `cancelled`, 1 is `blocked`, and 1 is `planned`; none are active or reported. UA-0073 is gated on the reviewed slug audit and feed release; UA-0074 refreshed the knowledge ledger and Decision 0005.
 
-## Remaining operational gaps
+## Remaining gaps
 
-- Turnstile is accepted in configuration but not wired into comment verification.
-- Netlify and VPS execution have not been run against their live platforms.
-- Neon backup/restore has not been exercised because the local Neon CLI is unauthenticated and native dump tools are unavailable; the Vercel alias rollback rehearsal passed. Migration-lock load testing and recovery objectives remain undefined.
-- The primary Brave window is not exposed to this desktop CUA session, so deployment evidence comes from Vercel CLI/GitHub integration and live HTTP checks rather than a claim of direct Brave automation. The operator did manually configure DNS and accepted the Neon integration.
+- Feed endpoints and discovery links require live verification after the next authorized push.
+- Published-slug history/one-hop redirects are designed in [UA-0071 audit](evidence/slug-redirect-audit.md) but not implemented; UA-0073 is planned and must not apply a production migration without collision preflight and backup evidence.
+- Neon backup/restore is blocked on Neon CLI authentication and missing native dump tools; no production data mutation was attempted.
+- Turnstile is accepted in configuration but not wired into comment verification; Netlify and VPS adapters are implemented but not executed on their live platforms.
+- Migration-lock load testing and explicit recovery time/data-loss objectives remain undefined.
+- The primary Brave window is not exposed to this desktop CUA session; deployment evidence uses Vercel CLI/GitHub integration and live HTTP checks. The operator manually configured DNS and accepted the Neon integration.
 
 ## Evidence anchors
 
 - [README.md](../README.md), [README.vi.md](../README.vi.md)
-- [docs/deployment.md](../docs/deployment.md), [docs/media.md](../docs/media.md)
-- [UA-0040 release report](reports/inbox/UA-0040-20260905T084624Z-5b07cc.md)
-- [UA-0065 recovery audit](evidence/ua-0041-recovery.md)
-- [UA-0058 Astra runtime review](reviews/astra-final/UA-0058-review.md)
-- [UA-0056 runtime report](reports/inbox/UA-0056-20260905T075830Z-64d1fd.md)
-- [UA-0059 lifecycle report](reports/inbox/UA-0059-20260905T081117Z-697524.md)
-- [UA-0061 help-contract report](reports/inbox/UA-0061-20260905T082100Z-ff66cd.md)
-- [UA-0066 operations recovery evidence](evidence/ops-recovery-drill.md)
-- [UA-0066 review evidence](evidence/UA-0066-review.md)
-- [UA-0068 post-push review evidence](evidence/UA-0068-review.md)
-- [latest conformance checkpoint](checkpoints/20260905T085209Z-isolated-conformance-replay.md)
+- [docs/feeds.md](../docs/feeds.md), [docs/vi/feeds.md](../docs/vi/feeds.md)
+- [UA-0069 implementation report](reports/inbox/UA-0069-20260905T092830Z-3995ab.md)
+- [UA-0069 review](evidence/UA-0069-review.md)
+- [UA-0072 corrective report](reports/inbox/UA-0072-20260905T093726Z-6ced66.md)
+- [UA-0072 review](evidence/UA-0072-review.md)
+- [UA-0071 slug-history audit](evidence/slug-redirect-audit.md)
+- [UA-0071 review](evidence/UA-0071-review.md)
+- [UA-0074 context review](evidence/UA-0074-review.md)
+- [UA-0066 recovery evidence](evidence/ops-recovery-drill.md)
+- [UA-0067 blocked Neon item](items/UA-0067.md)
 
 ## Next action
 
-Start planned UA-0067 once Neon CLI authentication is available: create a short-lived disposable branch and exercise non-production backup/restore before the next material schema migration; keep Turnstile and non-Vercel deployment as separate follow-up items.
+Commit and push the reviewed feed implementation, then verify `/feed.xml` and `/feed.atom` live on both `osblog.thuanlyt.id.vn` and `osblog.vercel.app` before dispatching UA-0073.

@@ -27,3 +27,17 @@ Independent final review confirms UA-0053 F1/F2 runtime fixes: 34 runtime checks
 
 - Report: `work/reports/inbox/UA-0058-20260905T080830Z-07701a.md`
 - Next: Supervisor accepts local UA-0056 runtime evidence, assigns UA-0057 completed-result and role guard corrections with focused CLI regressions, refreshes knowledge cards, and requests lifecycle re-review before accepting UA-0057.
+
+## 2026-09-05T09:28:30Z - UA-0069 (completed)
+
+Implemented RSS 2.0 /feed.xml and Atom /feed.atom in the five registered files with bilingual published-only SQL feeds, a fixed 20-post limit, deterministic ordering, XML and excerpt safety, canonical absolute links, stable UUIDs, update dates, ETag/HEAD/304 caching, 14 focused tests and English/Vietnamese embedded docs. Existing runtime integration passes. Blockers: none. Initial null-date fixture failure corrected; no application regression found. No commit or push.
+
+- Report: `work/reports/inbox/UA-0069-20260905T092830Z-3995ab.md`
+- Next: Review UA-0069 changes and recorded checks, then supervisor review/QA and refresh knowledge/architecture.md and project-map.md for the feed routes and feed-only cache exception under an authorized scope. Five-minute feed cache freshness is documented; live feed smoke requires the later release workflow.
+
+## 2026-09-05T09:37:26Z - UA-0072 (completed)
+
+Fixed both UA-0069 P2 findings within the six registered files: RSS excerpt XML encoding now occurs once, matching Atom; direct parser text preserves original excerpts and literal entity strings without introducing XML elements. Public SSR head now advertises RSS and Atom with absolute language-aware URLs; private/error pages omit discovery. Added regression coverage and updated EN/VI docs. All specified checks pass. Blockers: none. No commit or push.
+
+- Report: `work/reports/inbox/UA-0072-20260905T093726Z-6ced66.md`
+- Next: Review UA-0072 against the two UA-0069 P2 findings, then complete supervisor QA for UA-0072 and UA-0069. Refresh knowledge cards for feed discovery and encoding under supervisor scope; live feed smoke belongs to the later authorized release workflow.

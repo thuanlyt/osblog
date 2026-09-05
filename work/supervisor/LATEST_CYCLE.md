@@ -1,14 +1,17 @@
 # UseAgent supervisor report
 
-- **Cycle:** `cycle-20260905T085336Z-4e8c2c`
-- **Generated:** 2026-09-05T08:53:36Z
-- **Next action:** Read the failed worker report for UA-0041 and create a scoped debug task with a new hypothesis.
+- **Cycle:** `cycle-20260905T093129Z-8427aa`
+- **Generated:** 2026-09-05T09:31:29Z
+- **Next action:** Resolve blocker for UA-0067 and attach the missing decision/evidence.
 - **Production snapshot:** `not_ready`
 
 ## Status counts
 
-- `cancelled`: 21
-- `done`: 43
+- `assigned`: 1
+- `blocked`: 1
+- `cancelled`: 22
+- `done`: 46
+- `reported`: 2
 
 ## Reports ingested this cycle
 
@@ -16,10 +19,13 @@
 
 ## Assignments issued this cycle
 
+- `UA-0072` -> `astra` — `work/agents/astra/inbox/UA-0072.md`
 - none
 
 ## Worker reports awaiting review
 
+- `UA-0069` — Add production RSS Atom feeds — reports: work/reports/inbox/UA-0069-20260905T092830Z-3995ab.md
+- `UA-0071` — Audit slug history redirect strategy — reports: work/reports/inbox/UA-0071-20260905T092837Z-fe5f5f.md
 - none
 
 ## Completed tasks
@@ -67,10 +73,14 @@
 - `UA-0058` — Final independent runtime and lifecycle re-review — evidence: 7
 - `UA-0059` — Harden supervisor-only lifecycle reconciliation — evidence: 4
 - `UA-0061` — Correct reconcile command authorization help — evidence: 5
+- `UA-0065` — Audit superseded Astra handover — evidence: 4
+- `UA-0066` — Run disposable Neon backup restore and Vercel alias rollback drill — evidence: 4
+- `UA-0068` — Refresh live recovery evidence after documentation deploy — evidence: 4
 - none
 
 ## Blocked work
 
+- `UA-0067` — Authenticate Neon and rehearse disposable recovery
 - none
 
 ## QA
@@ -80,11 +90,11 @@
 
 ## Production gates
 
-- [x] `all_tasks_done`: `pass`
+- [ ] `all_tasks_done`: `fail`
 - [ ] `qa`: `manual`
-- [x] `no_blocked_tasks`: `pass`
+- [ ] `no_blocked_tasks`: `fail`
 - [x] `operational_rollback_notes`: `pass`
 
 ## Resume instruction
 
-Read the failed worker report for UA-0041 and create a scoped debug task with a new hypothesis.
+Resolve blocker for UA-0067 and attach the missing decision/evidence.

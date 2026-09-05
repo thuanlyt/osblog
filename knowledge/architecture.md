@@ -12,6 +12,7 @@ owner: supervisor
 - `src/server/auth.ts:createAuth` provides operator-only admin sessions, no public signup. The router calls Better Auth's native get-session handler for admin checks so renewal and failure cookie headers remain available on the shared response; API/SSR verify configured email and role. Mutations require exact Origin; login has durable rate limits.
 - `content.ts:visiblePost` limits public output to due published posts in active categories. Content/category/moderation mutations use optimistic timestamps and transactional audit records.
 - `comments.ts` and `comment-policy.ts` enforce pending moderation, signed tokens, honeypot and rate limits. Email is encrypted and never public. Turnstile is not wired.
+- `feed.ts:feedResponse` owns bounded RSS 2.0 and Atom 1.0 delivery at `/feed.xml` and `/feed.atom`; it selects only `lang=en|vi`, uses the published-content query, escapes plain text once at the XML boundary, and emits ETag/HEAD/304 plus five-minute public caching. `seo.ts:renderDocument` advertises both language-aware feeds only from successful public SSR pages.
 - `provision.ts` provides checksum-verified locked migrations, idempotent operator bootstrap and optional seed. Four migrations actually ran on authorized Neon; the GitHub-linked Vercel production deployment on `main` and both requested hostname smoke checks confirmed connectivity. Netlify deployment is not verified.
 - Current responses use no-store. Sitemap SQL reads are paged with an explicit capacity guard requiring index partitioning at large scale.
 
@@ -33,6 +34,8 @@ UA-0048 independently reproduced partial PATCH unpublishing (P1), malformed cove
 - `src/server/content.ts` — Drizzle published reads, admin session guard, post mutations, optimistic concurrency, and audit writes.
 - `src/server/content-contract.ts` — bounded post create/update/archive and list-query validation.
 - `src/server/router.ts` — shared API, SSR, auth, security-header and crawl-route dispatcher used by every runtime adapter.
+- `src/server/feed.ts:feedResponse` — published-only RSS/Atom renderer with XML scalar filtering, language selection and cache validators.
+- `src/server/seo.ts:renderDocument` — public head generation, including feed discovery links.
 - `docs/architecture.md:Routes` — public, admin, API, health, sitemap, and robots paths.
 - `docs/architecture.md:Entities and invariants` — category, post, comment, auth, rate-limit, and audit boundaries.
 - `docs/architecture.md:Auth and CRUD flow` — server-side role, validation, concurrency, audit, and archive rules.
@@ -43,6 +46,8 @@ UA-0048 independently reproduced partial PATCH unpublishing (P1), malformed cove
 ## Invariants
 
 Only published content is public; admin mutations are server-authorized; anonymous comments never auto-approve; raw email/IP/fingerprint data is not public; API responses use stable status codes/envelopes; no in-memory CRUD fallback; server-only secrets never use `VITE_` prefixes.
+
+Feeds never include drafts, future/archived content, full bodies, comments or account data; feed excerpts remain plain text and are XML-escaped exactly once. Feed discovery is omitted from private/error/not-found pages.
 
 ## Dependency edges
 
@@ -61,8 +66,8 @@ python tools/useagent.py validate
 python tests/useagent-conformance/replay.py
 ```
 
-Scaffold, boundary, public-flow, SSR, runtime-regression, and browser verification completed under UA-0020, UA-0024 through UA-0028, UA-0030 through UA-0034, UA-0046, UA-0052, UA-0056, UA-0057, UA-0059 and UA-0061: install, typecheck, lint, 64 unit/component/SQL integration tests, 2 compiled-browser E2E tests, production build, direct API/SSR tsc, metadata checks, Cap validation, local deep-link smoke, lifecycle fixture, and Vercel/Neon live route smoke passed. VPS/Netlify execution and backup/rollback drills remain pending.
+Scaffold, boundary, public-flow, SSR, runtime-regression, browser and feed verification completed under UA-0020, UA-0024 through UA-0028, UA-0030 through UA-0034, UA-0046, UA-0052, UA-0056, UA-0057, UA-0059, UA-0061, UA-0069 and UA-0072: install, focused feed/SEO tests (21), typecheck, lint, production build, direct API/SSR checks, metadata checks, Cap validation, local deep-link smoke, lifecycle fixture, and Vercel/Neon live route smoke passed. VPS/Netlify execution, slug-history redirects and Neon backup/restore remain pending; live feed smoke belongs to the next release gate.
 
 ## Known gaps
 
-The health, auth, post, comments, render, sitemap, and robots handlers, typed content/auth/comment schemas, migration shapes, and server configuration contracts now exist. Local SQL, compiled-browser paths, and the authorized Vercel/Neon production path are verified; live rollback/restore and non-Vercel adapter execution remain operational follow-up work.
+The health, auth, post, comments, render, feed, sitemap, and robots handlers, typed content/auth/comment schemas, migration shapes, and server configuration contracts now exist. Local SQL, compiled-browser paths, feed XML/SSR discovery, and the authorized Vercel/Neon production path are verified; live feed smoke, slug-history redirects, rollback/restore and non-Vercel adapter execution remain follow-up work.

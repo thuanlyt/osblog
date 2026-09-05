@@ -18,6 +18,7 @@ import { commentSubmissionInput, moderationInput } from './comment-contract'
 import { loadPage } from './pages'
 import { documents } from './docs'
 import { escapeHtml } from './seo'
+import { feedResponse } from './feed'
 
 export type Renderer = (data: PageData, origin: string, nonce: string) => string | Promise<string>
 export interface RouterOptions { env?: NodeJS.ProcessEnv; database?: Database; render: Renderer }
@@ -165,6 +166,7 @@ export function createRouter(options: RouterOptions) {
     }
     if (path.startsWith('/api/')) return notFound()
     if (!['GET', 'HEAD'].includes(method)) return methodNotAllowed()
+    if (path === '/feed.xml' || path === '/feed.atom') return feedResponse(database(), request, origin)
     if (path === '/robots.txt') return new Response(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /search\nSitemap: ${origin}/sitemap.xml\n`, { headers: { 'content-type': 'text/plain; charset=utf-8' } })
     if (path === '/sitemap.xml') {
       // SQL streams by bounded pages rather than silently omitting posts after the first page.
@@ -198,7 +200,7 @@ export function createRouter(options: RouterOptions) {
       // Never log request bodies, credentials, cookies or database connection strings.
       response = errorResponse(error, requestId)
       const url = new URL(request.url)
-      if (['GET', 'HEAD'].includes(request.method) && !url.pathname.startsWith('/api/') && !['/robots.txt', '/sitemap.xml'].includes(url.pathname)) {
+      if (['GET', 'HEAD'].includes(request.method) && !url.pathname.startsWith('/api/') && !['/robots.txt', '/sitemap.xml', '/feed.xml', '/feed.atom'].includes(url.pathname)) {
         const lang = url.searchParams.get('lang') === 'vi' ? 'vi' : 'en'
         const data: PageData = { kind: 'error', path: url.pathname, lang, status: response.status, title: lang === 'vi' ? 'Tạm thời không thể tải trang' : 'Temporarily unable to load this page', description: lang === 'vi' ? 'Vui lòng thử lại sau ít phút.' : 'Please try again in a few moments.' }
         try { response = new Response(await options.render(data, siteOrigin(env), nonce), { status: response.status, headers: { 'content-type': 'text/html; charset=utf-8' } }) } catch { /* Keep sanitized JSON if even the renderer is unavailable. */ }
@@ -210,7 +212,9 @@ export function createRouter(options: RouterOptions) {
     headers.set('x-content-type-options', 'nosniff')
     headers.set('referrer-policy', 'strict-origin-when-cross-origin')
     headers.set('permissions-policy', 'camera=(), microphone=(), geolocation=()')
-    headers.set('cache-control', 'no-store')
+    const publicFeed = ['/feed.xml', '/feed.atom'].includes(new URL(request.url).pathname) &&
+      ['GET', 'HEAD'].includes(request.method) && [200, 304].includes(response.status) && !headers.has('set-cookie')
+    if (!publicFeed || !headers.has('cache-control')) headers.set('cache-control', 'no-store')
     headers.set('content-security-policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`)
     if (new URL(request.url).pathname.startsWith('/admin') || new URL(request.url).pathname.startsWith('/api')) headers.set('x-robots-tag', 'noindex, nofollow')
     return new Response(request.method === 'HEAD' ? null : response.body, { status: response.status, headers })

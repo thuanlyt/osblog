@@ -160,3 +160,10 @@ Refreshed recovery evidence after the fa7f343 documentation deployment; latest R
 
 - Report: `work/reports/inbox/UA-0068-20260905T091307Z-511e92.md`
 - Next: Keep UA-0067 planned until Neon CLI authentication is available, then run the disposable non-production backup/restore rehearsal.
+
+## 2026-09-05T09:43:38Z - UA-0074 (completed)
+
+Refreshed architecture/project-map knowledge and added decision 0005 for RSS/Atom feeds, XML safety, cache validators and public SSR discovery; pending live feed smoke is explicitly preserved.
+
+- Report: `work/reports/inbox/UA-0074-20260905T094338Z-a0d46d.md`
+- Next: Complete UA-0072/UA-0069 review and run live feed smoke after the authorized production deployment.

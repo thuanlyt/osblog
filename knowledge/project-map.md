@@ -12,13 +12,14 @@ OSBlog has a real Vite/React SSR application, SQL-backed admin/comments and co-l
 | --- | --- |
 | Browser UI/editor | `src/app/App.tsx`, `src/app/admin/AdminPostEditorPage.tsx`, `src/main.tsx`, `src/styles.css` |
 | SSR/API | `src/entry-server.tsx:createApp`, `src/server/router.ts:createRouter`, `src/server/pages.ts:loadPage` |
+| Feed delivery/SEO discovery | `src/server/feed.ts:feedResponse`, `src/server/seo.ts:renderDocument`, `tests/server/feed.test.ts`, `tests/server/seo.test.ts`, `docs/feeds.md` |
 | SQL/auth | `src/server/db.ts`, `schema.ts`, `auth.ts`, `provision.ts`, `drizzle/*.sql` |
 | Embedded docs | `docs/`, `src/server/docs.ts`, `src/app/pages/DocsPage.tsx` |
 | Build/adapters | `tools/build/build.ts`, `tools/server/start.ts`, `api/index.ts`, `vercel.json`, `netlify/functions/osblog.mts`, `netlify.toml` |
 | Assets | `public/assets/`: original editorial SVGs; local font packages |
 | Verification | `tests/server/`, `src/app/*.test.tsx`, `tests/browser/`, `tests/useagent-conformance/replay.py` |
 
-The GitHub-linked Vercel production deployment on `main` is READY and live on both requested hostnames; health and route smoke confirmed Neon connectivity and SSR/media outputs. A genuine Cap walkthrough is tracked under `public/media/`, and local unit/browser/build gates pass. Netlify is an implemented adapter, not a verified deployment; rollback/restore drills remain open. Consult the live registry for writer ownership. Secrets, draft and raw test recordings stay ignored.
+The GitHub-linked Vercel production deployment on `main` is READY and live on both requested hostnames; health and route smoke confirmed Neon connectivity and SSR/media outputs. RSS/Atom feeds and public SSR discovery links are implemented and have focused local verification; live feed smoke is part of the next release gate. A genuine Cap walkthrough is tracked under `public/media/`, and local unit/browser/build gates pass. Netlify is an implemented adapter, not a verified deployment; slug-history and Neon backup/restore drills remain open. Consult the live registry for writer ownership. Secrets, draft and raw test recordings stay ignored.
 
 ## Archived scaffold map (historical only)
 
@@ -43,4 +44,6 @@ tests/                       unit and boundary tests; integration/accessibility/
 
 Ownership is assigned by work item. No two active writers may claim the same subtree.
 
-Freshness: `verified` on 2026-09-05 by supervisor after UA-0046, UA-0052, UA-0053, UA-0056, UA-0057, UA-0059 and UA-0061 review. Client routes, post API/auth/comments boundaries, token flow, SSR metadata, crawl handlers, admin publish/moderation browser flow, media capture, lifecycle validation, Vercel/Neon production deployment and live route smoke are verified; Netlify/VPS provider execution and backup/rollback drills remain unverified.
+Freshness: `verified` on 2026-09-05 by supervisor after UA-0069/UA-0072 feed implementation and review. Feed XML/discovery, local focused tests, and source anchors are current; live feed smoke, slug-history redirects, Netlify/VPS provider execution and Neon backup/restore remain unverified.
+
+Historical baseline freshness: `verified` on 2026-09-05 by supervisor after UA-0046, UA-0052, UA-0053, UA-0056, UA-0057, UA-0059 and UA-0061 review. Client routes, post API/auth/comments boundaries, token flow, SSR metadata, crawl handlers, admin publish/moderation browser flow, media capture, lifecycle validation, Vercel/Neon production deployment and live route smoke are verified; Netlify/VPS provider execution and backup/rollback drills remain unverified.

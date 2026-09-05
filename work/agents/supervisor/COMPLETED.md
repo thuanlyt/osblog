@@ -45,3 +45,5 @@
 - 2026-09-05T09:07:16Z - `UA-0066` - Run disposable Neon backup restore and Vercel alias rollback drill - pending review - `work/reports/inbox/UA-0066-20260905T090716Z-e0114d.md`
 
 - 2026-09-05T09:13:07Z - `UA-0068` - Refresh live recovery evidence after documentation deploy - pending review - `work/reports/inbox/UA-0068-20260905T091307Z-511e92.md`
+
+- 2026-09-05T09:43:38Z - `UA-0074` - Refresh knowledge ledger for feed routes - pending review - `work/reports/inbox/UA-0074-20260905T094338Z-a0d46d.md`
