@@ -41,3 +41,38 @@ Implemented the route-aware SSR/SEO boundary. Added escaped metadata/canonical/n
 
 - Report: `work/reports/inbox/UA-0033-20260904T211110Z-571898.md`
 - Next: Supervisor review SSR/SEO boundary and record hydration/provider/performance evidence as open before final product QA.
+
+## 2026-09-05T06:52:51Z - UA-0044 (completed)
+
+Runtime recovery candidate implemented: SQL-backed admin/content/comments, SSR, provider adapters, production bootstrap and genuine browser publishing tests. Independent UA-0048 found four defects; this report is not release acceptance.
+
+- Report: `work/reports/inbox/UA-0044-20260905T065251Z-48945d.md`
+- Next: Create scoped runtime regression fixes for R1-R4 and rerun independent review before acceptance.
+
+## 2026-09-05T07:58:30Z - UA-0056 (completed)
+
+Closed Astra UA-0053 F1 and F2. Admin session checks now use Better Auth's native get-session HTTP response so unauthorized refresh failures retain cookie-clearing headers; Node overflow regressions use a single keep-alive agent and assert reusedSocket on follow-up requests.
+
+- Report: `work/reports/inbox/UA-0056-20260905T075830Z-64d1fd.md`
+- Next: Run the supervisor-only reconciliation for the legacy UA-0052 completion marker, then request focused independent re-review.
+
+## 2026-09-05T07:58:36Z - UA-0057 (completed)
+
+Added a narrowly scoped supervisor-only task reconcile command and used it to convert legacy UA-0052 status completed to supported reported while preserving its reports/evidence and syncing frontmatter.
+
+- Report: `work/reports/inbox/UA-0057-20260905T075836Z-0e02a1.md`
+- Next: Re-run the focused independent review against the current runtime and control-plane state.
+
+## 2026-09-05T08:11:17Z - UA-0059 (completed)
+
+Hardened task reconcile: only a registered supervisor may invoke it, the latest referenced worker report must have frontmatter result completed, missing/failed/blocked evidence is refused, and the valid legacy UA-0052 transition remains preserved.
+
+- Report: `work/reports/inbox/UA-0059-20260905T081117Z-697524.md`
+- Next: Request a final focused CLI re-review, then run the production release gate.
+
+## 2026-09-05T08:21:00Z - UA-0061 (completed)
+
+Corrected reconcile CLI help to state registered supervisor identity (supervisor-only). Verified isolated lifecycle fixture 16/16, registry validator VALID, and conformance replay REPLAY_PASS.
+
+- Report: `work/reports/inbox/UA-0061-20260905T082100Z-ff66cd.md`
+- Next: Supervisor review and close after final Astra lifecycle review.

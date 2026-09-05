@@ -28,6 +28,18 @@ describe('content API contracts', () => {
     expect(updatePostInput.safeParse({ titleEn: 'Updated', expectedUpdatedAt: '2026-09-05T00:00:00.000Z' }).success).toBe(true)
   })
 
+  it('does not inject a default status into a partial update (R1 regression)', () => {
+    const parsed = updatePostInput.parse({ titleEn: 'Updated', expectedUpdatedAt: '2026-09-05T00:00:00.000Z' })
+    expect('status' in parsed).toBe(false)
+    expect(updatePostInput.safeParse({ expectedUpdatedAt: '2026-09-05T00:00:00.000Z' }).success).toBe(false)
+  })
+
+  it('rejects a cover URL that is not actually parseable (R2 regression)', () => {
+    const withCover = { ...validPost, coverImageAltVi: 'x', coverImageAltEn: 'x' }
+    expect(createPostInput.safeParse({ ...withCover, coverImageUrl: 'https://' }).success).toBe(false)
+    expect(createPostInput.safeParse({ ...withCover, coverImageUrl: 'https://example.test/cover.png' }).success).toBe(true)
+  })
+
   it('uses the same optimistic concurrency guard for archive requests', () => {
     expect(deletePostInput.safeParse({ expectedUpdatedAt: '2026-09-05T00:00:00.000Z' }).success).toBe(true)
     expect(deletePostInput.safeParse({}).success).toBe(false)

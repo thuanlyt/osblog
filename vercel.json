@@ -1,14 +1,12 @@
 {
+  "regions": ["sin1"],
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/api/seo/sitemap" },
-    { "source": "/robots.txt", "destination": "/api/seo/robots" },
-    { "source": "/post/:slug", "destination": "/api/render?path=/post/:slug" },
-    { "source": "/category/:slug", "destination": "/api/render?path=/category/:slug" },
-    { "source": "/about", "destination": "/api/render?path=/about" },
-    { "source": "/search", "destination": "/api/render?path=/search" },
-    { "source": "/(.*)", "destination": "/index.html" }
+  "outputDirectory": "dist/client",
+  "functions": {
+    "api/index.ts": { "includeFiles": "dist/server/**", "maxDuration": 30 }
+  },
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/api/index" }
   ]
 }

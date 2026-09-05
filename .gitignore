@@ -4,6 +4,15 @@ dist/
 coverage/
 .vite/
 *.tsbuildinfo
+.vercel/
+.netlify/
+draft/
+# Provider-installed local agent skills are workstation dependencies, not app source.
+.agents/skills/neon/
+.agents/skills/neon-postgres/
+skills-lock.json
+playwright-report/
+test-results/
 
 # Local environment and secrets; keep the safe template tracked
 .env
@@ -17,3 +26,6 @@ coverage/
 Thumbs.db
 
 # Keep knowledge, work evidence, reports, and tests visible to Git.
+# Raw browser trace bundles are local forensic artifacts; keep the concise Markdown evidence instead.
+work/evidence/trace-inspect-*/
+node_modules

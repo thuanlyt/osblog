@@ -122,6 +122,66 @@
         "docs"
       ],
       "max_active": 1
+    },
+    {
+      "id": "astra",
+      "role": "worker",
+      "status": "available",
+      "directory": "work/agents/astra",
+      "scope": [
+        "."
+      ],
+      "capabilities": [
+        "frontend",
+        "backend",
+        "tests",
+        "docs"
+      ],
+      "max_active": 1
+    },
+    {
+      "id": "claude-docs",
+      "role": "worker",
+      "status": "available",
+      "directory": "work/agents/claude-docs",
+      "scope": [
+        "docs",
+        "README.md",
+        "README.vi.md",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "SECURITY.md"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "max_active": 1
+    },
+    {
+      "id": "astra-review",
+      "role": "reviewer",
+      "status": "available",
+      "directory": "work/agents/astra-review",
+      "scope": [
+        "work/evidence/astra-review"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "max_active": 1
+    },
+    {
+      "id": "astra-audit",
+      "role": "worker",
+      "status": "available",
+      "directory": "work/agents/astra-audit",
+      "scope": [
+        "work/evidence/astra-review"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "max_active": 1
     }
   ]
 }

@@ -9,8 +9,10 @@ export const commentSubmissionInput = z.object({
 })
 
 export const moderationInput = z.object({
-  status: z.enum(['approved', 'rejected', 'spam']),
+  status: z.enum(['pending', 'approved', 'rejected', 'spam']),
   reason: z.string().trim().max(500).nullable().optional(),
+  body: z.string().trim().min(1).max(5000).optional(),
+  expectedUpdatedAt: z.string().datetime({ offset: true }),
 })
 
 export type CommentSubmissionInput = z.infer<typeof commentSubmissionInput>

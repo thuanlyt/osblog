@@ -1,0 +1,57 @@
+warning: in the working copy of 'tools/useagent.py', LF will be replaced by CRLF the next time Git touches it
+diff --git a/tools/useagent.py b/tools/useagent.py
+index 7ea8f24..fc8bfe7 100644
+--- a/tools/useagent.py
++++ b/tools/useagent.py
+@@ -884,6 +884,39 @@ def cmd_task_report(args: argparse.Namespace) -> int:
+     return 0
+
+
++def cmd_task_reconcile(args: argparse.Namespace) -> int:
++    """Repair a legacy worker-completion marker without editing registry JSON by hand."""
++
++    config = load_config()
++    operator = review_agent(config, args.agent)
++    if operator.get("role") != "supervisor":
++        raise UseAgentError("task reconciliation is restricted to a registered supervisor")
++    with state_lock():
++        data = load_registry()
++        item = get_item(data, args.task_id)
++        if item.get("status") != "completed":
++            raise UseAgentError(
++                f"{args.task_id} is not a legacy completed worker marker; refusing reconciliation"
++            )
++        if not item.get("reports"):
++            raise UseAgentError(f"{args.task_id} has no worker report; refusing reconciliation")
++        latest_report = item["reports"][-1]
++        if not isinstance(latest_report, str) or not latest_report.strip():
++            raise UseAgentError(f"{args.task_id} has an invalid latest worker report reference; refusing reconciliation")
++        report_path = safe_repo_path(latest_report)
++        if not report_path.is_file():
++            raise UseAgentError(f"{args.task_id} latest worker report is missing; refusing reconciliation")
++        if parse_frontmatter(report_path).get("result") != "completed":
++            raise UseAgentError(f"{args.task_id} latest worker report is not completed; refusing reconciliation")
++        item["status"] = "reported"
++        item["updated_at"] = now_iso()
++        save_registry(data)
++        sync_item_frontmatter(item)
++        append_event(args.task_id, f"supervisor reconciled legacy completion marker to reported by {args.agent}")
++    print(f"{args.task_id} reconciled to reported")
++    return 0
++
++
+ def cmd_agent_register(args: argparse.Namespace) -> int:
+     ensure_layout()
+     if not re.fullmatch(r"[a-z0-9][a-z0-9_-]{1,63}", args.agent_id):
+@@ -2050,6 +2083,11 @@ def build_parser() -> argparse.ArgumentParser:
+     report.add_argument("--blocker")
+     report.set_defaults(func=cmd_task_report)
+
++    reconcile = task_sub.add_parser("reconcile", help="repair a legacy completed worker marker")
++    reconcile.add_argument("task_id")
++    reconcile.add_argument("--agent", required=True, help="supervisor or release-gate identity")
++    reconcile.set_defaults(func=cmd_task_reconcile)
++
+     task_list = task_sub.add_parser("list", help="list tasks")
+     task_list.add_argument("--status", choices=sorted(VALID_STATUSES))
+     task_list.set_defaults(func=cmd_task_list)

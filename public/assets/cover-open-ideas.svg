@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Editorial illustration: an open door radiating light, for an article about open source ideas">
+  <title>A small home for open ideas</title>
+  <rect width="1200" height="675" fill="#FAFAFA"/>
+  <rect x="0.5" y="0.5" width="1199" height="674" fill="none" stroke="#E4E4E7" stroke-width="1"/>
+  <g stroke="#E4E4E7" stroke-width="1">
+    <line x1="300" y1="0" x2="300" y2="675"/>
+    <line x1="900" y1="0" x2="900" y2="675"/>
+    <line x1="0" y1="337.5" x2="1200" y2="337.5"/>
+  </g>
+  <g fill="none" stroke="#18181B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M420 460V300L600 180L780 300V460" />
+    <path d="M420 460H780" />
+    <rect x="470" y="330" width="120" height="130" fill="#FAFAFA" />
+    <path d="M470 395H590" />
+  </g>
+  <g stroke="#EC4899" stroke-width="8" stroke-linecap="round">
+    <line x1="600" y1="130" x2="600" y2="70" />
+    <line x1="676" y1="160" x2="726" y2="112" />
+    <line x1="524" y1="160" x2="474" y2="112" />
+  </g>
+  <circle cx="600" cy="180" r="26" fill="#EC4899" />
+  <g fill="#18181B" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" letter-spacing="2">
+    <text x="80" y="600">O/ OPEN SOURCE</text>
+  </g>
+</svg>

@@ -1,0 +1,320 @@
+UA-0053 captured command output; working directory F:/dev/test-useagent
+Node v24.13.0; Vitest v3.2.7; review runner disables env-file loading and shared caches.
+
+WORKER FOCUSED COMMAND
+node node_modules/vitest/vitest.mjs run tests/server/content.test.ts tests/server/runtime.integration.test.ts tests/server/node-adapter.test.ts --config work/reviews/astra-rereview/vitest.config.mjs --configLoader runner --outputFile.json work/reviews/astra-rereview/worker-tests.json
+EXIT 0
+
+ RUN  v3.2.7 F:/dev/test-useagent
+
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > replays migrations safely and refuses checksum drift 71ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > reports database health and blocks guests, signup and cross-origin writes 23ms
+stderr | tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > authenticates through Better Auth password hashing and database sessions
+2026-09-05T07:35:17.907Z WARN [Better Auth]: Invalid password
+
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > authenticates through Better Auth password hashing and database sessions 195ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > forwards renewed session cookies on both the admin API and SSR admin pages (R3 regression) 12ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > creates categories and drafts, publishes Markdown, and prevents stale writes 50ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > keeps a published article public through a title-only PATCH and rejects a timestamp-only PATCH (R1 regression) 19ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > rejects a malformed cover URL before persistence (R2 regression) 4ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > filters search/year/sort, deduplicates views and emits safe SEO and docs 23ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > accepts email comments only into moderation and never publishes private identifiers 48ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > archives categories without data loss and hides all associated public surfaces 17ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > adds bilingual introduction only once and invalidates logout sessions 27ms
+ ✓ tests/server/node-adapter.test.ts > preserves multiple Set-Cookie headers and rejects a declared oversized body without corrupting the reused connection 59ms
+ ✓ tests/server/node-adapter.test.ts > rejects an oversized chunked body with a prompt 413 instead of stalling until timeout (R4 regression) 6ms
+ ✓ tests/server/content.test.ts > content API contracts > defaults new posts to draft and rejects invalid slugs 7ms
+ ✓ tests/server/content.test.ts > content API contracts > requires a publication timestamp for explicit publication 1ms
+ ✓ tests/server/content.test.ts > content API contracts > requires optimistic concurrency input for updates 5ms
+ ✓ tests/server/content.test.ts > content API contracts > does not inject a default status into a partial update (R1 regression) 0ms
+ ✓ tests/server/content.test.ts > content API contracts > rejects a cover URL that is not actually parseable (R2 regression) 1ms
+ ✓ tests/server/content.test.ts > content API contracts > uses the same optimistic concurrency guard for archive requests 0ms
+ ✓ tests/server/content.test.ts > content API contracts > bounds public list size 1ms
+
+ Test Files  3 passed (3)
+      Tests  20 passed (20)
+   Start at  14:35:13
+   Duration  5.89s (transform 284ms, setup 0ms, collect 2.15s, tests 2.69s, environment 1ms, prepare 452ms)
+
+JSON report written to F:/dev/test-useagent/work/reviews/astra-rereview/worker-tests.json
+
+TYPECHECK COMMAND (avoids npm run typecheck / tsc -b writes to node_modules/.tmp)
+node node_modules/typescript/bin/tsc -p tsconfig.app.json --noEmit --incremental false
+node node_modules/typescript/bin/tsc -p tsconfig.node.json --noEmit --incremental false
+EXIT 0
+app_typecheck_exit=0 node_typecheck_exit=0
+
+FOCUSED LINT COMMAND
+node node_modules/eslint/bin/eslint.js src/server/content-contract.ts src/server/router.ts src/server/request.ts src/server/node-adapter.ts tests/server/content.test.ts tests/server/runtime.integration.test.ts tests/server/node-adapter.test.ts --no-cache
+EXIT 0
+
+INITIAL INDEPENDENT COMMAND (before the additional auth-error test)
+node node_modules/vitest/vitest.mjs run work/reviews/astra-rereview/runtime.review.ts work/reviews/astra-rereview/node-adapter.review.ts --config work/reviews/astra-rereview/vitest.config.mjs --configLoader runner --outputFile.json work/reviews/astra-rereview/independent-tests.json
+EXIT 0
+
+ RUN  v3.2.7 F:/dev/test-useagent
+
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R1 preserves publication and unchanged fields in SQL, public API, both SSR languages and sitemap 102ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R1 keeps the draft creation default and preserves draft/archived status on partial updates 29ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R2 rejects malformed cover URLs on CREATE and PATCH without post or audit persistence 58ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/session GET, including failures and HEAD 11ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/posts GET, including failures and HEAD 10ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/unknown GET, including failures and HEAD 6ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/posts POST, including failures and HEAD 8ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /admin GET, including failures and HEAD 8ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /admin/posts HEAD, including failures and HEAD 8ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/auth/get-session GET, including failures and HEAD 8ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 forwards renewal on forbidden API/SSR while maintaining the role guard 14ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 keeps cookie collectors isolated between simultaneous authenticated and guest requests 5ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves cookie deletion on expired-session SSR redirects and API 401s 7ms
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=true overflow and explicitly reuses one socket
+R4 declared=true: 413 in 4.2 ms; 200 follow-up; all socket=1
+
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=false overflow and explicitly reuses one socket
+R4 declared=false: 413 in 4.6 ms; 200 follow-up; all socket=2
+
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=true upload completes, then frames a pipelined follow-up safely
+R4 raw declared=true: complete 413 before upload end in 1.7 ms; pipelined 200 on socket=3
+
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=false upload completes, then frames a pipelined follow-up safely
+R4 raw declared=false: complete 413 before upload end in 3.4 ms; pipelined 200 on socket=4
+
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=true overflow and explicitly reuses one socket 30ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=false overflow and explicitly reuses one socket 10ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=true upload completes, then frames a pipelined follow-up safely 7ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=false upload completes, then frames a pipelined follow-up safely 6ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 accepts exactly BODY_LIMIT bytes with declared=true framing 5ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 accepts exactly BODY_LIMIT bytes with declared=false framing 5ms
+
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+   Start at  14:39:02
+   Duration  5.59s (transform 467ms, setup 0ms, collect 2.63s, tests 2.27s, environment 0ms, prepare 297ms)
+
+JSON report written to F:/dev/test-useagent/work/reviews/astra-rereview/independent-tests.json
+
+FINAL FOCUSED COMMAND
+node node_modules/vitest/vitest.mjs run tests/server/content.test.ts tests/server/runtime.integration.test.ts tests/server/node-adapter.test.ts work/reviews/astra-rereview/runtime.review.ts work/reviews/astra-rereview/node-adapter.review.ts work/reviews/astra-rereview/reuse-coverage.review.ts --config work/reviews/astra-rereview/vitest.config.mjs --configLoader runner --outputFile.json work/reviews/astra-rereview/final-focused-tests.json
+EXIT 1
+
+ RUN  v3.2.7 F:/dev/test-useagent
+
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > replays migrations safely and refuses checksum drift 69ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > reports database health and blocks guests, signup and cross-origin writes 19ms
+stderr | tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > authenticates through Better Auth password hashing and database sessions
+2026-09-05T07:41:27.052Z WARN [Better Auth]: Invalid password
+
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > authenticates through Better Auth password hashing and database sessions 165ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > forwards renewed session cookies on both the admin API and SSR admin pages (R3 regression) 13ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > creates categories and drafts, publishes Markdown, and prevents stale writes 42ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > keeps a published article public through a title-only PATCH and rejects a timestamp-only PATCH (R1 regression) 18ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > rejects a malformed cover URL before persistence (R2 regression) 3ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > filters search/year/sort, deduplicates views and emits safe SEO and docs 23ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > accepts email comments only into moderation and never publishes private identifiers 52ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > archives categories without data loss and hides all associated public surfaces 15ms
+ ✓ tests/server/runtime.integration.test.ts > real SQL and Fetch runtime integration > adds bilingual introduction only once and invalidates logout sessions 24ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R1 preserves publication and unchanged fields in SQL, public API, both SSR languages and sitemap 95ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R1 keeps the draft creation default and preserves draft/archived status on partial updates 31ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R2 rejects malformed cover URLs on CREATE and PATCH without post or audit persistence 57ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/session GET, including failures and HEAD 11ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/posts GET, including failures and HEAD 10ms
+stdout | work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves the native authentication failure and cookie clearing when renewal cannot update its SQL row
+R3 renewal-failure control: [{"route":"native","status":401,"cookies":3},{"route":"admin-api","status":500,"cookies":0},{"route":"admin-ssr","status":500,"cookies":0}]
+
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/unknown GET, including failures and HEAD 7ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/admin/posts POST, including failures and HEAD 8ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /admin GET, including failures and HEAD 9ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /admin/posts HEAD, including failures and HEAD 9ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 propagates secure renewed cookies on /api/auth/get-session GET, including failures and HEAD 9ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 forwards renewal on forbidden API/SSR while maintaining the role guard 13ms
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 keeps cookie collectors isolated between simultaneous authenticated and guest requests 5ms
+ × work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves the native authentication failure and cookie clearing when renewal cannot update its SQL row 39ms
+   → expected 500 to be 401 // Object.is equality
+   → expected [] to deeply equal [ …(3) ]
+   → expected [ 303, 401 ] to include 500
+   → expected [] to deeply equal [ …(3) ]
+ ✓ work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves cookie deletion on expired-session SSR redirects and API 401s 9ms
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=true overflow and explicitly reuses one socket
+R4 declared=true: 413 in 4.6 ms; 200 follow-up; all socket=1
+
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=false overflow and explicitly reuses one socket
+R4 declared=false: 413 in 3.3 ms; 200 follow-up; all socket=2
+
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=true upload completes, then frames a pipelined follow-up safely
+R4 raw declared=true: complete 413 before upload end in 1.2 ms; pipelined 200 on socket=3
+
+stdout | work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=false upload completes, then frames a pipelined follow-up safely
+R4 raw declared=false: complete 413 before upload end in 3.2 ms; pipelined 200 on socket=4
+
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=true overflow and explicitly reuses one socket 29ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 promptly rejects declared=false overflow and explicitly reuses one socket 8ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=true upload completes, then frames a pipelined follow-up safely 7ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 returns 413 before declared=false upload completes, then frames a pipelined follow-up safely 6ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 accepts exactly BODY_LIMIT bytes with declared=true framing 5ms
+ ✓ work/reviews/astra-rereview/node-adapter.review.ts > R4 accepts exactly BODY_LIMIT bytes with declared=false framing 6ms
+ ✓ tests/server/node-adapter.test.ts > preserves multiple Set-Cookie headers and rejects a declared oversized body without corrupting the reused connection 31ms
+ ✓ tests/server/node-adapter.test.ts > rejects an oversized chunked body with a prompt 413 instead of stalling until timeout (R4 regression) 6ms
+ ✓ tests/server/content.test.ts > content API contracts > defaults new posts to draft and rejects invalid slugs 5ms
+ ✓ tests/server/content.test.ts > content API contracts > requires a publication timestamp for explicit publication 3ms
+ ✓ tests/server/content.test.ts > content API contracts > requires optimistic concurrency input for updates 2ms
+ ✓ tests/server/content.test.ts > content API contracts > does not inject a default status into a partial update (R1 regression) 0ms
+ ✓ tests/server/content.test.ts > content API contracts > rejects a cover URL that is not actually parseable (R2 regression) 0ms
+ ✓ tests/server/content.test.ts > content API contracts > uses the same optimistic concurrency guard for archive requests 0ms
+ ✓ tests/server/content.test.ts > content API contracts > bounds public list size 1ms
+stdout | work/reviews/astra-rereview/reuse-coverage.review.ts
+Coverage negative control: unchanged worker Node tests passed using 5 separate sockets for 5 requests; no reuse was possible.
+
+ ✓ work/reviews/astra-rereview/reuse-coverage.review.ts > preserves multiple Set-Cookie headers and rejects a declared oversized body without corrupting the reused connection 34ms
+ ✓ work/reviews/astra-rereview/reuse-coverage.review.ts > rejects an oversized chunked body with a prompt 413 instead of stalling until timeout (R4 regression) 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves the native authentication failure and cookie clearing when renewal cannot update its SQL row
+AssertionError: expected 500 to be 401 // Object.is equality
+
+- Expected
++ Received
+
+- 401
++ 500
+
+ ❯ work/reviews/astra-rereview/runtime.review.ts:207:31
+    205|       expect(native.status).toBe(401)
+    206|       expect(native.headers.getSetCookie().some((value) => /session_to…
+    207|       expect.soft(api.status).toBe(401)
+       |                               ^
+    208|       expect.soft(api.headers.getSetCookie()).toEqual(native.headers.g…
+    209|       expect.soft([303, 401]).toContain(ssr.status)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves the native authentication failure and cookie clearing when renewal cannot update its SQL row
+AssertionError: expected [] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+- [
+-   "__Secure-better-auth.session_token=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax",
+-   "__Secure-better-auth.session_data=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax",
+-   "__Secure-better-auth.dont_remember=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax",
+- ]
++ []
+
+ ❯ work/reviews/astra-rereview/runtime.review.ts:208:47
+    206|       expect(native.headers.getSetCookie().some((value) => /session_to…
+    207|       expect.soft(api.status).toBe(401)
+    208|       expect.soft(api.headers.getSetCookie()).toEqual(native.headers.g…
+       |                                               ^
+    209|       expect.soft([303, 401]).toContain(ssr.status)
+    210|       expect.soft(ssr.headers.getSetCookie()).toEqual(native.headers.g…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves the native authentication failure and cookie clearing when renewal cannot update its SQL row
+AssertionError: expected [ 303, 401 ] to include 500
+ ❯ work/reviews/astra-rereview/runtime.review.ts:209:31
+    207|       expect.soft(api.status).toBe(401)
+    208|       expect.soft(api.headers.getSetCookie()).toEqual(native.headers.g…
+    209|       expect.soft([303, 401]).toContain(ssr.status)
+       |                               ^
+    210|       expect.soft(ssr.headers.getSetCookie()).toEqual(native.headers.g…
+    211|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  work/reviews/astra-rereview/runtime.review.ts > UA-0053 corrected behavior: real SQL, Better Auth and React SSR > R3 preserves the native authentication failure and cookie clearing when renewal cannot update its SQL row
+AssertionError: expected [] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+- [
+-   "__Secure-better-auth.session_token=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax",
+-   "__Secure-better-auth.session_data=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax",
+-   "__Secure-better-auth.dont_remember=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax",
+- ]
++ []
+
+ ❯ work/reviews/astra-rereview/runtime.review.ts:210:47
+    208|       expect.soft(api.headers.getSetCookie()).toEqual(native.headers.g…
+    209|       expect.soft([303, 401]).toContain(ssr.status)
+    210|       expect.soft(ssr.headers.getSetCookie()).toEqual(native.headers.g…
+       |                                               ^
+    211|     } finally {
+    212|       await db.execute(sql.raw('DROP TRIGGER review_skip_session_updat…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 41 passed (42)
+   Start at  14:41:23
+   Duration  10.96s (transform 491ms, setup 0ms, collect 4.24s, tests 4.74s, environment 1ms, prepare 852ms)
+
+JSON report written to F:/dev/test-useagent/work/reviews/astra-rereview/final-focused-tests.json
+
+CONTROL PLANE COMMAND
+python tools/useagent.py validate
+EXIT 1
+INVALID
+- UA-0052 has invalid status completed
+
+SOURCE HASH COMPARISON
+[
+  {
+    "path": "src/server/content-contract.ts",
+    "sha256": "e6124053e4c17569f9cb738794b6f09a477790e3c9a53d9d570ec9139b9fbf81",
+    "unchanged": true
+  },
+  {
+    "path": "src/server/request.ts",
+    "sha256": "4c6d2c55151d6c7b8891819ae05d4f7a55d71f9150d34db644c7a792c37c179e",
+    "unchanged": true
+  },
+  {
+    "path": "src/server/router.ts",
+    "sha256": "e1e860de855deee586c70efabb6f482d0e121ab6c6993f57d04d59d0d4a708be",
+    "unchanged": true
+  },
+  {
+    "path": "src/server/node-adapter.ts",
+    "sha256": "75507234e9eab577a2b6e3b0d7ad1b6012e18c31a92a1ea5362ebb5c72b0664c",
+    "unchanged": true
+  },
+  {
+    "path": "src/server/content.ts",
+    "sha256": "215ff0a8ad07ab9adadae4f2a67387d1ffd0c241e1d3f58cd9d1969378966b2e",
+    "unchanged": true
+  },
+  {
+    "path": "src/server/auth.ts",
+    "sha256": "380eb8cae9fe842cf3f98cc7668ca1ea3d6f22a68dfb7fb4a9839214c3bcd52b",
+    "unchanged": true
+  },
+  {
+    "path": "src/entry-server.tsx",
+    "sha256": "e42ee4f6b7d2d660ef5b51cabec151b660a3ed16aab98eda493dc46795d83579",
+    "unchanged": true
+  },
+  {
+    "path": "src/server/provision.ts",
+    "sha256": "ec2d4bb6b0750269dba11e2f0ebcc89f19d4af7a33902a01fa056ef80962c174",
+    "unchanged": true
+  },
+  {
+    "path": "tests/server/content.test.ts",
+    "sha256": "db8b4c1eb86764c37955254baf53d3b78351c8748a231654bd048bd518851921",
+    "unchanged": true
+  },
+  {
+    "path": "tests/server/runtime.integration.test.ts",
+    "sha256": "149b941a1d35c54c2592f0a0adada476c825ac842c2fa6ff31205ca0866be5a2",
+    "unchanged": true
+  },
+  {
+    "path": "tests/server/node-adapter.test.ts",
+    "sha256": "52ff010a89916850aa0737607096ab880f4d32eee70952167877fa323df1bfc9",
+    "unchanged": true
+  }
+]

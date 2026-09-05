@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Editorial illustration: a plain text page with Markdown formatting marks, for an article about writing in Markdown">
+  <title>Write first. Format just enough.</title>
+  <rect width="1200" height="675" fill="#FAFAFA"/>
+  <rect x="0.5" y="0.5" width="1199" height="674" fill="none" stroke="#E4E4E7" stroke-width="1"/>
+  <g stroke="#E4E4E7" stroke-width="1">
+    <line x1="300" y1="0" x2="300" y2="675"/>
+    <line x1="900" y1="0" x2="900" y2="675"/>
+    <line x1="0" y1="337.5" x2="1200" y2="337.5"/>
+  </g>
+  <g>
+    <rect x="430" y="120" width="340" height="435" rx="10" fill="#FFFFFF" stroke="#18181B" stroke-width="6" />
+    <g stroke="#EC4899" stroke-width="10" stroke-linecap="round">
+      <line x1="470" y1="185" x2="530" y2="185" />
+    </g>
+    <g fill="#18181B" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="30" font-weight="700">
+      <text x="470" y="196">#</text>
+    </g>
+    <g stroke="#18181B" stroke-width="6" stroke-linecap="round">
+      <line x1="470" y1="245" x2="740" y2="245" />
+      <line x1="470" y1="280" x2="700" y2="280" />
+      <line x1="470" y1="315" x2="720" y2="315" />
+    </g>
+    <g stroke="#18181B" stroke-width="6" stroke-linecap="round">
+      <circle cx="482" cy="370" r="5" fill="#18181B" />
+      <line x1="502" y1="370" x2="700" y2="370" />
+      <circle cx="482" cy="405" r="5" fill="#18181B" />
+      <line x1="502" y1="405" x2="670" y2="405" />
+    </g>
+    <g stroke="#3F3F46" stroke-width="6" stroke-linecap="round">
+      <line x1="470" y1="460" x2="740" y2="460" />
+      <line x1="470" y1="495" x2="690" y2="495" />
+    </g>
+    <rect x="463" y="530" width="255" height="60" rx="6" fill="#E8ECF0" />
+    <g fill="#18181B" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700">
+      <text x="480" y="568">**bold**</text>
+    </g>
+  </g>
+  <g fill="#18181B" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" letter-spacing="2">
+    <text x="80" y="600">O/ MARKDOWN</text>
+  </g>
+</svg>

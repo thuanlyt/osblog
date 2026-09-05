@@ -1,67 +1,112 @@
 # osblog
 
-osblog is an open-source bilingual blog for thoughtful writing about software, craft, and the commons. The interface is intentionally quiet: content, moderation, and durable server boundaries do the important work.
+*Tiếng Việt: [README.vi.md](README.vi.md)*
 
-## osblog là gì?
+**osblog** ("open source blog") is an open-source, MIT-licensed, bilingual (Vietnamese/English) Markdown publishing app built with Vite, React 19, TypeScript, PostgreSQL (Neon) via Drizzle ORM, and Better Auth. One operator writes and publishes bilingual articles from a real admin editor; readers get server-rendered pages and can leave moderated, email-only comments without an account.
 
-osblog là một blog song ngữ mã nguồn mở về phần mềm, kỹ nghệ và những điều tốt đẹp thuộc về cộng đồng. Giao diện tối giản để nội dung được ưu tiên; dữ liệu và quyền quản trị đi qua các ranh giới máy chủ rõ ràng.
+- **Documentation:** the same Markdown files that ship in this repository are also served live at `/docs` and `/docs/<slug>` (add `?lang=vi` for Vietnamese) — see [Documentation map](#documentation-map) below.
+- **Source:** [github.com/thuanlyt/osblog](https://github.com/thuanlyt/osblog) — public, MIT-licensed.
+- **License:** [MIT](LICENSE).
 
-## Current status / Trạng thái hiện tại
+## Status snapshot (2026-09-05)
 
-The repository contains a verified Vite + React + TypeScript client, Drizzle/Neon persistence boundary, Better Auth admin boundary, post CRUD API, privacy-safe comment/moderation API, public data flow, SSR metadata, sitemap, robots, and Vercel routing contracts.
+| Area | State |
+|---|---|
+| Application code | Admin editor, public site, comments, SEO, and both deployment adapters (Vercel, Netlify) are implemented and reviewed. |
+| Automated tests | 64 unit/component/SQL integration tests pass; 2 compiled-browser E2E tests pass; lint and typecheck pass. |
+| Database | A real Neon Free Postgres project (`osblog-db`, Singapore region) is provisioned. Migrations `0000`–`0003` have run and replay is idempotent; the admin account is bootstrapped; three bilingual introduction posts are seeded. |
+| Local production build | `npm run build` + `npm start` serves real article data and hashed assets over HTTP 200 on `127.0.0.1`. |
+| Live deployment | **Live on Vercel.** `https://osblog.thuanlyt.id.vn` is primary and `https://osblog.vercel.app` is the secondary alias for production deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD`; both passed live route smoke, including Neon health, SSR pages, sitemap, robots, admin redirect, GIF and MP4. Netlify has an implemented adapter but no deployment has been attempted. |
+| Browser/E2E QA and media | The compiled-browser gate passes the real publishing/comment/moderation and responsive-docs flows; a genuine Cap walkthrough is available in [Media](docs/media.md). |
 
-Kho mã hiện có client Vite + React + TypeScript đã được kiểm thử, ranh giới lưu trữ Drizzle/Neon, ranh giới Better Auth cho quản trị, API CRUD bài viết, API bình luận/kiểm duyệt bảo vệ dữ liệu riêng tư, luồng dữ liệu public, metadata SSR, sitemap, robots và hợp đồng routing cho Vercel.
+Treat every claim above as current only as of the date shown; see [`work/SUPERVISOR_REPORT.md`](https://github.com/thuanlyt/osblog/blob/main/work/SUPERVISOR_REPORT.md) for the live release-gate record.
 
-Production is currently **not ready**. No Neon/Postgres or Better Auth provider target is configured, no migration or live auth/CRUD/comment/SSR integration has run, and no deployment has been made. Do not treat local contract checks as production evidence.
+## Screenshots and media
 
-Trạng thái production hiện là **chưa sẵn sàng**. Chưa có target/provider Neon/Postgres hoặc Better Auth được cấu hình, chưa chạy migration hay integration auth/CRUD/bình luận/SSR thực tế, và chưa deploy. Không xem các kiểm thử contract cục bộ là bằng chứng production.
+The repository includes a genuine [Cap walkthrough GIF](https://raw.githubusercontent.com/thuanlyt/osblog/main/public/media/osblog-cap-demo.gif) and [MP4](https://github.com/thuanlyt/osblog/blob/main/public/media/osblog-cap-demo.mp4) showing the public site, co-located docs, and a published article. See [docs/media.md](docs/media.md) for provenance and capture rules.
 
-## Local development / Chạy local
+## Capabilities
 
-Requirements: Node.js 20+ and npm.
+- **Bilingual content model.** Every post carries English and Vietnamese title, excerpt, body, cover alt text, and SEO fields side by side — there is no separate draft per language.
+- **Real admin editor** at `/admin` (Better Auth session required): a Markdown toolbar, edit/preview/split view, per-language tabs, slug auto-derived from the English title, cover image URL + mandatory alt text, per-language SEO title/description, status and publish date, unsaved-draft recovery from `localStorage`, and an optimistic-concurrency conflict prompt when a post changed since it was loaded.
+- **Anonymous, moderated comments.** Readers submit an email and a message only — no account. Every comment starts `pending`, protected by a signed, time-boxed form token, a honeypot field, and durable database-backed rate limits keyed by hashed IP and hashed email. Commenter email is encrypted at rest and never returned to public clients.
+- **Recoverable deletes for content, permanent for comments.** Deleting a post or category archives it (recoverable); deleting a comment is a real, permanent delete.
+- **Server-rendered public site** with sitemap, robots, and per-post SEO metadata, built on a single shared request router so the same logic runs on Vercel, Netlify, or a plain Node server.
+- **Source-embedded documentation.** This documentation set ships inside the built app and is served at `/docs`.
+
+## Quickstart
+
+Requirements: Node.js 20+, npm, and a Postgres connection string (a free [Neon](https://neon.tech) project works well).
 
 ```powershell
-npm install
+git clone https://github.com/thuanlyt/osblog.git
+cd osblog
+npm ci
 Copy-Item .env.example .env.local
+```
+
+Fill in `.env.local` with your own `DATABASE_URL`, `BETTER_AUTH_SECRET` (32+ random characters), `COMMENT_EMAIL_ENCRYPTION_KEY` (32 random bytes, base64-encoded), and `ADMIN_EMAIL`. See [Configuration](docs/configuration.md) for every variable.
+
+```powershell
+npm run db:migrate
+$env:OSBLOG_ADMIN_PASSWORD = "choose-a-strong-12-plus-character-password"
+npm run db:bootstrap
+Remove-Item Env:\OSBLOG_ADMIN_PASSWORD
+npm run db:seed   # optional: adds three published bilingual intro posts
 npm run dev
 ```
 
-Provider-backed routes fail closed until the server environment is configured. Never commit `.env.local` or provider credentials.
+Open `http://localhost:5173`. Sign in at `/admin/login` with `ADMIN_EMAIL` and the password you bootstrapped with. Full walkthrough: [docs/getting-started.md](docs/getting-started.md).
 
-Các route cần provider sẽ fail-closed khi môi trường máy chủ chưa được cấu hình. Không commit `.env.local` hoặc thông tin đăng nhập provider.
-
-## Verification / Kiểm thử
+## Verification
 
 ```powershell
 npm run lint
 npm run typecheck
-npm run test
+npm test
 npm run build
-npm audit --audit-level=high
-python tools/useagent.py validate
-python tests/useagent-conformance/replay.py
 ```
 
-The current local gate passes: 30 tests, lint, typecheck, build, high-severity audit, boundary scans, route smoke checks, and `useagent validate`.
+As of 2026-09-05 these pass locally: 64 unit/component/SQL integration tests, 2 compiled-browser E2E tests, lint, typecheck, and the production build. The E2E gate uses an installed Chromium executable when the latest Playwright-managed browser is unavailable; see [docs/getting-started.md](docs/getting-started.md).
 
-Gate local hiện tại đã đạt: 30 test, lint, typecheck, build, audit mức high, quét boundary, smoke test route và `useagent validate`.
+## Architecture, in brief
 
-## Repository map / Cấu trúc chính
+```text
+Browser
+  └─ React UI (src/app) ── hydrates the SSR HTML
+        │
+        v
+Shared request router (src/server/router.ts)
+  ├─ served by tools/server/start.ts in development (Vite middleware + Node HTTP)
+  ├─ served by api/index.ts on Vercel (dist/server bundled into one function)
+  ├─ served by netlify/functions/osblog.mts on Netlify (one Fetch function)
+  └─ served by npm start on a plain Node/VPS host
+        │
+        v
+Postgres (Neon) via Drizzle ORM ── Better Auth session store
+```
 
-- `src/app/` — React routes, shell, public content states, and comment form.
-- `src/server/` — server-only schemas, auth policy, content/comment services, HTTP envelopes, and SEO helpers.
-- `api/` — Vercel-compatible health, auth, post, comment, render, sitemap, and robots handlers.
-- `drizzle/` — reviewed content and Better Auth migration shapes; execution requires an authorized database target.
-- `design-system/osblog/` — persisted visual and accessibility source of truth.
-- `knowledge/` — source-anchored architecture, workflow, and project context.
-- `work/` — UseAgent registry, reports, evidence, checkpoints, and preserved runtime history.
+One router, one build output (`dist/client` static assets + `dist/server/index.js` SSR bundle), three thin adapters. See [docs/architecture.md](docs/architecture.md) for the full technical record.
 
-See [architecture](docs/architecture.md), [UI design](docs/ui-design.md), [operations](docs/operations.md), and the [supervisor report](work/SUPERVISOR_REPORT.md) for the current contracts and release gates.
+## Documentation map
 
-Xem [kiến trúc](docs/architecture.md), [thiết kế UI](docs/ui-design.md), [vận hành](docs/operations.md) và [báo cáo supervisor](work/SUPERVISOR_REPORT.md) để biết contract và release gate hiện tại.
+- [Introduction](docs/introduction.md) — what osblog is and who it's for.
+- [Getting started](docs/getting-started.md) — install, configure, run, verify.
+- [Markdown editor](docs/editor.md) — the real admin editor: toolbar, preview modes, slug, cover, SEO, draft/publish.
+- [Configuration](docs/configuration.md) — every environment variable and what reads it.
+- [Admin and comments](docs/admin-and-comments.md) — sign-in boundary, content CRUD, comment moderation.
+- [Deployment](docs/deployment.md) — local, VPS/Nginx, Vercel, and Netlify, with real commands and what's actually verified.
+- [Backups and rollback](docs/backups-and-rollback.md) — migration history, backup expectations, and rollback procedure.
+- [Architecture](docs/architecture.md) — full technical decision record.
+- [Media](docs/media.md) — verified Cap walkthrough GIF/MP4 and capture provenance.
+- [CHANGELOG](CHANGELOG.md) · [CONTRIBUTING](CONTRIBUTING.md) · [SECURITY](SECURITY.md)
 
-## License / Giấy phép
+Vietnamese versions live under [docs/vi/](docs/vi/index.md) and are also served at `/docs?lang=vi`.
 
-MIT. See [LICENSE](LICENSE).
+## Support
 
-No credentials, provider secrets, or private account data belong in this repository.
+Open an issue or pull request at [github.com/thuanlyt/osblog](https://github.com/thuanlyt/osblog). See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and [SECURITY.md](SECURITY.md) to report a vulnerability privately.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

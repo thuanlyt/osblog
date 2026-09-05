@@ -36,8 +36,11 @@ describe('comment privacy and abuse boundary', () => {
     expect(commentSubmissionInput.safeParse({ ...input, email: 'not-an-email' }).success).toBe(false)
   })
 
-  it('only permits terminal moderation decisions', () => {
-    expect(moderationInput.safeParse({ status: 'approved' }).success).toBe(true)
-    expect(moderationInput.safeParse({ status: 'pending' }).success).toBe(false)
+  it('requires concurrency tokens for every moderation transition', () => {
+    const expectedUpdatedAt = '2026-09-05T00:00:00.000Z'
+    expect(moderationInput.safeParse({ status: 'approved', expectedUpdatedAt }).success).toBe(true)
+    expect(moderationInput.safeParse({ status: 'pending', expectedUpdatedAt }).success).toBe(true)
+    expect(moderationInput.safeParse({ status: 'approved' }).success).toBe(false)
+    expect(moderationInput.safeParse({ status: 'invalid', expectedUpdatedAt }).success).toBe(false)
   })
 })

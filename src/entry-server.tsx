@@ -1,18 +1,17 @@
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import { App } from './app/App'
-import { renderHtmlDocument, seoForPath } from './server/seo'
+import type { PageData } from './app/types'
+import { renderDocument, type ClientAssets } from './server/seo'
+import { createRouter, type RouterOptions } from './server/router'
+import { createNodeHandler } from './server/node-adapter'
 
-/**
- * Route-aware SSR boundary for the Vercel Node function.
- * Provider-backed article data is still loaded by the client until the
- * server query snapshot is wired into this entry in a later slice.
- */
-export function render(url: string) {
-  const body = renderToString(
-    <StaticRouter location={url}>
-      <App />
-    </StaticRouter>,
-  )
-  return renderHtmlDocument(body, seoForPath(url))
+declare const __OSBLOG_ASSETS__: ClientAssets
+const assets = typeof __OSBLOG_ASSETS__ === 'undefined' ? { scripts: ['/src/main.tsx'], styles: [] } : __OSBLOG_ASSETS__
+export function render(data: PageData, origin: string, nonce: string) {
+  const body = renderToString(<StaticRouter location={data.path}><App initialData={data}/></StaticRouter>)
+  return renderDocument(body, data, origin, nonce, assets)
 }
+export const createApp = (options: Omit<RouterOptions, 'render'> = {}) => createRouter({ ...options, render })
+export const handle = createApp()
+export const nodeHandler = createNodeHandler(handle)

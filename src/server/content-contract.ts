@@ -9,12 +9,16 @@ const postFields = {
   titleEn: z.string().trim().min(1).max(240),
   excerptVi: z.string().trim().min(1).max(1000),
   excerptEn: z.string().trim().min(1).max(1000),
-  bodyVi: z.string().trim().min(1),
-  bodyEn: z.string().trim().min(1),
-  coverImageUrl: z.string().url().max(2000).nullable().optional(),
+  bodyVi: z.string().trim().min(1).max(100000),
+  bodyEn: z.string().trim().min(1).max(100000),
+  coverImageUrl: z.string().max(2000).refine((value) => {
+    if (/^\/assets\/[a-zA-Z0-9._/-]+$/.test(value)) return true
+    if (!/^https?:\/\//i.test(value)) return false
+    try { return Boolean(new URL(value).hostname) } catch { return false }
+  }, 'Use a parseable HTTP(S) image URL or /assets/ path').nullable().optional(),
   coverImageAltVi: z.string().trim().max(240).nullable().optional(),
   coverImageAltEn: z.string().trim().max(240).nullable().optional(),
-  status: postStatusSchema.default('draft'),
+  status: postStatusSchema,
   publishedAt: z.string().datetime({ offset: true }).nullable().optional(),
   seoTitleVi: z.string().trim().max(240).nullable().optional(),
   seoTitleEn: z.string().trim().max(240).nullable().optional(),
@@ -24,7 +28,8 @@ const postFields = {
 
 const postFieldsSchema = z.object(postFields)
 
-export const createPostInput = postFieldsSchema.superRefine((value, context) => {
+export const createPostInput = postFieldsSchema.extend({ status: postStatusSchema.default('draft') }).superRefine((value, context) => {
+  if (value.coverImageUrl && (!value.coverImageAltVi?.trim() || !value.coverImageAltEn?.trim())) context.addIssue({ code: 'custom', path: ['coverImageAltEn'], message: 'Image alt text is required in both languages' })
   if (value.status === 'published' && !value.publishedAt) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ['publishedAt'], message: 'Published posts require publishedAt' })
   }
@@ -47,7 +52,22 @@ export const deletePostInput = z.object({
 
 export const listPostsQuery = z.object({
   limit: z.coerce.number().int().min(1).max(50).default(20),
+  page: z.coerce.number().int().min(1).max(10000).default(1),
+  q: z.string().trim().max(200).default(''),
+  category: z.string().max(160).default(''),
+  year: z.string().regex(/^$|^\d{4}$/).default(''),
+  sort: z.enum(['latest', 'popular', 'random']).default('latest'),
 })
+
+export const categoryInput = z.object({
+  slug: z.string().trim().min(1).max(160).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  nameVi: z.string().trim().min(1).max(160),
+  nameEn: z.string().trim().min(1).max(160),
+  descriptionVi: z.string().trim().max(2000).nullable().optional(),
+  descriptionEn: z.string().trim().max(2000).nullable().optional(),
+  isArchived: z.boolean().default(false),
+})
+export const categoryUpdateInput = categoryInput.extend({ expectedUpdatedAt: z.string().datetime({ offset: true }) })
 
 export type CreatePostInput = z.infer<typeof createPostInput>
 export type UpdatePostInput = z.infer<typeof updatePostInput>

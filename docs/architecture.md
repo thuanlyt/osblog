@@ -1,177 +1,151 @@
 # osblog application architecture
 
-**Status:** reviewed architecture contract with a verified client scaffold. The initial internal **Codex fallback** attempt for UA-0013 produced the proposal but stopped without a CLI report; this document was supervisor-recovered under UA-0014. UA-0020 then verified the Vite/React/TypeScript client shell, tests, build, and SSR boundary placeholder. It is not Antigravity execution. Antigravity remains the preferred primary for this work when its client is callable. No provider account, credential, deployment, database, or production readiness is claimed here.
+*Tiếng Việt (tóm tắt): [docs/vi/architecture.md](vi/architecture.md)*
+
+**Status:** implemented and reviewed. This replaces an earlier scaffold-era version of this document that described `api/render.ts`, per-route Vercel functions, and a placeholder admin UI — none of that shape exists anymore. What is described below is the current single-router architecture, verified locally with 64 passing unit/component/SQL integration tests plus 2 compiled-browser E2E tests. Production deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` is live on both requested Vercel hostnames and passed the dated route smoke recorded in [Deployment](deployment.md).
 
 ## Decision in one paragraph
 
-Build a Vite + React + TypeScript application with a browser client, a small shared server layer, and Vercel Node.js Functions under `api/`. Use Neon Postgres as the durable store and Drizzle ORM with the Neon HTTP driver for short serverless transactions. Use Better Auth with its Drizzle adapter for the protected admin session boundary, with public sign-up disabled and an explicitly seeded admin identity. Public pages use a route-aware Vite SSR entry served by one Node function so crawlers receive article HTML and metadata; the client hydrates the same React tree. CRUD, moderation, auth, SEO, and rate-limit writes cross the API boundary only. The current tree contains the reviewed client scaffold, server schema/auth boundary, and post API adapters; provider-backed execution and route-aware SSR data loading remain follow-up gates.
-
-This choice is grounded in the [Vercel Node.js Functions documentation](https://vercel.com/docs/functions/runtimes/node-js), which supports TypeScript functions in `api/`, and the [Vercel configuration documentation](https://vercel.com/docs/project-configuration/vercel-json), which documents function routing and rewrites. Drizzle documents both Neon HTTP and WebSocket drivers and specifically describes HTTP as suitable for single, non-interactive serverless transactions ([Drizzle <> Neon](https://orm.drizzle.team/docs/connect-neon)). Better Auth documents a Drizzle adapter for PostgreSQL and schema generation/migration ([Drizzle adapter](https://better-auth.com/docs/adapters/drizzle)). These are design anchors, not execution or vendor-access evidence.
+osblog is a Vite + React 19 + TypeScript application with one shared request router ([`src/server/router.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/router.ts)) that handles every path — public pages, the documentation site, the admin app, and the JSON API — behind a single `Request -> Response` function. That router is reused unmodified across three runtimes: a Node HTTP server in development and on a VPS ([`tools/server/start.ts`](https://github.com/thuanlyt/osblog/blob/main/tools/server/start.ts)), a single Vercel Node.js Function ([`api/index.ts`](https://github.com/thuanlyt/osblog/blob/main/api/index.ts)), and a single Netlify Fetch function ([`netlify/functions/osblog.mts`](https://github.com/thuanlyt/osblog/blob/main/netlify/functions/osblog.mts)). Persistence uses Neon Postgres via Drizzle ORM's HTTP driver; admin authentication uses Better Auth with public sign-up disabled and one operator-bootstrapped identity. Public routes render server-side with `renderToString` so crawlers receive real article HTML and metadata; the same React tree hydrates in the browser.
 
 ## Runtime and ownership boundaries
 
 ```text
 Browser
-  ├─ React UI and hydration (src/)
+  ├─ React UI and hydration (src/app/)
   ├─ public read requests ───────────────┐
   └─ admin/comment form requests ────────┤
                                           v
-Vercel Node.js Functions (api/)
-  ├─ request parsing, auth, CSRF/origin checks, validation
-  ├─ route handlers and SEO HTML/XML responses
+Shared request router (src/server/router.ts)
+  ├─ request parsing, auth, CSRF/origin checks, validation, security headers
+  ├─ route dispatch: API JSON, SSR HTML, sitemap/robots
   └─ server-only services ──> Neon Postgres (Drizzle)
+        ^
+        │ same router, three thin adapters
+  ┌─────┴──────┬───────────────────┬─────────────────────┐
+  Node HTTP     Vercel Function      Netlify Function
+  (dev/VPS)     (api/index.ts)       (netlify/functions/osblog.mts)
 ```
 
-Planned ownership is deliberately narrow:
-
-- `src/app/` owns React routes, layouts, view models, and the shared public/admin component tree.
-- `src/entry-client.tsx` hydrates the SSR HTML; `src/entry-server.tsx` renders public routes and page metadata from a read-only query service.
-- `src/server/` owns schema, query services, validation, and auth configuration that are imported by API handlers only. It must never be included in client bundles.
-- `api/` owns HTTP adapters. Each handler delegates to the shared server layer and returns explicit status codes; it does not contain an in-memory repository.
-- `drizzle/` owns the reviewed initial content and Better Auth migration shapes. Migration execution and a guarded idempotent seed remain operator/auth work-item responsibilities; the current implementation has no provider-backed persistence run.
-
-Vercel deployment configuration must keep `/api/*` as functions, serve Vite client assets from the build output, and rewrite public page paths to the SSR handler before the SPA fallback. The exact `vercel.json` shape is a later implementation task and is outside UA-0013 scope. Node.js is the default function runtime; Edge is not selected because the first persistence/auth implementation needs the Node-compatible Postgres and crypto ecosystem. Function duration, region, and pool behavior must be verified against the chosen Vercel plan before release.
+- `src/app/` owns React routes, layouts, the public component tree, and the admin app (`src/app/admin/`).
+- `src/entry-client.tsx` hydrates the SSR HTML in the browser; `src/entry-server.tsx` renders every route to a string via `renderToString` and builds the full HTML document (SEO tags, JSON-LD, hashed asset links) via [`src/server/seo.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/seo.ts).
+- `src/server/` owns the router, schema, query services (`content.ts`, `comments.ts`, `docs.ts`, `pages.ts`), validation contracts, and auth configuration. It is imported only by server entry points and must never be bundled for the client.
+- `src/server/node-adapter.ts` adapts the `Request/Response`-based router to Node's `IncomingMessage`/`ServerResponse`, used by both `tools/server/start.ts` and, indirectly, by the Vercel/Netlify adapters (which run the same built router in their own request model).
+- `api/index.ts` and `netlify/functions/osblog.mts` are thin re-exports of the built `dist/server/index.js` handler — neither contains routing logic of its own.
+- `drizzle/` owns the four applied SQL migrations; `src/server/provision.ts` owns migration execution, admin bootstrap, and the optional content seed.
 
 ## Routes
 
+Route resolution happens in [`src/server/pages.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/pages.ts) (`loadPage`), which is data-driven rather than a client-side route table — it inspects the URL and returns a typed `PageData` payload that `src/app/App.tsx` renders by `kind`.
+
 | Route | Access | Output and behavior |
 |---|---|---|
-| `/` | public | Bilingual home, featured/latest posts, bounded related/random/most-viewed sections. SSR. |
-| `/category/:slug` | public | Published posts in one category, stable pagination, canonical URL. SSR. |
-| `/post/:slug` | public | Published article, language alternates, view event, related posts, comments. SSR. |
-| `/search?q=` | public | Bounded server-side search; `noindex,follow`, never exposes drafts. |
-| `/about` | public | Static bilingual editorial/about page. SSR or static HTML. |
+| `/` | public | Bilingual home: latest published posts, categories, archive years. SSR. |
+| `/archive` | public | Same listing shape as home, framed as the full archive. SSR. |
+| `/category/:slug` | public | Published posts filtered to one category. SSR. |
+| `/search?q=` | public | Bounded server-side search across title/excerpt (both languages); `noindex,follow`. |
+| `/post/:slug` | public | Published article: bilingual body, approved comments, up to 3 related posts from the same category. SSR. |
+| `/about` | public | Static bilingual about page. |
+| `/docs`, `/docs/:slug` | public | This documentation set, read from `docs/**/*.md`; `?lang=vi` selects the Vietnamese variant. |
 | `/admin/login` | unauthenticated | Better Auth sign-in only; no public registration. |
-| `/admin` | admin | Moderation and content summary. Redirects to login when unauthenticated. |
-| `/admin/posts` and `/admin/posts/new` | admin | Post list and validated create form. |
-| `/admin/posts/:id/edit` | admin | Post update form with draft/publish transition. |
-| `/admin/categories` | admin | Category create/read/update/delete. Referenced categories cannot be deleted silently. |
-| `/admin/comments` | admin | Pending/approved/rejected/spam moderation queue. |
+| `/admin`, `/admin/posts`, `/admin/posts/new`, `/admin/posts/:id/edit`, `/admin/categories`, `/admin/comments` | admin | The real publishing workspace (React Router app under `src/app/admin/`); redirects to `/admin/login` when unauthenticated. |
 
-API handlers are separate from browser routes:
+API handlers, all under `/api/`:
 
 | Method and path | Boundary |
 |---|---|
-| `GET /api/posts`, `GET /api/posts/:id` | Public published reads; admin may request drafts. |
-| `POST /api/posts`, `PATCH /api/posts/:id`, `DELETE /api/posts/:id` | Admin-only CRUD; Zod-style validation, audit record, transactional category check. Delete means archive by default; hard delete is a separately audited operation. |
-| `GET /api/categories`, `POST/PATCH/DELETE /api/categories/:id` | Public read; admin-only mutations. |
-| `POST /api/comments` | Anonymous submission; always enters `pending` or `spam`, never directly `approved`. |
-| `GET /api/admin/comments`, `PATCH /api/admin/comments/:id` | Admin-only moderation and status transitions. Comment email is never returned to public clients. |
-| `/api/auth/*` | Better Auth sign-in, session, and sign-out handlers. |
-| `GET /api/healthz` | Read-only liveness/configuration check; no secrets or database contents. |
-| `GET /sitemap.xml`, `GET /robots.txt` | XML/text functions backed by published rows only; rewrites may point these paths to `api/seo/*`. |
+| `GET /api/posts`, `GET /api/posts/slug/:slug` | Public published reads only. |
+| `GET /api/categories` | Public read of active categories. |
+| `POST /api/posts/:id/view` | Rate-limited (1 per IP per post per 24h), increments `view_count`. |
+| `GET /api/comments/token` | Issues a signed, time-boxed comment form token. |
+| `GET /api/comments?postId=`, `POST /api/comments` | Public read of approved comments; anonymous submission, always `pending`/`spam`. |
+| `GET/POST /api/admin/posts`, `GET/PATCH/DELETE /api/admin/posts/:id` | Admin-only post CRUD; `DELETE` archives. |
+| `GET/POST /api/admin/categories`, `PATCH/DELETE /api/admin/categories/:id` | Admin-only category CRUD; `DELETE` archives; referenced categories cannot be archived by another route's cascade — deletion is rejected with `409` if posts still reference an active category. |
+| `GET /api/admin/comments`, `PATCH /api/admin/comments/:id`, `DELETE /api/admin/comments/:id` | Admin-only moderation; `DELETE` is a real, permanent delete. |
+| `GET /api/admin/session` | Returns the signed-in admin's email. |
+| `/api/auth/sign-in/email`, `/api/auth/sign-out`, `/api/auth/get-session` | The only three Better Auth endpoints exposed — no public sign-up surface. |
+| `GET /api/healthz` | Liveness/DB-connectivity check (`select 1`); no secrets or database contents. |
+| `GET /sitemap.xml`, `GET /robots.txt` | Generated from published rows and the documentation set; robots disallows `/admin` and `/api/`. |
 
-API responses use a stable `{ data, error, requestId }` envelope. Validation errors are `400`, unauthenticated is `401`, unauthorized is `403`, missing records are `404`, conflicts are `409`, rate limits are `429`, and unexpected failures are generic `500` responses with server-side request IDs.
+API responses use a stable `{ data, error, requestId }`-shaped envelope (see [`src/server/http.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/http.ts)). Validation errors are `400`, unauthenticated `401`, unauthorized `403`, missing records `404`, conflicts `409`, rate limits `429`, and unexpected failures a generic `500`/`503` with a server-side request ID.
 
 ## Entities and invariants
 
-The initial PostgreSQL schema should contain:
+Schema source: [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts).
 
-- `category`: UUID `id`, unique `slug`, `name_vi`, `name_en`, descriptions, timestamps, and an active/archived flag. Slugs are lowercase and immutable after publication unless a redirect record is added.
-- `post`: UUID `id`, `category_id`, unique `slug`, bilingual title/excerpt/body Markdown, cover image URL and alt text per language, `status` (`draft|published|archived`), `published_at`, timestamps, `view_count`, and optional SEO title/description. Only `published` rows are public; publishing requires both language titles and a valid category.
-- `comment`: UUID `id`, `post_id`, encrypted email for moderator use, email hash for deduplication/rate limiting, body text, `status` (`pending|approved|rejected|spam`), hashed IP and user-agent fingerprint, created/reviewed timestamps, and moderation reason. Email and fingerprints are sensitive data with a documented retention/deletion policy; neither is public.
-- Better Auth tables (`user`, `session`, `account`, and verification data as configured): one or more `admin` users, with role checks in the API. Public sign-up is disabled.
-- `rate_limit_bucket`: normalized key, window start, count, and expiry. It is used atomically for comment limits and is not a client-side counter.
-- `audit_event`: actor/session, action, entity, entity ID, before/after summary, request ID, and timestamp. Do not store raw passwords, auth tokens, or comment email in the audit payload.
+- **`category`** — UUID `id`, unique `slug`, bilingual name/description, `isArchived` flag, timestamps.
+- **`post`** — UUID `id`, `categoryId` (FK), unique `slug`, bilingual title/excerpt/body, cover image URL + bilingual alt text, `status` (`draft|published|archived`), `publishedAt`, `viewCount`, bilingual SEO title/description, timestamps. Indexed on `(status, published_at)` and `categoryId`. Only rows where `status = 'published'`, `publishedAt <= now()`, and the owning category is not archived are publicly visible (`visiblePost()` in [`src/server/content.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/content.ts)) — a future `publishedAt` is a real, working way to schedule a post.
+- **`comment`** — UUID `id`, `postId` (FK), encrypted email (`emailCiphertext`) plus `emailHash` for dedup/rate-limit lookups, body text, `status` (`pending|approved|rejected|spam`), hashed IP and user-agent, `reviewedAt`, `moderationReason`, timestamps. Indexed on `postId`, `(status, createdAt)`, and `emailHash`.
+- **Better Auth tables** (`user`, `session`, `account`, verification) — exactly one admin user; a `databaseHooks.user.create.before` hook additionally rejects creating any account whose email doesn't match `ADMIN_EMAIL`, on top of `disableSignUp`.
+- **`rate_limit_bucket`** — normalized key, window start, count, expiry; used atomically for comment submission, sign-in attempts, and per-post view counting.
+- **`audit_event`** — actor user ID, action, entity, entity ID, before/after JSON summary, request ID, timestamp. Never stores raw passwords, tokens, or comment email.
 
-Foreign keys, unique slugs, status checks, maximum lengths, and indexes on `(status, published_at)`, `category_id`, `post_id`, and moderation status are database invariants, not only UI rules. Published content is immutable from the public perspective: edits create a new `updated_at` and invalidate any cached HTML.
-
-Related content is deterministic: same category and language first, then a stable hash of post ID ordered by a request seed. Random content accepts a server-generated bounded seed and a maximum count. Most-viewed uses a time-bounded view aggregate, not an unbounded counter scan. View increments are deduplicated per short-lived anonymous cookie/IP hash and may be eventually consistent; they never gate publication.
+Published content is not literally immutable, but every edit bumps `updated_at` (`nextTimestamp`, strictly increasing) and is guarded by optimistic concurrency (`expectedUpdatedAt`) so concurrent edits are rejected as `409` rather than silently lost.
 
 ## Auth and CRUD flow
 
-1. `POST /api/auth/sign-in/email` accepts credentials only for pre-created admin users. Better Auth issues a rotating, expiring, `HttpOnly; Secure; SameSite=Lax` session cookie. Use a strong `BETTER_AUTH_SECRET`, origin checks, and a server-side role check on every mutation.
-2. The admin shell calls a session endpoint and renders only after a `401`/redirect decision. Hiding controls in React is not authorization.
-3. Each mutation parses JSON with a shared schema, normalizes slugs, checks optimistic concurrency (`updated_at` or version), runs the database transaction, writes an audit event, and returns the saved record. No request may select a repository implementation that falls back to memory.
-4. Category delete is rejected when posts reference it (`409`) unless a deliberate reassignment/archive operation is submitted. Post delete archives by default; hard deletion requires a separate confirmation and audit trail.
-5. Sign-out revokes the session. Session cookies, CSRF/origin failures, and admin role failures are covered by integration tests.
-
-The exact Better Auth configuration and generated schema require provider/package verification during implementation. Until that work is complete, admin auth is a design boundary, not a working login and not a production claim. Better Auth's email/password flow is documented at [Email & Password](https://better-auth.com/docs/authentication/email-password); its default sign-up behavior must be disabled or guarded for this single-admin use case.
+1. `POST /api/auth/sign-in/email` accepts credentials only for the single pre-created admin user, rate-limited by hashed IP and hashed email (15 attempts / 15 minutes each). Better Auth issues a session cookie, `Secure` when the auth origin is `https://`, expiring after 8 hours and refreshing after 1 hour of use.
+2. The admin app calls `GET /api/admin/session`; a `401` redirects to `/admin/login`. Hiding controls in React is never treated as authorization — every admin route handler calls the same `admin(request)` check in `router.ts`.
+3. Each mutation parses JSON with a shared Zod schema, checks optimistic concurrency against `expectedUpdatedAt`, runs the write inside a database transaction, writes an `audit_event` row, and returns the saved record.
+4. Category delete/archive is rejected with `409` when active posts still reference it. Post and category delete archive by default; there is no hard-delete action for either in the current admin UI. Comment delete is a real, permanent delete.
+5. Sign-out revokes the session. Session cookies, CSRF/origin failures, and admin role failures are covered by [`tests/server/auth.test.ts`](https://github.com/thuanlyt/osblog/blob/main/tests/server/auth.test.ts).
 
 ## Anonymous comments, moderation, and anti-spam
 
-The form asks for email and comment text only; there is no commenter account, registration, or login. The API still treats the browser as hostile:
+The form asks for email and comment text only; there is no commenter account. Implemented protections, in order of what actually runs today:
 
-- Normalize and validate email server-side; cap body length; strip/escape HTML and render only sanitized Markdown/plain text.
-- Require a server-issued form token and reject submissions that arrive implausibly quickly. Include a honeypot field, but never rely on it alone.
-- Enforce an atomic database rate limit by hashed IP and hashed normalized email (for example, a small per-IP and per-email window); return `429` with `Retry-After`. Do not log raw IP or email.
-- In production, verify Turnstile server-side when `TURNSTILE_SECRET_KEY` is configured/required. A missing key in production is a configuration failure, not permission to bypass the check. The provider choice and quotas remain unverified until credentials are supplied.
-- Optionally run a provider-backed moderation check, but keep the durable state machine local: `pending -> approved|rejected|spam`, with moderator, timestamp, and reason. The safe default is `pending`.
-- Return a generic accepted response for syntactically valid anonymous submissions to reduce account/content enumeration. Do not send notification mail until moderation and abuse tests pass.
-- Apply retention rules to encrypted email and hashed fingerprints, and provide an admin deletion path. Never expose email in HTML, JSON, analytics, or sitemap output.
+- Server-side validation caps `body` at 5,000 characters and `email` at 320; Markdown/HTML in comment bodies is rendered through the same sanitized renderer used for posts, never raw HTML.
+- A server-issued, HMAC-signed form token (`GET /api/comments/token`) expires after 15 minutes; submissions with a missing, expired, or forged token are rejected.
+- A honeypot field is present but is one signal among several, never the only spam check.
+- An atomic, database-backed rate limit (`rate_limit_bucket`) keyed by hashed IP and hashed normalized email; over-limit requests get `429`. Neither raw IP nor raw email is ever logged.
+- The moderation state machine is `pending -> approved|rejected|spam`, with moderator action, timestamp, and reason, always starting `pending` or `spam` — never auto-approved.
+- **Turnstile is not wired in.** `TURNSTILE_SECRET_KEY` is accepted by the environment schema but no code path verifies it yet — see [Configuration](configuration.md). Do not describe comment submission as CAPTCHA-protected.
+- There is no outbound moderation-notification email; moderators check the queue at `/admin/comments`.
 
 ## SEO and crawl output
 
-The SSR response for each public route must include:
+Implemented in [`src/server/seo.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/seo.ts) (`renderDocument`, used by every SSR response via `src/entry-server.tsx`):
 
-- `<html lang="vi">` or `lang="en"` and a user-selectable language URL strategy;
-- unique title and description, one canonical URL, and `alternate` links for `vi`, `en`, and `x-default` where a translation exists;
-- Open Graph/Twitter metadata and a responsive cover image with meaningful alt text;
-- JSON-LD `Article` and `BreadcrumbList` for posts, using the public site URL and publication/update timestamps;
-- noindex for admin, drafts, and search results; no draft or rejected comment in SSR data;
-- `/sitemap.xml` containing only canonical published post/category URLs with `lastmod`, and `/robots.txt` disallowing `/admin` and private API paths.
-
-Because a client-only Vite shell would leave crawlers with incomplete article metadata, public route rewrites must reach the SSR function. Hydration must use the same route/data snapshot to avoid markup mismatch. Cache only public GET HTML and invalidate/revalidate after publication; never cache admin, comments, auth, or draft responses.
+- `<html lang="vi">` or `lang="en"` per the `?lang=` query parameter, with `hreflang` alternate links for both languages.
+- A canonical URL (query parameters other than `lang`/`page`/`year`/`category` stripped), unique per-page title and description, Open Graph and Twitter Card metadata, and a responsive cover image with alt text when a post has one.
+- JSON-LD: `BlogPosting` for articles (headline, dates, author, image), `TechArticle` for documentation pages, `WebSite` otherwise.
+- `robots` meta is `noindex,follow` for non-200 responses, `/admin*`, `/login`, error pages, `/search`, and sorted (`random`/`popular`) listing views; everything else is `index,follow`.
+- `/sitemap.xml` includes only visible posts (see `visiblePost()`), the documentation index and pages, static routes, and both language variants of each, with `lastmod` from `updated_at`; capped with an explicit `503` if a single sitemap would exceed roughly 49,000 URLs (partitioning is not implemented, and is not expected to be needed at this project's scale). `/robots.txt` disallows `/admin` and `/api/`.
 
 ## Environment variables
 
-Server-only values are never prefixed with `VITE_` and must be configured separately per Vercel environment:
-
-| Variable | Use |
-|---|---|
-| `DATABASE_URL` | Neon runtime URL for Drizzle HTTP queries. |
-| `DATABASE_URL_MIGRATIONS` | Direct/migration connection used only by CI or an operator, never shipped to the browser. Exact Neon connection mode is an implementation blocker until verified. |
-| `BETTER_AUTH_SECRET` | Session/signing secret; rotate via a documented session invalidation procedure. |
-| `BETTER_AUTH_URL` | Trusted canonical auth origin. |
-| `ADMIN_EMAIL` | Seed/bootstrap allow-list; not a public registration setting. |
-| `ADMIN_SEED_PASSWORD` | One-time bootstrap secret, supplied only to a protected migration/seed job and removed afterward. |
-| `TURNSTILE_SECRET_KEY` | Server-side anonymous comment challenge verification. |
-| `RESEND_API_KEY` and `COMMENT_NOTIFICATION_EMAIL` | Optional post-moderation notification delivery; not required for accepting a pending comment. |
-| `SENTRY_DSN` | Optional server error reporting after privacy review. |
-
-Public build-time values may include `VITE_SITE_URL`, `VITE_SITE_NAME`, and `VITE_DEFAULT_LOCALE`. The client must never receive database URLs, auth secrets, seed credentials, Turnstile secrets, raw email, or unredacted operational configuration. Missing required server variables should fail health checks and deployment validation, not silently use development defaults.
+See [Configuration](configuration.md) for the complete, current table. In summary: `DATABASE_URL` (pooled) and `DATABASE_URL_MIGRATIONS` (direct, operator-only, falls back to `DATABASE_URL`) are never sent to the browser; `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `ADMIN_EMAIL`, and `COMMENT_EMAIL_ENCRYPTION_KEY` are required in production and fail closed if missing; only `VITE_SITE_URL` is intended to reach the client bundle.
 
 ## Migration, seed, and rollback
 
-The first implementation should add a Drizzle schema and generated SQL migrations, then run:
-
-```text
-npm run db:generate       # review generated SQL in the change
-npm run db:migrate        # CI/operator step against DATABASE_URL_MIGRATIONS
-npm run db:seed           # idempotent categories/admin bootstrap; blocked in prod unless explicitly enabled
+```powershell
+npm run db:migrate      # applies drizzle/*.sql inside one transaction, advisory-locked, checksum-tracked
+npm run db:bootstrap    # creates the single admin account; never overwrites an existing one
+npm run db:seed         # optional, idempotent bilingual introduction content
 ```
 
-Migrations are expand/contract and forward-only in normal operation: add nullable structures, deploy code that dual-reads/writes when needed, backfill, then enforce constraints in a later migration. Production migration execution is a separately authorized release step and is not run by this task. Seed data must use stable IDs/upserts and must not overwrite edited content. Better Auth schema generation must be reviewed alongside application migrations.
+Migrations `0000_durable_content.sql` through `0003_auth_issuer.sql` have run against the provisioned Neon database and replay is idempotent (see [Backups and rollback](backups-and-rollback.md)). None of these three commands runs automatically as part of `npm run build` or any deployment — they are explicit operator steps.
 
-Rollback is two-dimensional:
+Rollback is two-dimensional: for code-only failures, point the deployment target back at the last known-good build and smoke-test; for schema changes, keep rollback code backward-compatible with the deployed schema rather than running an unreviewed destructive migration. Full detail in [Backups and rollback](backups-and-rollback.md).
 
-1. For code-only failures, point the Vercel production alias back to the last known-good immutable deployment after smoke checks.
-2. For schema changes, roll back code only while the database remains backward-compatible. Do not run an unreviewed destructive down migration. Restore content from the provider's tested backup/point-in-time mechanism only under incident approval, then reconcile audit events and invalidate caches.
+## Verification boundaries
 
-Before release, verify Neon backup/branch restore, Vercel alias rollback, migration locking, and the recovery time/data-loss objectives. Those provider-account checks are explicit blockers; no rollback evidence exists in this target.
-
-## Verification boundaries for follow-up implementation
-
-The current tree has a package manifest, client source, API adapters, schema/auth migration shapes, SSR/crawl handlers, and local build/test boundaries, but no provider execution or credentials. The commands below identify follow-up QA; only the scoped checks recorded in UA-0020, UA-0024 through UA-0028, and UA-0030 through UA-0034 are claimed as passing:
-
-```text
+```powershell
 npm ci
 npm run lint
 npm run typecheck
-npm run test -- --runInBand                 # unit: schemas, selectors, rate-limit decisions
-npm run test:api                             # auth/CRUD/comments/status and 401/403/409/429 cases
-npm run test:seo                             # SSR HTML, canonical/hreflang, JSON-LD, sitemap/robots
-npm run test:e2e                             # deep links, admin CRUD, moderation, responsive keyboard flows
-npm run test:a11y                            # WCAG-oriented route/component checks
-npm run build                                # Vite client + SSR bundle + API type/build boundary
+npm test          # 64 unit/component/SQL integration tests as of 2026-09-05
+npm run build
+npm run test:e2e  # 2 compiled-browser E2E tests as of 2026-09-05
 ```
 
-Focused acceptance evidence must include: a real database integration run against a disposable Neon branch or local Postgres-compatible test database; migration/seed replay; auth cookie and authorization tests; comment abuse/rate-limit tests; deterministic related/random/most-viewed tests; HTML/XML parsing and metadata assertions; route refresh/deep-link checks; keyboard/focus/reduced-motion checks at the persisted UI reference widths; and a production bundle/performance review. Until those exist, status remains discovery-only and `not_ready`.
+What is verified as of 2026-09-05: schema, environment parsing, auth policy, comment policy, content contracts, HTTP envelopes, SEO output, admin editor component behavior, SQL-backed integration tests against the real schema, compiled-browser publishing/moderation, responsive docs, Axe checks, production build output, and Vercel/Neon production route smoke on both requested hostnames. What is not yet verified: provider rollback/restore exercises and non-Vercel adapter execution (see [Deployment](deployment.md) and [Backups and rollback](backups-and-rollback.md)).
 
-## Known blockers and next action
+## Known gaps and next action
 
-- **Provider verification blocker:** no Neon, Better Auth, Turnstile, mail, Vercel, or domain credentials are available in this task. Confirm package versions, Neon connection mode, quotas, and account backup/rollback capabilities during implementation; do not wait on them here.
-- **SSR/runtime blocker:** `src/entry-server.tsx` and `api/render.ts` now define route-aware metadata/HTML boundaries, but hashed client-asset hydration, route-aware provider data snapshots, and full crawl pagination require implementation and review.
-- **Schema/provider blocker:** migration shapes, guarded seed, data-retention policy, and provider execution require implementation and review. Local API code does not constitute live CRUD or production behavior.
+- **No slug-redirect mechanism.** Changing a published post's slug breaks existing inbound links; see [Markdown editor](editor.md).
+- **Turnstile is unwired.** The secret is accepted but unused; comments are not CAPTCHA-protected today.
+- **Non-Vercel operations remain open.** Netlify's adapter and the VPS path have not been exercised on their live platforms; Neon backup/restore and Vercel alias rollback drills are also pending. See [Deployment](deployment.md) and [Backups and rollback](backups-and-rollback.md).
+- **Coverage boundary.** The compiled-browser gate proves the tested publishing/comment/moderation and responsive-docs flows; it does not replace provider rollback/restore drills or a full exploratory audit of every admin screen.
 
-**Next action:** obtain an authorized Neon/Postgres and Better Auth provider target/credentials, then run migration/auth/CRUD/comments/SSR integration QA before any deployment action.
+**Next action:** document and run a backup/rollback drill before the next material schema change, then consider Turnstile and non-Vercel deployment as separate follow-on work.

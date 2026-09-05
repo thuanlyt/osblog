@@ -10,9 +10,9 @@ export function issueCommentFormToken(secret: string, issuedAt = Date.now()): st
 }
 
 export function verifyCommentFormToken(token: string, secret: string, now = Date.now()): boolean {
-  const [timestamp, signature] = token.split('.')
+  const [timestamp, signature, extra] = token.split('.')
   const issuedAt = Number(timestamp)
-  if (!timestamp || !signature || !Number.isSafeInteger(issuedAt) || Math.abs(now - issuedAt) > FORM_TOKEN_MAX_AGE_MS) return false
+  if (extra !== undefined || !timestamp || !signature || !Number.isSafeInteger(issuedAt) || issuedAt > now || now - issuedAt > FORM_TOKEN_MAX_AGE_MS) return false
   const expected = createHmac('sha256', secret).update(timestamp).digest('base64url')
   const actualBytes = Buffer.from(signature)
   const expectedBytes = Buffer.from(expected)

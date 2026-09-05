@@ -1,0 +1,16 @@
+[build]
+command = "npm run build"
+publish = "dist/client"
+functions = "netlify/functions"
+
+[build.environment]
+NODE_VERSION = "24"
+
+[functions]
+node_bundler = "esbuild"
+included_files = ["dist/server/**"]
+
+[[redirects]]
+from = "/*"
+to = "/.netlify/functions/osblog"
+status = 200

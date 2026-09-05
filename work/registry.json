@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-04T21:38:17Z",
+  "updated_at": "2026-09-05T08:36:46Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -2807,6 +2807,1267 @@
       "created_at": "2026-09-04T21:35:47Z",
       "updated_at": "2026-09-04T21:38:17Z",
       "last_result": "completed"
+    },
+    "UA-0040": {
+      "id": "UA-0040",
+      "title": "OSBlog modern release roadmap and external deployment",
+      "objective": "Deliver modern Markdown publishing, co-located docs, Vercel domains and real Cap media using Astra xhigh and Claude Sonnet high workers.",
+      "level": "L4",
+      "status": "in_progress",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        ".env.example",
+        ".gitignore",
+        ".vercelignore",
+        "README.md",
+        "README.vi.md",
+        "docs/deployment.md",
+        "docs/index.md",
+        "docs/introduction.md",
+        "docs/media.md",
+        "docs/vi/deployment.md",
+        "docs/vi/index.md",
+        "docs/vi/introduction.md",
+        "knowledge",
+        "public/media",
+        "src/server/provision.ts",
+        "tests/browser",
+        "useagent.config.json",
+        "vercel.json",
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Every user requirement has an implementation and verification milestone; worker identities are evidenced; live blog/docs domains work and real media exists before release is complete."
+      ],
+      "verification": [
+        "Review runtime, deployment and end-to-end evidence"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-04T23:49:23Z",
+      "updated_at": "2026-09-05T07:40:09Z"
+    },
+    "UA-0041": {
+      "id": "UA-0041",
+      "title": "Implement complete modern OSBlog publishing product",
+      "objective": "Replace incomplete scaffold with usable secure Markdown admin/public blog and co-located docs rendering, including real SSR and Vercel-compatible runtime.",
+      "level": "L3",
+      "status": "cancelled",
+      "owner": "astra",
+      "assigned_to": "astra",
+      "scope": [
+        "src",
+        "api",
+        "tests",
+        "package.json",
+        "package-lock.json",
+        "vite.config.ts",
+        "tsconfig.json",
+        "tsconfig.app.json",
+        "tsconfig.node.json",
+        "eslint.config.js",
+        "index.html",
+        "drizzle",
+        "tools/server",
+        "tools/build",
+        "public/assets",
+        "public/favicon.svg",
+        "design-system"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Admin login/session UI and category/post CRUD, Markdown toolbar plus preview, custom slug thumbnail alt SEO excerpt language draft/publish and conflict UX work through real DB APIs; public pages Markdown safely render, search/categories/popular/random/related posts/comments work; SSR serves content and correct metadata with hashed assets; docs render from local Markdown; strong behavior tests and full build pass."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm test; npm run build; browser and integration QA"
+      ],
+      "files": [],
+      "evidence": [
+        {
+          "kind": "plan",
+          "value": "Claimed exact implementation scope. Implement transactional Postgres/auth/content/comment APIs and migrations; shared Fetch/Node router + Vite SSR/hydration/manifest; bilingual public/admin/docs UI per design MASTER; prove real SQL/session/SSR/UI behavior in PGlite and browser tests. Docs convention and deployment contract sent to supervisor.",
+          "recorded_at": "2026-09-04T23:51:58Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0041-20260905T001430Z-9b5825.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-04T23:49:24Z",
+      "updated_at": "2026-09-05T00:14:44Z",
+      "assignment_path": "work/agents/astra/inbox/UA-0041.md",
+      "dispatched_at": "2026-09-04T23:49:33Z",
+      "last_result": "failed"
+    },
+    "UA-0042": {
+      "id": "UA-0042",
+      "title": "Write bilingual OSBlog docs and open-source release content",
+      "objective": "Create practical beginner-facing co-located Markdown documentation, professional bilingual README, changelog and introduction for the modern OSBlog release.",
+      "level": "L2",
+      "status": "needs_review",
+      "owner": "claude",
+      "assigned_to": "claude",
+      "scope": [
+        "docs",
+        "README.md",
+        "README.vi.md",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "SECURITY.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "claude"
+      ],
+      "capabilities": [
+        "docs"
+      ],
+      "acceptance": [
+        "English and Vietnamese docs explain editor Markdown/slug/thumbnail/SEO/comments, installation/config/deploy local VPS Vercel Netlify with actual commands, backups and limitations, architecture and intro; README links requested demo and integrated docs; media refs only point to supplied real files."
+      ],
+      "verification": [
+        "Markdown links and implementation consistency reviewed"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [
+        "work/reports/inbox/UA-0042-20260905T000631Z-a59d7c.md"
+      ],
+      "attempts": 0,
+      "created_at": "2026-09-04T23:49:24Z",
+      "updated_at": "2026-09-05T00:14:44Z",
+      "assignment_path": "work/agents/claude/inbox/UA-0042.md",
+      "dispatched_at": "2026-09-04T23:49:33Z",
+      "started_at": "2026-09-04T23:52:38Z",
+      "last_result": "completed"
+    },
+    "UA-0043": {
+      "id": "UA-0043",
+      "title": "Complete modern public and admin React UI after worker quota failure",
+      "objective": "Implement actual complete bilingual Markdown publishing UI and integrated docs against agreed shared Fetch API.",
+      "level": "L2",
+      "status": "needs_review",
+      "owner": "claude",
+      "assigned_to": "claude",
+      "scope": [
+        "src/app",
+        "src/styles.css",
+        "src/main.tsx",
+        "public/assets",
+        "public/favicon.svg",
+        "design-system"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "claude"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Usable public blog and admin login/posts/editor/categories/moderation; GFM toolbar split preview; slug cover alt SEO bilingual status optimistic conflict; accessible mobile docs; safe Markdown; UI tests pass."
+      ],
+      "verification": [
+        "npm run typecheck; npm test -- src/app; browser QA"
+      ],
+      "files": [
+        "public/favicon.svg",
+        "src/app/App.test.tsx",
+        "src/app/App.tsx",
+        "src/app/admin/AdminApp.tsx",
+        "src/app/admin/AdminCategoriesPage.tsx",
+        "src/app/admin/AdminLoginPage.tsx",
+        "src/app/admin/AdminModerationPage.tsx",
+        "src/app/admin/AdminPostEditorPage.test.tsx",
+        "src/app/admin/AdminPostEditorPage.tsx",
+        "src/app/admin/AdminPostsPage.tsx",
+        "src/app/admin/AdminShell.tsx",
+        "src/app/admin/slug.ts",
+        "src/app/admin/toolbar.ts",
+        "src/app/api.ts",
+        "src/app/components/Layout.tsx",
+        "src/app/components/Pagination.tsx",
+        "src/app/components/PostCard.tsx",
+        "src/app/components/ThemeToggle.tsx",
+        "src/app/content-api.ts (removed)",
+        "src/app/docLinks.ts",
+        "src/app/icons.tsx",
+        "src/app/markdown.test.tsx",
+        "src/app/markdown.tsx",
+        "src/app/pages/ArticlePage.tsx",
+        "src/app/pages/DocsPage.tsx",
+        "src/app/pages/HomePage.tsx",
+        "src/app/pages/StaticPages.tsx",
+        "src/app/storage.ts",
+        "src/main.tsx",
+        "src/styles.css"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run typecheck -> pass",
+          "recorded_at": "2026-09-05T00:43:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint -> 0 problems",
+          "recorded_at": "2026-09-05T00:43:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm test -- src/app -> 12/12 pass",
+          "recorded_at": "2026-09-05T00:43:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm test (full repo) -> 47/47 pass, no regressions",
+          "recorded_at": "2026-09-05T00:43:15Z"
+        },
+        {
+          "kind": "check",
+          "value": "live GET against supervisor's running SSR dev server (:5173): /, /archive?q=&sort=, /post/:slug, /docs, /docs/:slug, /about, /admin/login, /admin (303 -> /admin/login), /?lang=vi all rendered correctly",
+          "recorded_at": "2026-09-05T00:43:15Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0043-20260905T004315Z-74578e.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T00:14:31Z",
+      "updated_at": "2026-09-05T06:39:37Z",
+      "last_result": "completed"
+    },
+    "UA-0044": {
+      "id": "UA-0044",
+      "title": "Recover transactional runtime SSR and deployment adapters",
+      "objective": "Complete saved Astra backend with shared Fetch router, hydrated SSR, hashed assets, migrations/bootstrap, local Vercel Netlify adapters and real SQL integration tests.",
+      "level": "L3",
+      "status": "needs_review",
+      "owner": "supervisor",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "src/server",
+        "src/entry-server.tsx",
+        "api",
+        "tests",
+        "tools/server",
+        "tools/build",
+        "drizzle",
+        "package.json",
+        "package-lock.json",
+        "vite.config.ts",
+        "tsconfig.json",
+        "tsconfig.app.json",
+        "tsconfig.node.json",
+        "eslint.config.js",
+        "index.html",
+        "netlify.toml",
+        "netlify"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Real authenticated CRUD/comments and safe SSR are exercised against SQL; build serves hashed assets and co-located docs; common runtime works locally and on provider adapters; reproducible migrations seed bootstrap exist."
+      ],
+      "verification": [
+        "npm run lint; npm run typecheck; npm test; npm run build; HTTP integration"
+      ],
+      "files": [
+        "api/index.ts",
+        "src/entry-server.tsx",
+        "src/server",
+        "tests",
+        "tools/build",
+        "tools/server"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "47 unit/component/SQL tests passed before UI polish; 2 real compiled-browser E2E scenarios passed; Vercel non-promoted candidate health confirms database connected.",
+          "recorded_at": "2026-09-05T06:52:51Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0044-20260905T065251Z-48945d.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T00:14:31Z",
+      "updated_at": "2026-09-05T07:09:29Z",
+      "last_result": "completed"
+    },
+    "UA-0045": {
+      "id": "UA-0045",
+      "title": "Reconcile bilingual release docs with the implemented runtime",
+      "objective": "Replace obsolete scaffold instructions with reproducible installation, admin editor and multiplatform runtime guidance and current evidence.",
+      "level": "L2",
+      "status": "reported",
+      "owner": "claude-docs",
+      "assigned_to": "claude-docs",
+      "scope": [
+        "docs",
+        "README.md",
+        "README.vi.md",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "SECURITY.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "claude-docs"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "EN and VI guides match actual scripts, env, server routes and editor; no stale scaffold claims or fake media/live verification; local VPS Vercel Netlify instructions actionable; source links work in rendered docs."
+      ],
+      "verification": [
+        "Link checks and source-to-command consistency; report exact unresolved live/media gaps."
+      ],
+      "files": [
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "README.vi.md",
+        "SECURITY.md",
+        "docs/admin-and-comments.md",
+        "docs/architecture.md",
+        "docs/backups-and-rollback.md",
+        "docs/configuration.md",
+        "docs/deployment.md",
+        "docs/editor.md",
+        "docs/getting-started.md",
+        "docs/index.md",
+        "docs/introduction.md",
+        "docs/media.md",
+        "docs/vi/admin-and-comments.md",
+        "docs/vi/architecture.md",
+        "docs/vi/backups-and-rollback.md",
+        "docs/vi/configuration.md",
+        "docs/vi/deployment.md",
+        "docs/vi/editor.md",
+        "docs/vi/getting-started.md",
+        "docs/vi/index.md",
+        "docs/vi/introduction.md",
+        "docs/vi/media.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Relative markdown link resolution across README*, CHANGELOG.md, CONTRIBUTING.md, SECURITY.md, docs/**/*.md: all resolve (1 broken link found and fixed: docs/vi/introduction.md LICENSE path)",
+          "recorded_at": "2026-09-05T00:59:52Z"
+        },
+        {
+          "kind": "check",
+          "value": "Absolute GitHub blob-URL source references (38 links) verified to exist in the working tree",
+          "recorded_at": "2026-09-05T00:59:52Z"
+        },
+        {
+          "kind": "check",
+          "value": "Every 'npm run <script>' referenced in docs cross-checked against package.json scripts: all exist",
+          "recorded_at": "2026-09-05T00:59:52Z"
+        },
+        {
+          "kind": "check",
+          "value": "Manual reconciliation against package.json, src/server/{env,router,provision,schema,content,seo,auth,auth-policy,comment-policy,comment-contract}.ts, tools/server/{database,start,configure-vercel}.ts, tools/build/build.ts, vercel.json, netlify.toml, api/index.ts, netlify/functions/osblog.mts, src/app/admin/AdminPostEditorPage.tsx, src/app/pages/DocsPage.tsx, entry-server.tsx",
+          "recorded_at": "2026-09-05T00:59:52Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0045-20260905T005952Z-73029e.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T00:42:22Z",
+      "updated_at": "2026-09-05T00:59:52Z",
+      "last_result": "completed"
+    },
+    "UA-0046": {
+      "id": "UA-0046",
+      "title": "Polish verified editor usability and responsive typography",
+      "objective": "Fix screenshot-backed usability findings without changing server contract, then record fresh UI tests.",
+      "level": "L2",
+      "status": "reported",
+      "owner": "claude",
+      "assigned_to": "claude",
+      "scope": [
+        "src/app",
+        "src/styles.css",
+        "src/main.tsx",
+        "public/assets",
+        "public/favicon.svg",
+        "design-system"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "claude"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Editor settings are a readable spaced form at desktop/mobile with 44px controls and compact heading; installed fonts load; desktop mobile-toggle visibility correct; preview origin portable; docs heading anchors work; browser findings addressed."
+      ],
+      "verification": [
+        "npm run typecheck; npm run lint; npm test -- src/app; screenshots and E2E by supervisor"
+      ],
+      "files": [
+        "public/assets/cover-docs-code.svg",
+        "public/assets/cover-markdown-editor.svg",
+        "public/assets/cover-open-ideas.svg",
+        "src/app/App.test.tsx",
+        "src/app/admin/AdminPostEditorPage.test.tsx",
+        "src/app/admin/AdminPostEditorPage.tsx",
+        "src/app/headingSlug.test.ts",
+        "src/app/headingSlug.ts",
+        "src/app/markdown.test.tsx",
+        "src/app/markdown.tsx",
+        "src/app/pages/DocsPage.tsx",
+        "src/main.tsx",
+        "src/styles.css"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm run typecheck (pass)",
+          "recorded_at": "2026-09-05T06:52:58Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint (pass)",
+          "recorded_at": "2026-09-05T06:52:58Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm test -- src/app (4 files, 21 tests pass)",
+          "recorded_at": "2026-09-05T06:52:58Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0046-20260905T065258Z-0306ff.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T06:39:37Z",
+      "updated_at": "2026-09-05T06:52:58Z",
+      "last_result": "completed"
+    },
+    "UA-0047": {
+      "id": "UA-0047",
+      "title": "Independent security and correctness review of modern runtime",
+      "objective": "Audit real runtime and deployment boundaries against requested production behavior; return evidence-backed findings without editing application code.",
+      "level": "L3",
+      "status": "cancelled",
+      "owner": "astra-review",
+      "assigned_to": null,
+      "scope": [
+        "work/evidence/astra-review"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra-review"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Review auth/session/CSRF/CRUD/privacy/SSR/SQL/migrations/adapters with source anchors and repeatable evidence; no production-ready claim without live checks."
+      ],
+      "verification": [
+        "Focused static review and server tests; write findings with priorities."
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-05T06:40:51Z",
+      "updated_at": "2026-09-05T06:42:50Z"
+    },
+    "UA-0048": {
+      "id": "UA-0048",
+      "title": "Independent Astra review of runtime release boundaries",
+      "objective": "Read-only application audit with findings recorded outside active writer scopes.",
+      "level": "L3",
+      "status": "reported",
+      "owner": "astra",
+      "assigned_to": "astra",
+      "scope": [
+        "work/reviews/astra"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Evidence-backed auth/CRUD/SSR/privacy/migration/adapter findings with file lines and reproduction; no code changes or premature release approval."
+      ],
+      "verification": [
+        "Focused source and server-test audit."
+      ],
+      "files": [
+        "work/reviews/astra/UA-0048-review.md",
+        "work/reviews/astra/node-adapter.review.ts",
+        "work/reviews/astra/node-confirmed.json",
+        "work/reviews/astra/node-results.json",
+        "work/reviews/astra/results.json",
+        "work/reviews/astra/runtime.review.ts",
+        "work/reviews/astra/source-sha256.txt",
+        "work/reviews/astra/vitest.config.mjs"
+      ],
+      "evidence": [
+        {
+          "kind": "audit",
+          "value": "work/reviews/astra/UA-0048-review.md: independent current-source audit; one reproduced P1 and three reproduced P2 findings; recommend another implementation iteration. Repros and source hashes included; no provider/deployment approval.",
+          "recorded_at": "2026-09-05T06:50:48Z"
+        },
+        {
+          "kind": "check",
+          "value": "35 existing server tests plus six initial audit checks: 41 passed, exit 0; exact command and results.json in review evidence.",
+          "recorded_at": "2026-09-05T06:51:04Z"
+        },
+        {
+          "kind": "check",
+          "value": "Node adapter: two confirmation checks passed, including reproduced five-second chunked-overflow timeout; initial diagnostic expectation mismatch retained in node-results.json.",
+          "recorded_at": "2026-09-05T06:51:04Z"
+        },
+        {
+          "kind": "check",
+          "value": "Four passing repro checks intentionally demonstrate defects. Real React SSR, PGlite audit-failure rollback, CSRF, HTTPS cookies and Node Set-Cookie preservation checked. No live DB or provider parity claim.",
+          "recorded_at": "2026-09-05T06:51:04Z"
+        },
+        {
+          "kind": "check",
+          "value": "No app/config/docs/test-source edits, real env or draft secret reads, shared runtime/build operations, git or deployment; review files confined to work/reviews/astra.",
+          "recorded_at": "2026-09-05T06:51:04Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0048-20260905T065104Z-9a279f.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T06:42:50Z",
+      "updated_at": "2026-09-05T06:51:04Z",
+      "last_result": "completed"
+    },
+    "UA-0049": {
+      "id": "UA-0049",
+      "title": "Fix independently reproduced runtime release defects R1-R4",
+      "objective": "Resolve partial PATCH unpublishing, malformed cover URL, dropped session-renewal cookies and stalled chunked overflow with regression coverage.",
+      "level": "L3",
+      "status": "cancelled",
+      "owner": "astra",
+      "assigned_to": "astra",
+      "scope": [
+        "src/server/content-contract.ts",
+        "src/server/router.ts",
+        "src/server/request.ts",
+        "src/server/node-adapter.ts",
+        "tests/server"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "All four UA-0048 repros converted to expected behavior in committed tests, full server tests and typecheck pass, preserve actual SQL auth and response safety."
+      ],
+      "verification": [
+        "npm test -- tests/server; npm run typecheck; focused real Node chunked HTTP test"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-05T06:52:51Z",
+      "updated_at": "2026-09-05T07:07:44Z"
+    },
+    "UA-0050": {
+      "id": "UA-0050",
+      "title": "Verify polished UI and package final provider candidate",
+      "objective": "Run browser QA with real recorded evidence, reconcile seeded cover assets, package reproducible deployment and final non-promoted candidate.",
+      "level": "L3",
+      "status": "cancelled",
+      "owner": "supervisor-local",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "tests/browser",
+        "tools/server",
+        "tools/build",
+        "src/server/provision.ts",
+        "package.json",
+        "package-lock.json",
+        "api",
+        "netlify"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor-local"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Polished editor/public/docs audited at desktop/mobile; build and actual recorded E2E pass; packaging excludes secrets and final release evidence distinguishes provider checks from local fixtures."
+      ],
+      "verification": [
+        "npm run build; npm run test:e2e; dry-run deployment inventory"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-05T06:52:52Z",
+      "updated_at": "2026-09-05T07:09:29Z"
+    },
+    "UA-0051": {
+      "id": "UA-0051",
+      "title": "Implement runtime release regressions after Astra audit",
+      "objective": "Resolve all four independently reproduced UA-0048 defects with focused regression tests and preserve current auth, SSR, SQL and request-boundary contracts.",
+      "level": "L3",
+      "status": "planned",
+      "owner": "supervisor-local",
+      "assigned_to": null,
+      "scope": [
+        "src/server/content-contract.ts",
+        "src/server/router.ts",
+        "src/server/request.ts",
+        "src/server/node-adapter.ts",
+        "tests/server"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor-local"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Title-only PATCH preserves published status and timestamp-only PATCH is rejected; malformed cover URLs are rejected before persistence; session renewal Set-Cookie headers are forwarded on admin API/SSR paths; oversized chunked Node requests return 413 promptly; regression tests pass."
+      ],
+      "verification": [
+        "npm test -- tests/server; npm run typecheck; npm run lint; focused chunked Node HTTP repro"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-05T07:07:44Z",
+      "updated_at": "2026-09-05T07:07:44Z"
+    },
+    "UA-0052": {
+      "id": "UA-0052",
+      "title": "Implement runtime release regressions after independent audit",
+      "objective": "Resolve all four independently reproduced UA-0048 defects with focused regression tests and preserve current auth, SSR, SQL and request-boundary contracts.",
+      "level": "L3",
+      "status": "reported",
+      "owner": "claude",
+      "assigned_to": "claude",
+      "scope": [
+        "src/server/content-contract.ts",
+        "src/server/router.ts",
+        "src/server/request.ts",
+        "src/server/node-adapter.ts",
+        "tests/server"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "claude"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Title-only PATCH preserves published status and timestamp-only PATCH is rejected; malformed cover URLs are rejected before persistence; session renewal Set-Cookie headers are forwarded on admin API and SSR paths; oversized chunked Node requests return 413 promptly; regression tests pass."
+      ],
+      "verification": [
+        "npm test -- tests/server; npm run typecheck; npm run lint; focused chunked Node HTTP repro"
+      ],
+      "files": [
+        "src/server/content-contract.ts",
+        "src/server/router.ts",
+        "src/server/request.ts",
+        "tests/server/content.test.ts",
+        "tests/server/runtime.integration.test.ts",
+        "tests/server/node-adapter.test.ts"
+      ],
+      "evidence": [
+        "npm run typecheck: clean",
+        "npm run lint: clean",
+        "npx vitest run: 17 files / 63 tests passed, repeated 3x with no flakes",
+        "npx vitest run tests/server/node-adapter.test.ts: repeated 4x isolated, 54-104ms each, no flakes"
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0052-20260905T073012Z-f4a8c1.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T07:09:29Z",
+      "updated_at": "2026-09-05T07:58:57Z"
+    },
+    "UA-0053": {
+      "id": "UA-0053",
+      "title": "Independently re-review UA-0052 runtime fixes",
+      "objective": "Audit the current UA-0052 implementation and regression evidence for R1-R4, with no application changes; record repeatable findings and gate recommendation.",
+      "level": "L3",
+      "status": "reported",
+      "owner": "astra",
+      "assigned_to": "astra",
+      "scope": [
+        "work/reviews/astra-rereview"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Review current source and tests for partial PATCH semantics, cover URL validation, Better Auth cookie propagation and bounded Node body handling; reproduce focused behavior; report any P0/P1/P2 with file lines and no release approval without evidence."
+      ],
+      "verification": [
+        "npx vitest run tests/server/content.test.ts tests/server/runtime.integration.test.ts tests/server/node-adapter.test.ts; npm run typecheck; read source diff"
+      ],
+      "files": [
+        "work/reviews/astra-rereview/UA-0053-review.md",
+        "work/reviews/astra-rereview/error-and-coverage-tests.json",
+        "work/reviews/astra-rereview/final-focused-tests.json",
+        "work/reviews/astra-rereview/independent-tests.json",
+        "work/reviews/astra-rereview/node-adapter.review.ts",
+        "work/reviews/astra-rereview/reuse-coverage.review.ts",
+        "work/reviews/astra-rereview/runtime.review.ts",
+        "work/reviews/astra-rereview/source-sha256.txt",
+        "work/reviews/astra-rereview/tracked-source-diff.txt",
+        "work/reviews/astra-rereview/verification-output.txt",
+        "work/reviews/astra-rereview/vitest.config.mjs",
+        "work/reviews/astra-rereview/worker-tests.json"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Final focused Vitest: 6 files, 41 pass, 1 fail, exit 1; two passes are explicit coverage negative controls. Corrected-behavior R3 error assertion remains red. Exact commands and output in verification-output.txt and final-focused-tests.json.",
+          "recorded_at": "2026-09-05T07:45:17Z"
+        },
+        {
+          "kind": "check",
+          "value": "Worker focused suite 20/20 pass; both direct no-emit TypeScript project checks exit 0; focused no-cache ESLint exits 0.",
+          "recorded_at": "2026-09-05T07:45:17Z"
+        },
+        {
+          "kind": "check",
+          "value": "Actual SQL/Better Auth/React SSR and Node loopback verified. Same-socket overflow 413 within 4.6 ms and raw unfinished uploads within 3.2 ms; safe follow-up 200; exact BODY_LIMIT accepted.",
+          "recorded_at": "2026-09-05T07:45:17Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate exits 1: UA-0052 has invalid status completed. Review does not repair lifecycle outside CLI report authority.",
+          "recorded_at": "2026-09-05T07:45:17Z"
+        },
+        {
+          "kind": "check",
+          "value": "Eleven reviewed source/test hashes match before/after. No application, normal tests, docs, configuration, secrets, Git state or provider changes; writes confined to review artifacts plus this CLI report.",
+          "recorded_at": "2026-09-05T07:45:17Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0053-20260905T074517Z-2e8fab.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T07:32:50Z",
+      "updated_at": "2026-09-05T07:45:17Z",
+      "last_result": "completed"
+    },
+    "UA-0054": {
+      "id": "UA-0054",
+      "title": "Resolve residual runtime review and lifecycle drift",
+      "objective": "Close Astra UA-0053 findings before production: preserve auth cookie-clearing headers on Better Auth renewal errors, prove same-socket Node request reuse in the normal regression suite, and provide a supervisor-only CLI reconciliation path for the invalid UA-0052 completion state.",
+      "level": "L3",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": null,
+      "scope": [
+        "tools/useagent.py",
+        "src/server/router.ts",
+        "tests/server/runtime.integration.test.ts",
+        "tests/server/node-adapter.test.ts"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "runtime",
+        "control-plane"
+      ],
+      "acceptance": [
+        "Better Auth unauthorized renewal failures return 401 for admin API and a safe login redirect for admin SSR while forwarding cookie-clearing headers.",
+        "Node oversized-body regressions use explicit keep-alive socket reuse assertions and pass for declared and chunked bodies.",
+        "UseAgent lifecycle can reconcile the invalid UA-0052 completed marker to reported without hand-editing registry state; validation passes."
+      ],
+      "verification": [
+        "npm test -- tests/server; npm run typecheck; npm run lint; python tools/useagent.py validate; focused auth-error and same-socket tests"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-05T07:48:53Z",
+      "updated_at": "2026-09-05T07:49:40Z"
+    },
+    "UA-0055": {
+      "id": "UA-0055",
+      "title": "Fix auth renewal error path and same-socket regression",
+      "objective": "Resolve Astra UA-0053 F1 and F2 without changing unrelated runtime behavior: preserve Better Auth cookie-clearing headers on unauthorized renewal failures for admin API and SSR, and make Node oversized-body tests prove reuse of the same keep-alive socket.",
+      "level": "L3",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "claude",
+      "scope": [
+        "src/server/router.ts",
+        "tests/server/runtime.integration.test.ts",
+        "tests/server/node-adapter.test.ts"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "claude"
+      ],
+      "capabilities": [
+        "backend",
+        "tests"
+      ],
+      "acceptance": [
+        "Better Auth unauthorized renewal failures return 401 for admin API and 303 to the login page for admin SSR, preserving cookie-clearing Set-Cookie headers.",
+        "Declared and chunked oversized-body tests use an explicit single-socket keep-alive agent and assert request reuse after the 413 response."
+      ],
+      "verification": [
+        "npm test -- tests/server; npm run typecheck; npm run lint; focused auth-error and node-adapter tests"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-05T07:49:40Z",
+      "updated_at": "2026-09-05T07:50:05Z"
+    },
+    "UA-0056": {
+      "id": "UA-0056",
+      "title": "Fix residual auth and Node adapter review findings",
+      "objective": "Resolve Astra UA-0053 F1 and F2: preserve Better Auth cookie-clearing headers on unauthorized renewal failures for admin API and SSR, and make Node oversized-body tests prove reuse of the same keep-alive socket.",
+      "level": "L3",
+      "status": "reported",
+      "owner": "supervisor",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "src/server/router.ts",
+        "tests/server/runtime.integration.test.ts",
+        "tests/server/node-adapter.test.ts"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor-local"
+      ],
+      "capabilities": [
+        "backend",
+        "tests"
+      ],
+      "acceptance": [
+        "Better Auth unauthorized renewal failures return 401 for admin API and 303 to the login page for admin SSR, preserving cookie-clearing Set-Cookie headers.",
+        "Declared and chunked oversized-body tests use an explicit single-socket keep-alive agent and assert request reuse after the 413 response."
+      ],
+      "verification": [
+        "npm test -- tests/server; npm run typecheck; npm run lint; focused auth-error and node-adapter tests"
+      ],
+      "files": [
+        "src/server/router.ts",
+        "tests/server/node-adapter.test.ts",
+        "tests/server/runtime.integration.test.ts"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npm test: 17 files / 64 tests passed",
+          "recorded_at": "2026-09-05T07:58:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: clean",
+          "recorded_at": "2026-09-05T07:58:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: clean",
+          "recorded_at": "2026-09-05T07:58:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "Focused runtime and Node adapter tests: 14/14 passed",
+          "recorded_at": "2026-09-05T07:58:30Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0056-20260905T075830Z-64d1fd.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T07:50:05Z",
+      "updated_at": "2026-09-05T07:58:30Z",
+      "last_result": "completed"
+    },
+    "UA-0057": {
+      "id": "UA-0057",
+      "title": "Reconcile invalid worker completion marker",
+      "objective": "Add a safe supervisor-only UseAgent CLI reconciliation command and use it to convert the legacy invalid UA-0052 completed marker into the supported reported state while preserving existing reports and evidence.",
+      "level": "L2",
+      "status": "reported",
+      "owner": "supervisor",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "tools/useagent.py"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor-local"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "The CLI exposes a narrowly scoped reconciliation command that only converts an item with last_result completed and status completed to reported, updates its frontmatter and event, and refuses other transitions.",
+        "Running the command for UA-0052 preserves its report/evidence and makes python tools/useagent.py validate pass."
+      ],
+      "verification": [
+        "python tools/useagent.py task reconcile UA-0052 --agent supervisor-local; python tools/useagent.py validate"
+      ],
+      "files": [
+        "tools/useagent.py"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py task reconcile UA-0052 --agent supervisor: success",
+          "recorded_at": "2026-09-05T07:58:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-05T07:58:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "Second run after legacy-compatible guard: UA-0052 reconciled to reported and validation is VALID",
+          "recorded_at": "2026-09-05T07:58:58Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0057-20260905T075836Z-0e02a1.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T07:56:59Z",
+      "updated_at": "2026-09-05T07:58:58Z",
+      "last_result": "completed"
+    },
+    "UA-0058": {
+      "id": "UA-0058",
+      "title": "Final independent runtime and lifecycle re-review",
+      "objective": "Independently re-review the current candidate after UA-0056/UA-0057: verify Better Auth renewal success and failure headers, same-socket oversized-body regression evidence, and UseAgent validation/lifecycle state; do not modify application code or approve deployment without evidence.",
+      "level": "L3",
+      "status": "reported",
+      "owner": "supervisor",
+      "assigned_to": "astra",
+      "scope": [
+        "work/reviews/astra-final"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "No open P0/P1/P2 finding remains in the reviewed runtime paths, or each residual is explicitly reported with severity and release impact.",
+        "The review reruns focused tests and python tools/useagent.py validate against the current source and records commands/results."
+      ],
+      "verification": [
+        "npx vitest run tests/server/runtime.integration.test.ts tests/server/node-adapter.test.ts; npm run typecheck; npm run lint; python tools/useagent.py validate"
+      ],
+      "files": [
+        "work/reviews/astra-final/UA-0058-review.md",
+        "work/reviews/astra-final/focused-tests.json",
+        "work/reviews/astra-final/independent-tests.json",
+        "work/reviews/astra-final/lifecycle-results.json",
+        "work/reviews/astra-final/lifecycle.review.py",
+        "work/reviews/astra-final/reuse-negative-control.json",
+        "work/reviews/astra-final/source-anchors.txt",
+        "work/reviews/astra-final/source-sha256-after.txt",
+        "work/reviews/astra-final/source-sha256-before.txt",
+        "work/reviews/astra-final/tracked-source-diff.txt",
+        "work/reviews/astra-final/verification-output.md",
+        "work/reviews/astra-final/vitest.config.mjs"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Focused existing runtime.integration/node-adapter tests with review config: 14/14 pass, exit 0; prior independent runtime/Node probes: 20/20 pass, exit 0. Exact commands/output in work/reviews/astra-final/verification-output.md.",
+          "recorded_at": "2026-09-05T08:08:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "Auth failed-refresh control: native 401/3 clearing cookies, admin API 401/identical 3, admin SSR 303/identical 3; successful secure cookie renewal and role/guest isolation pass.",
+          "recorded_at": "2026-09-05T08:08:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "Real Node same-socket overflow and unfinished-upload probes pass; forced agent:false negative control yields two expected failures at tests/server/node-adapter.test.ts:50,62, proving durable reuse coverage.",
+          "recorded_at": "2026-09-05T08:08:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck and npm run lint exit 0; python tools/useagent.py validate is VALID; python -B tests/useagent-conformance/replay.py is REPLAY_PASS.",
+          "recorded_at": "2026-09-05T08:08:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "python -B work/reviews/astra-final/lifecycle.review.py: 12 passing controls, 4 failing guard cases, exit 1. P2 tools/useagent.py:895 accepts missing/failed/blocked last_result; P2 tools/useagent.py:891 admits reviewer role despite supervisor-only objective. Real registry unchanged by probe.",
+          "recorded_at": "2026-09-05T08:08:30Z"
+        },
+        {
+          "kind": "check",
+          "value": "Nineteen source/test/config SHA256 values match before/after, including tools/useagent.py. Review artifacts only plus authorized CLI report. No production/provider/deployment approval.",
+          "recorded_at": "2026-09-05T08:08:30Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0058-20260905T080830Z-07701a.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T07:59:30Z",
+      "updated_at": "2026-09-05T08:08:30Z",
+      "last_result": "completed"
+    },
+    "UA-0059": {
+      "id": "UA-0059",
+      "title": "Harden supervisor-only lifecycle reconciliation",
+      "objective": "Address Astra UA-0058 findings in the UseAgent CLI: require the latest referenced worker report to explicitly record result completed, and enforce that only a registered supervisor can reconcile an invalid completion marker.",
+      "level": "L2",
+      "status": "reported",
+      "owner": "supervisor",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "tools/useagent.py"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor-local"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Reconciliation refuses missing report files and reports whose frontmatter result is failed, blocked, or absent.",
+        "Reconciliation refuses reviewer/release-gate identities and accepts only a registered supervisor identity.",
+        "UA-0052 can still be reconciled through the hardened command and python tools/useagent.py validate passes."
+      ],
+      "verification": [
+        "python tools/useagent.py task reconcile UA-0052 --agent supervisor; python tools/useagent.py validate; python tests/useagent-conformance/replay.py"
+      ],
+      "files": [
+        "tools/useagent.py"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Lifecycle fixture: 16/16 controls passed; disposable state only",
+          "recorded_at": "2026-09-05T08:11:17Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-05T08:11:17Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tests/useagent-conformance/replay.py: REPLAY_PASS",
+          "recorded_at": "2026-09-05T08:11:17Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0059-20260905T081117Z-697524.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T08:10:12Z",
+      "updated_at": "2026-09-05T08:11:17Z",
+      "last_result": "completed"
+    },
+    "UA-0060": {
+      "id": "UA-0060",
+      "title": "Final re-review of hardened lifecycle command",
+      "objective": "Independently verify UA-0059's hardened supervisor-only reconciliation against disposable fixtures, including report-result proof and role matrix, and confirm runtime release gate remains clean. Do not modify source.",
+      "level": "L2",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "astra",
+      "scope": [
+        "work/reviews/astra-final2"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "The disposable lifecycle fixture passes all valid and refusal controls with production registry unchanged.",
+        "No new P0/P1/P2 finding remains in the hardened reconcile command or the already-reviewed runtime paths."
+      ],
+      "verification": [
+        "python -B work/reviews/astra-final2/lifecycle.review.py; python tools/useagent.py validate; focused runtime tests"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-05T08:11:23Z",
+      "updated_at": "2026-09-05T08:21:32Z"
+    },
+    "UA-0061": {
+      "id": "UA-0061",
+      "title": "Correct reconcile command authorization help",
+      "objective": "Align the UseAgent reconcile subcommand help text with the enforced supervisor-only authorization after Astra UA-0060 review found a misleading release-gate phrase.",
+      "level": "L1",
+      "status": "reported",
+      "owner": "supervisor",
+      "assigned_to": "supervisor-local",
+      "scope": [
+        "tools/useagent.py"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor-local"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "The reconcile help text names supervisor-only authorization and does not advertise reviewer or release-gate access.",
+        "The hardened lifecycle fixture, validator and conformance replay continue to pass."
+      ],
+      "verification": [
+        "python tools/useagent.py task reconcile --help; python -B work/reviews/astra-final/lifecycle.review.py; python tools/useagent.py validate; python tests/useagent-conformance/replay.py"
+      ],
+      "files": [
+        "tools/useagent.py"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py task reconcile --help",
+          "recorded_at": "2026-09-05T08:21:00Z"
+        },
+        {
+          "kind": "check",
+          "value": "python -B work/reviews/astra-final/lifecycle.review.py",
+          "recorded_at": "2026-09-05T08:21:00Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate",
+          "recorded_at": "2026-09-05T08:21:00Z"
+        },
+        {
+          "kind": "check",
+          "value": "python -B tests/useagent-conformance/replay.py",
+          "recorded_at": "2026-09-05T08:21:00Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0061-20260905T082100Z-ff66cd.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T08:17:47Z",
+      "updated_at": "2026-09-05T08:21:00Z",
+      "last_result": "completed"
+    },
+    "UA-0062": {
+      "id": "UA-0062",
+      "title": "Final Astra release-gate review",
+      "objective": "Independently verify the hardened UseAgent lifecycle and OSBlog release evidence before production promotion; do not modify application code.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": null,
+      "scope": [
+        "tools/useagent.py;work/reviews/astra-final3"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "acceptance": [
+        "No P0/P1/P2 finding in the reviewed lifecycle guard or runtime evidence.",
+        "Lifecycle fixture, validator, conformance replay, focused runtime tests and repository hygiene are reproducible."
+      ],
+      "verification": [
+        "python -B work/reviews/astra-final/lifecycle.review.py; python tools/useagent.py validate; python -B tests/useagent-conformance/replay.py; npm test -- --runInBand"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-05T08:21:13Z",
+      "updated_at": "2026-09-05T08:22:13Z"
+    },
+    "UA-0063": {
+      "id": "UA-0063",
+      "title": "Final Astra release-gate review",
+      "objective": "Independently verify the hardened UseAgent lifecycle and OSBlog release evidence before production promotion; do not modify application code.",
+      "level": "L1",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "astra",
+      "scope": [
+        "work/reviews/astra-final3"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "No P0/P1/P2 finding in the reviewed lifecycle guard or runtime evidence.",
+        "Lifecycle fixture, validator, conformance replay, focused runtime tests and repository hygiene are reproducible."
+      ],
+      "verification": [
+        "python -B work/reviews/astra-final/lifecycle.review.py; python tools/useagent.py validate; python -B tests/useagent-conformance/replay.py; npm test -- --runInBand"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-05T08:22:13Z",
+      "updated_at": "2026-09-05T08:24:22Z"
+    },
+    "UA-0064": {
+      "id": "UA-0064",
+      "title": "Supervisor release-gate fallback review",
+      "objective": "Run the final evidence-based release review locally because the requested Astra reviewer was unavailable; verify lifecycle, runtime, build, browser, security and repository gates without modifying application code.",
+      "level": "L2",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": null,
+      "scope": [
+        "work/reviews/supervisor-final"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "All reproducible local release gates pass and no P0/P1/P2 finding remains in the reviewed current source.",
+        "The report names unavailable independent Astra review and all residual operational gaps without overclaiming."
+      ],
+      "verification": [
+        "python -B work/reviews/astra-final/lifecycle.review.py; python tools/useagent.py validate; python -B tests/useagent-conformance/replay.py; npm test; npm run typecheck; npm run lint; npm run build; npm run test:e2e; npm audit --audit-level=high; git diff --check"
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-05T08:24:22Z",
+      "updated_at": "2026-09-05T08:36:46Z"
     }
   }
 }

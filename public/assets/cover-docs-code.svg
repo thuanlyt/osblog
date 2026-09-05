@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Editorial illustration: an open manual beside code brackets, for an article about documenting code">
+  <title>Keep the manual beside the code</title>
+  <rect width="1200" height="675" fill="#FAFAFA"/>
+  <rect x="0.5" y="0.5" width="1199" height="674" fill="none" stroke="#E4E4E7" stroke-width="1"/>
+  <g stroke="#E4E4E7" stroke-width="1">
+    <line x1="300" y1="0" x2="300" y2="675"/>
+    <line x1="900" y1="0" x2="900" y2="675"/>
+    <line x1="0" y1="337.5" x2="1200" y2="337.5"/>
+  </g>
+  <g fill="none" stroke="#18181B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M330 260 C 400 235, 480 235, 540 260 V 470 C 480 445, 400 445, 330 470 Z" fill="#FFFFFF" />
+    <path d="M540 260 C 600 235, 680 235, 750 260 V 470 C 680 445, 600 445, 540 470 Z" fill="#FFFFFF" />
+    <line x1="540" y1="260" x2="540" y2="470" />
+  </g>
+  <g stroke="#3F3F46" stroke-width="5" stroke-linecap="round">
+    <line x1="360" y1="300" x2="500" y2="290" />
+    <line x1="360" y1="335" x2="490" y2="326" />
+    <line x1="360" y1="370" x2="470" y2="362" />
+    <line x1="580" y1="290" x2="720" y2="300" />
+    <line x1="590" y1="326" x2="720" y2="335" />
+    <line x1="610" y1="362" x2="720" y2="370" />
+  </g>
+  <g fill="#EC4899" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="72" font-weight="700">
+    <text x="800" y="410">&lt;/&gt;</text>
+  </g>
+  <g fill="#18181B" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" letter-spacing="2">
+    <text x="80" y="600">O/ DOCS &amp; CODE</text>
+  </g>
+</svg>

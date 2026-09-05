@@ -1,0 +1,196 @@
+src/server/router.ts:24: export function createRouter(options: RouterOptions) {
+src/server/router.ts:25:   type AdminSessionUser = Parameters<typeof isAdminUser>[0] & { id: string; email: string }
+src/server/router.ts:26:   const env = options.env ?? process.env
+src/server/router.ts:27:   let db = options.database
+src/server/router.ts:28:   let auth: ReturnType<typeof createAuth> | undefined
+src/server/router.ts:29:   const database = () => db ??= createDatabase(env)
+src/server/router.ts:30:   const authentication = () => auth ??= createAuth(env, database())
+src/server/router.ts:31:   const appendSetCookies = (source: HeadersInit | undefined, target: Headers) => {
+src/server/router.ts:32:     if (!source) return
+src/server/router.ts:33:     const headers = source instanceof Headers ? source : new Headers(source)
+src/server/router.ts:34:     headers.forEach((value, key) => { if (key.toLowerCase() === 'set-cookie') target.append(key, value) })
+src/server/router.ts:35:   }
+src/server/router.ts:36:   async function admin(request: Request, sessionHeaders: Headers) {
+src/server/router.ts:37:     // Use Better Auth's native handler so success and failure responses share
+src/server/router.ts:38:     // the same supported HTTP boundary. In particular, a refresh that cannot
+src/server/router.ts:39:     // persist its session returns 401 plus cookie-clearing headers; a direct
+src/server/router.ts:40:     // api.getSession() call can throw before those headers are exposed.
+src/server/router.ts:41:     const authResponse = await authentication().handler(new Request(new URL('/api/auth/get-session', request.url), { method: 'GET', headers: request.headers }))
+src/server/router.ts:42:     appendSetCookies(authResponse.headers, sessionHeaders)
+src/server/router.ts:43:     if (authResponse.status === 401) throw new HttpError(401, 'UNAUTHENTICATED', 'Sign in to continue.')
+src/server/router.ts:44:     if (!authResponse.ok) throw new HttpError(503, 'AUTH_UNAVAILABLE', 'Authentication is temporarily unavailable.')
+src/server/router.ts:45:     const payload = await authResponse.json() as { user?: AdminSessionUser } | null
+src/server/router.ts:46:     if (!payload?.user) throw new HttpError(401, 'UNAUTHENTICATED', 'Sign in to continue.')
+src/server/router.ts:47:     if (!isAdminUser(payload.user, env)) throw new HttpError(403, 'FORBIDDEN', 'Admin authorization required.')
+src/server/router.ts:48:     return payload.user
+src/server/router.ts:177:         for (const row of rows) for (const lang of ['en', 'vi']) entries.push({ path: `/post/${row.slug}?lang=${lang}`, modified: row.updatedAt })
+src/server/router.ts:178:         if (rows.length < 1000) break
+src/server/router.ts:179:         cursor = rows.at(-1)!.id
+src/server/router.ts:180:         if (entries.length > 49000) throw new HttpError(503, 'SITEMAP_CAPACITY', 'Sitemap index partitioning is required for this site size.')
+src/server/router.ts:181:       }
+src/server/router.ts:182:       return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.map((entry) => `<url><loc>${escapeHtml(origin + entry.path)}</loc>${entry.modified ? `<lastmod>${entry.modified.toISOString()}</lastmod>` : ''}</url>`).join('')}</urlset>`, { headers: { 'content-type': 'application/xml; charset=utf-8' } })
+src/server/router.ts:183:     }
+src/server/router.ts:184:     let email: string | undefined
+src/server/router.ts:185:     if (/^\/admin(?:\/|$)/.test(path) && path !== '/admin/login') {
+src/server/router.ts:186:       try { email = (await admin(request, sessionHeaders)).email } catch (error) { if (error instanceof HttpError && error.status === 401) return Response.redirect(`${origin}/admin/login`, 303); throw error }
+src/server/router.ts:187:     }
+src/server/router.ts:188:     const data = await loadPage(url, database)
+src/server/router.ts:189:     if (email) data.adminEmail = email
+src/server/router.ts:190:     return new Response(await options.render(data, origin, nonce), { status: data.status, headers: { 'content-type': 'text/html; charset=utf-8' } })
+src/server/router.ts:191:   }
+src/server/router.ts:192:   return async (request: Request, context: { ip?: string } = {}): Promise<Response> => {
+src/server/router.ts:193:     const requestId = randomUUID(), nonce = randomUUID().replaceAll('-', '')
+src/server/router.ts:194:     const sessionHeaders = new Headers()
+src/server/router.ts:195:     let response: Response
+src/server/router.ts:196:     try { response = await dispatch(request, context.ip ?? 'unknown', requestId, nonce, sessionHeaders) }
+src/server/router.ts:197:     catch (error) {
+src/server/router.ts:198:       // Never log request bodies, credentials, cookies or database connection strings.
+src/server/router.ts:199:       response = errorResponse(error, requestId)
+src/server/router.ts:200:       const url = new URL(request.url)
+src/server/router.ts:201:       if (['GET', 'HEAD'].includes(request.method) && !url.pathname.startsWith('/api/') && !['/robots.txt', '/sitemap.xml'].includes(url.pathname)) {
+src/server/router.ts:202:         const lang = url.searchParams.get('lang') === 'vi' ? 'vi' : 'en'
+src/server/router.ts:203:         const data: PageData = { kind: 'error', path: url.pathname, lang, status: response.status, title: lang === 'vi' ? 'Tạm thời không thể tải trang' : 'Temporarily unable to load this page', description: lang === 'vi' ? 'Vui lòng thử lại sau ít phút.' : 'Please try again in a few moments.' }
+src/server/router.ts:204:         try { response = new Response(await options.render(data, siteOrigin(env), nonce), { status: response.status, headers: { 'content-type': 'text/html; charset=utf-8' } }) } catch { /* Keep sanitized JSON if even the renderer is unavailable. */ }
+src/server/router.ts:205:       }
+src/server/router.ts:206:     }
+src/server/router.ts:207:     const headers = new Headers(response.headers)
+src/server/router.ts:208:     sessionHeaders.forEach((value, key) => headers.append(key, value))
+src/server/router.ts:209:     headers.set('x-request-id', requestId)
+src/server/router.ts:210:     headers.set('x-content-type-options', 'nosniff')
+src/server/router.ts:211:     headers.set('referrer-policy', 'strict-origin-when-cross-origin')
+src/server/router.ts:212:     headers.set('permissions-policy', 'camera=(), microphone=(), geolocation=()')
+src/server/router.ts:213:     headers.set('cache-control', 'no-store')
+src/server/router.ts:214:     headers.set('content-security-policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`)
+src/server/router.ts:215:     if (new URL(request.url).pathname.startsWith('/admin') || new URL(request.url).pathname.startsWith('/api')) headers.set('x-robots-tag', 'noindex, nofollow')
+src/server/router.ts:216:     return new Response(request.method === 'HEAD' ? null : response.body, { status: response.status, headers })
+tests/server/runtime.integration.test.ts:60:     await db.execute(sql`update session set expires_at = now() + interval '6 hours'`)
+tests/server/runtime.integration.test.ts:61:     const apiRenewal = await request('/api/admin/session', { cookie: true })
+tests/server/runtime.integration.test.ts:62:     expect(apiRenewal.status).toBe(200)
+tests/server/runtime.integration.test.ts:63:     expect(apiRenewal.headers.getSetCookie().length).toBeGreaterThan(0)
+tests/server/runtime.integration.test.ts:64:     await db.execute(sql`update session set expires_at = now() + interval '6 hours'`)
+tests/server/runtime.integration.test.ts:65:     const ssrRenewal = await request('/admin', { cookie: true })
+tests/server/runtime.integration.test.ts:66:     expect(ssrRenewal.status).toBe(200)
+tests/server/runtime.integration.test.ts:67:     expect(ssrRenewal.headers.getSetCookie().length).toBeGreaterThan(0)
+tests/server/runtime.integration.test.ts:68:   })
+tests/server/runtime.integration.test.ts:69:   it('preserves cookie clearing when Better Auth cannot persist a session renewal', async () => {
+tests/server/runtime.integration.test.ts:70:     await db.execute(sql`update session set expires_at = now() + interval '6 hours'`)
+tests/server/runtime.integration.test.ts:71:     await db.execute(sql.raw('CREATE FUNCTION test_skip_session_update() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN RETURN NULL; END $$'))
+tests/server/runtime.integration.test.ts:72:     await db.execute(sql.raw('CREATE TRIGGER test_skip_session_update BEFORE UPDATE ON session FOR EACH ROW EXECUTE FUNCTION test_skip_session_update()'))
+tests/server/runtime.integration.test.ts:73:     try {
+tests/server/runtime.integration.test.ts:74:       const api = await request('/api/admin/session', { cookie: true })
+tests/server/runtime.integration.test.ts:75:       expect(api.status).toBe(401)
+tests/server/runtime.integration.test.ts:76:       expect(api.headers.getSetCookie().some((value) => /session_token=;.*Max-Age=0/i.test(value))).toBe(true)
+tests/server/runtime.integration.test.ts:77:       const ssr = await request('/admin', { cookie: true })
+tests/server/runtime.integration.test.ts:78:       expect(ssr.status).toBe(303)
+tests/server/runtime.integration.test.ts:79:       expect(ssr.headers.get('location')).toBe(origin + '/admin/login')
+tests/server/runtime.integration.test.ts:80:       expect(ssr.headers.getSetCookie().some((value) => /session_token=;.*Max-Age=0/i.test(value))).toBe(true)
+tests/server/runtime.integration.test.ts:81:     } finally {
+tests/server/runtime.integration.test.ts:82:       await db.execute(sql.raw('DROP TRIGGER test_skip_session_update ON session'))
+tests/server/runtime.integration.test.ts:83:       await db.execute(sql.raw('DROP FUNCTION test_skip_session_update()'))
+tests/server/runtime.integration.test.ts:84:     }
+tests/server/runtime.integration.test.ts:85:   })
+tests/server/runtime.integration.test.ts:86:   let categoryId: string, categoryUpdated: string, postId: string, updatedAt: string
+tests/server/runtime.integration.test.ts:87:   it('creates categories and drafts, publishes Markdown, and prevents stale writes', async () => {
+tests/server/runtime.integration.test.ts:88:     const category = await request('/api/admin/categories', { method: 'POST', cookie: true, body: { slug: 'engineering', nameEn: 'Engineering', nameVi: 'Kỹ thuật' } })
+tests/server/runtime.integration.test.ts:89:     expect(category.status).toBe(201)
+tests/server/runtime.integration.test.ts:90:     const savedCategory = (await category.json()).data
+tests/server/runtime.integration.test.ts:91:     categoryId = savedCategory.id; categoryUpdated = savedCategory.updatedAt
+tests/server/runtime.integration.test.ts:92:     const payload = { categoryId, slug: 'real-sql-article', titleEn: 'Real SQL article', titleVi: 'Bài viết SQL thực', excerptEn: 'Read a real article.', excerptVi: 'Đọc bài viết thực.', bodyEn: '# Markdown\n\n**Strong** text.\n<script>alert(1)</script>', bodyVi: '# Markdown\n\n**Nội dung**.' }
+tests/server/runtime.integration.test.ts:93:     const created = await request('/api/admin/posts', { method: 'POST', cookie: true, body: payload })
+tests/server/runtime.integration.test.ts:94:     expect(created.status, await created.clone().text()).toBe(201)
+tests/server/runtime.integration.test.ts:95:     const draft = (await created.json()).data
+tests/server/node-adapter.test.ts:24:
+tests/server/node-adapter.test.ts:25: function send(size: number, contentLength: boolean, agent?: Agent) {
+tests/server/node-adapter.test.ts:26:   return new Promise<{ status?: number; error?: string; cookies?: string[]; reusedSocket?: boolean }>((resolve) => {
+tests/server/node-adapter.test.ts:27:     const req = httpRequest({ hostname: '127.0.0.1', port, method: 'POST', path: '/api/test',
+tests/server/node-adapter.test.ts:28:       agent, headers: { 'content-type': 'application/json', ...(contentLength ? { 'content-length': size } : {}) } }, (res) => {
+tests/server/node-adapter.test.ts:29:       res.resume()
+tests/server/node-adapter.test.ts:30:       res.on('end', () => resolve({ status: res.statusCode, cookies: res.headers['set-cookie'], reusedSocket: req.reusedSocket }))
+tests/server/node-adapter.test.ts:31:     })
+tests/server/node-adapter.test.ts:32:     req.on('error', (error: NodeJS.ErrnoException) => resolve({ error: error.code }))
+tests/server/node-adapter.test.ts:33:     req.setTimeout(10000, () => { req.destroy(); resolve({ error: 'TIMEOUT' }) })
+tests/server/node-adapter.test.ts:34:     if (contentLength) req.end('x'.repeat(size))
+tests/server/node-adapter.test.ts:35:     else { req.write('x'.repeat(size)); req.end() }
+tests/server/node-adapter.test.ts:36:   })
+tests/server/node-adapter.test.ts:37: }
+tests/server/node-adapter.test.ts:38:
+tests/server/node-adapter.test.ts:39: it('preserves multiple Set-Cookie headers and rejects a declared oversized body without corrupting the reused connection', async () => {
+tests/server/node-adapter.test.ts:40:   const agent = new Agent({ keepAlive: true, maxSockets: 1 })
+tests/server/node-adapter.test.ts:41:   try {
+tests/server/node-adapter.test.ts:42:     const valid = await send(32, true, agent)
+tests/server/node-adapter.test.ts:43:     expect(valid.status).toBe(200)
+tests/server/node-adapter.test.ts:44:     expect(valid.cookies).toEqual(['first=1; HttpOnly', 'second=2; HttpOnly'])
+tests/server/node-adapter.test.ts:45:     expect(valid.reusedSocket).toBe(false)
+tests/server/node-adapter.test.ts:46:     const oversized = await send(BODY_LIMIT + 1, true, agent)
+tests/server/node-adapter.test.ts:47:     expect(oversized.status).toBe(413)
+tests/server/node-adapter.test.ts:48:     const followUp = await send(64, true, agent)
+tests/server/node-adapter.test.ts:49:     expect(followUp.status).toBe(200)
+tests/server/node-adapter.test.ts:50:     expect(followUp.reusedSocket).toBe(true)
+tests/server/node-adapter.test.ts:51:   } finally { agent.destroy() }
+tests/server/node-adapter.test.ts:52: })
+tests/server/node-adapter.test.ts:53:
+tests/server/node-adapter.test.ts:54: it('rejects an oversized chunked body with a prompt 413 instead of stalling until timeout (R4 regression)', async () => {
+tests/server/node-adapter.test.ts:55:   const agent = new Agent({ keepAlive: true, maxSockets: 1 })
+tests/server/node-adapter.test.ts:56:   try {
+tests/server/node-adapter.test.ts:57:     const result = await send(BODY_LIMIT + 65536, false, agent)
+tests/server/node-adapter.test.ts:58:     expect(result.status).toBe(413)
+tests/server/node-adapter.test.ts:59:     expect(result.cookies).toBeUndefined()
+tests/server/node-adapter.test.ts:60:     const followUp = await send(64, true, agent)
+tests/server/node-adapter.test.ts:61:     expect(followUp.status).toBe(200)
+tests/server/node-adapter.test.ts:62:     expect(followUp.reusedSocket).toBe(true)
+tests/server/node-adapter.test.ts:63:   } finally { agent.destroy() }
+tests/server/node-adapter.test.ts:64: })
+tools/useagent.py:375:     return agent
+tools/useagent.py:376:
+tools/useagent.py:377:
+tools/useagent.py:378: def review_agent(config: dict[str, Any], agent_id: str | None) -> dict[str, Any]:
+tools/useagent.py:379:     if not agent_id:
+tools/useagent.py:380:         raise UseAgentError("review action requires --agent <supervisor|reviewer|release_gate>")
+tools/useagent.py:381:     agent = agent_config(config, agent_id)
+tools/useagent.py:382:     if agent.get("role") not in REVIEW_ROLES:
+tools/useagent.py:383:         raise UseAgentError(
+tools/useagent.py:384:             f"agent {agent_id} is not authorized for review actions; role must be supervisor, reviewer or release_gate"
+tools/useagent.py:385:         )
+tools/useagent.py:386:     return agent
+tools/useagent.py:387:
+tools/useagent.py:388:
+tools/useagent.py:389: def agent_paths(config: dict[str, Any], agent: dict[str, Any]) -> dict[str, Path]:
+tools/useagent.py:390:     directory = agent.get("directory")
+tools/useagent.py:887: def cmd_task_reconcile(args: argparse.Namespace) -> int:
+tools/useagent.py:888:     """Repair a legacy worker-completion marker without editing registry JSON by hand."""
+tools/useagent.py:889:
+tools/useagent.py:890:     config = load_config()
+tools/useagent.py:891:     review_agent(config, args.agent)
+tools/useagent.py:892:     with state_lock():
+tools/useagent.py:893:         data = load_registry()
+tools/useagent.py:894:         item = get_item(data, args.task_id)
+tools/useagent.py:895:         if item.get("status") != "completed":
+tools/useagent.py:896:             raise UseAgentError(
+tools/useagent.py:897:                 f"{args.task_id} is not a legacy completed worker marker; refusing reconciliation"
+tools/useagent.py:898:             )
+tools/useagent.py:899:         if not item.get("reports"):
+tools/useagent.py:900:             raise UseAgentError(f"{args.task_id} has no worker report; refusing reconciliation")
+tools/useagent.py:901:         item["status"] = "reported"
+tools/useagent.py:902:         item["updated_at"] = now_iso()
+tools/useagent.py:903:         save_registry(data)
+tools/useagent.py:904:         sync_item_frontmatter(item)
+tools/useagent.py:905:         append_event(args.task_id, f"supervisor reconciled legacy completion marker to reported by {args.agent}")
+tools/useagent.py:906:     print(f"{args.task_id} reconciled to reported")
+tools/useagent.py:907:     return 0
+tools/useagent.py:908:
+tools/useagent.py:909:
+work/items/UA-0057.md:13: ## Objective
+work/items/UA-0057.md:14:
+work/items/UA-0057.md:15: Add a safe supervisor-only UseAgent CLI reconciliation command and use it to convert the legacy invalid UA-0052 completed marker into the supported reported state while preserving existing reports and evidence.
+work/items/UA-0057.md:16:
+work/items/UA-0057.md:17: ## Acceptance criteria
+work/items/UA-0057.md:18:
+work/items/UA-0057.md:19: - [ ] The CLI exposes a narrowly scoped reconciliation command that only converts an item with last_result completed and status completed to reported, updates its frontmatter and event, and refuses other transitions.
+work/items/UA-0057.md:20: - [ ] Running the command for UA-0052 preserves its report/evidence and makes python tools/useagent.py validate pass.
+work/items/UA-0057.md:21:
+work/items/UA-0057.md:22: ## Context to read
+work/items/UA-0057.md:23:
+work/items/UA-0057.md:24: - `knowledge/INDEX.md`
+52d5962aea866c0d6492416bbe58357036f21bac
+v24.13.0
+Python 3.14.3

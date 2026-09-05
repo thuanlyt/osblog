@@ -28,6 +28,7 @@ export const authSession = pgTable('session', {
 
 export const authAccount = pgTable('account', {
   id: text('id').primaryKey(),
+  issuer: text('issuer').notNull(),
   accountId: text('account_id').notNull(),
   providerId: text('provider_id').notNull(),
   userId: text('user_id').notNull().references(() => authUser.id, { onDelete: 'cascade' }),
@@ -43,6 +44,7 @@ export const authAccount = pgTable('account', {
 }, (table) => ({
   userIdx: index('account_user_idx').on(table.userId),
   providerIdx: index('account_provider_idx').on(table.providerId, table.accountId),
+  identityIdx: uniqueIndex('account_issuer_identity').on(table.issuer, table.accountId),
 }))
 
 export const authVerification = pgTable('verification', {

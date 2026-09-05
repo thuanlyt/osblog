@@ -1,0 +1,57 @@
+# Backups and rollback
+
+*Tiếng Việt: [docs/vi/backups-and-rollback.md](vi/backups-and-rollback.md)*
+
+**Current status (2026-09-05):** a real Neon Postgres database (`osblog-db`, Singapore region) is provisioned and linked to the live Vercel production deployment. Migrations `0000` through `0003` have run against it, and replaying the migration runner is idempotent. Live route smoke is verified; no incident or rollback drill has been exercised yet.
+
+## Database migrations
+
+The schema source of truth is [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/schema.ts). Four reviewed migrations exist under [`drizzle/`](https://github.com/thuanlyt/osblog/blob/main/drizzle/):
+
+| Migration | Covers |
+|---|---|
+| `0000_durable_content.sql` | Initial `category`, `post`, `comment`, `rate_limit_bucket`, `audit_event` tables. |
+| `0001_auth_tables.sql` | Better Auth's `user`, `session`, `account`, and verification tables. |
+| `0002_precision_and_constraints.sql` | Additional precision and constraint fixes on the content schema. |
+| `0003_auth_issuer.sql` | Fixes the auth account `issuer` field used to distinguish credential-based accounts. |
+
+`npm run db:migrate` (see [`src/server/provision.ts`](https://github.com/thuanlyt/osblog/blob/main/src/server/provision.ts)) applies these inside a single transaction, guarded by a Postgres advisory lock (so concurrent runs don't race) and an `osblog_migration` tracking table keyed by name and a SHA-256 checksum of the file contents. Re-running it after all migrations are applied is a no-op; running it against a file whose already-applied contents changed throws instead of silently reapplying — this has been verified by replaying the runner against the four migrations above.
+
+Before running a migration against a real target:
+
+1. Set `DATABASE_URL_MIGRATIONS` (or rely on the `DATABASE_URL` fallback) in a protected operator environment — never in client code or a committed file.
+2. Take a Neon backup or open a disposable branch first — see below.
+3. Run `npm run db:migrate` (or `--mode=production` against `.env.production.local`) and record the exact target, command, and result in the work report.
+4. Run `npm run db:seed` only if you want the optional bilingual introduction content; it is idempotent and never overwrites edited content (`onConflictDoNothing`).
+
+## Backup expectations
+
+Neon Postgres provides point-in-time restore and branching on the free tier used by this project.
+
+- Confirm the project's retention window and branch-restore procedure directly in the Neon console before relying on it for an incident.
+- Take a provider backup or disposable branch immediately before running any migration against the production database.
+- Record the backup/branch identifier alongside the migration evidence in the work report, not just in a chat message.
+
+Neon backup/branch-restore has not been exercised end to end against this project yet — treat the steps above as the procedure, not a completed drill.
+
+## Code rollback
+
+Rollback is two-dimensional:
+
+1. **Code-only failure:** point the deployment target's alias/domain back to the last known-good build, then run smoke checks (at minimum, `GET /api/healthz` and a real article page) against the restored deployment before considering the incident closed.
+2. **Schema change involved:** roll back code only while the database remains backward-compatible with the previous version (expand/contract migrations, not destructive in-place changes). Never run an unreviewed destructive "down" migration during an incident. If content must be restored, use Neon's tested backup/point-in-time mechanism under explicit incident approval, then reconcile `audit_event` rows and invalidate any cached HTML.
+
+The "point the alias back" step above has not been exercised in this repository — the procedure is documented and the current production alias is known, but no incident rollback has been performed.
+
+## Content-level recovery
+
+Because posts and categories use soft deletion (`archived` status, not a hard delete) and every mutation writes an `audit_event` row, most accidental content changes can be recovered by re-publishing the archived record rather than restoring the whole database. **Comment deletion is a real, permanent delete** (see [Admin and comments](admin-and-comments.md)) — recovering a deleted comment requires a full database restore, and there is no soft-delete path for it.
+
+## What is still unverified
+
+- Neon backup/branch-restore has not been exercised for an actual incident.
+- Deployment-alias rollback has not been exercised against the live deployment yet.
+- Migration locking behavior under concurrent operator runs is guarded by an advisory lock but has not been load-tested.
+- Recovery time and acceptable data-loss objectives have not been defined by the project owner.
+
+Back to [Documentation index](index.md).
