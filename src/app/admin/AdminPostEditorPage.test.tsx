@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { AdminPostEditorPage } from './AdminPostEditorPage'
 import type { Post } from '../types'
 
-function jsonResponse(data: unknown, ok = true, status = ok ? 200 : 400, error?: { code: string; message: string }) {
+function jsonResponse(data: unknown, ok = true, status = ok ? 200 : 400, error?: { code: string; message: string; fields?: Record<string, string[]> }) {
   return Promise.resolve({ ok, status, json: async () => ({ data: ok ? data : null, error: ok ? null : (error ?? { code: 'REQUEST_FAILED', message: String(data) }), requestId: 'req-1' }) } as Response)
 }
 
@@ -86,6 +86,42 @@ describe('editing language tabs', () => {
 })
 
 describe('conflict handling', () => {
+  it('warns on a published slug change, preserves text on reserved-slug 409 and resets the warning after saving', async () => {
+    let rejectSlug = true
+    const published = { ...post, status: 'published', publishedAt: '2026-01-01T00:00:00.000Z' }
+    vi.stubGlobal('fetch', vi.fn().mockImplementation((url: string, options?: RequestInit) => {
+      if (url === '/api/admin/categories') return jsonResponse([])
+      if (url === '/api/admin/posts/post-1' && options?.method === 'GET') return jsonResponse(published)
+      if (url === '/api/admin/posts/post-1' && options?.method === 'PATCH') {
+        return rejectSlug ? jsonResponse(null, false, 409, { code: 'SLUG_TAKEN', message: 'This slug is already in use.', fields: { slug: ['Choose an unused slug.'] } })
+          : jsonResponse({ ...published, ...JSON.parse(String(options.body)), updatedAt: '2026-01-03T00:00:00.000Z' })
+      }
+      return jsonResponse('not found', false, 404)
+    }))
+    const user = userEvent.setup()
+    renderEditor({ mode: 'edit', postId: 'post-1', adminEmail: 'admin@example.test' })
+    const slug = await screen.findByLabelText('Slug')
+    expect(screen.queryByText(/Previously published URLs permanently redirect/)).not.toBeInTheDocument()
+    await user.clear(slug)
+    await user.type(slug, 'renamed-article')
+    expect(screen.getByText(/Previously published URLs permanently redirect/)).toBeInTheDocument()
+    expect(slug).toHaveAttribute('aria-describedby', 'post-slug-warning')
+    expect(screen.getByRole('link', { name: '/post/renamed-article' })).toHaveAttribute('href', '/post/renamed-article')
+    const body = screen.getByLabelText('Body (English)')
+    await user.clear(body)
+    await user.type(body, 'Unsaved body to preserve.')
+    await user.click(screen.getByRole('button', { name: 'Publish' }))
+    expect(await screen.findByText('Choose an unused slug.')).toBeInTheDocument()
+    expect(slug).toHaveAttribute('aria-invalid', 'true')
+    expect(slug).toHaveValue('renamed-article')
+    expect(body).toHaveValue('Unsaved body to preserve.')
+    expect(screen.getByText('Unsaved changes')).toBeInTheDocument()
+    rejectSlug = false
+    await user.click(screen.getByRole('button', { name: 'Publish' }))
+    await waitFor(() => expect(screen.queryByText(/Previously published URLs permanently redirect/)).not.toBeInTheDocument())
+    expect(screen.queryByText('Unsaved changes')).not.toBeInTheDocument()
+  })
+
   it('keeps the edited text and offers an explicit reload when the server reports a conflict', async () => {
     vi.stubGlobal('fetch', vi.fn().mockImplementation((url: string, options?: RequestInit) => {
       if (url === '/api/admin/categories') return jsonResponse([])

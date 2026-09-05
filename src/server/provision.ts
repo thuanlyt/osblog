@@ -1,13 +1,33 @@
 import { createHash, randomUUID } from 'node:crypto'
 import { and, eq, isNull, sql } from 'drizzle-orm'
 import { hashPassword } from 'better-auth/crypto'
-import type { Database } from './db'
+import type { Database, Store } from './db'
 import { authAccount, authUser } from './auth-schema'
 import { requireAuthIdentity } from './auth-policy'
-import { category, post } from './schema'
+import { category, post, postSlugHistory } from './schema'
 import { sqlStatements } from './sql-statements'
 
 export interface Migration { name: string; source: string }
+/** Count-only, read-only rollout preflight; works before migration 0004 exists. */
+export async function preflightSlugHistory(db: Store) {
+  const result = await db.execute<{ malformed: number; missing: number; multiOwner: number; currentOwnerConflicts: number }>(sql`
+    WITH audited AS (
+      SELECT a.before_summary->>'slug' AS slug, p.id AS post_id
+      FROM audit_event a LEFT JOIN post p ON p.id::text = a.entity_id
+      WHERE a.entity = 'post' AND a.before_summary->>'status' = 'published'
+    ), candidates AS (
+      SELECT slug, id AS post_id FROM post WHERE status = 'published'
+      UNION ALL
+      SELECT slug, post_id FROM audited WHERE post_id IS NOT NULL
+        AND length(slug) BETWEEN 1 AND 180 AND slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'
+    ) SELECT
+      (SELECT count(*)::int FROM audited WHERE slug IS NULL OR length(slug) NOT BETWEEN 1 AND 180 OR slug !~ '^[a-z0-9]+(-[a-z0-9]+)*$') AS malformed,
+      (SELECT count(*)::int FROM audited WHERE post_id IS NULL) AS missing,
+      (SELECT count(*)::int FROM (SELECT slug FROM candidates GROUP BY slug HAVING count(DISTINCT post_id) > 1) conflicts) AS "multiOwner",
+      (SELECT count(DISTINCT c.slug)::int FROM candidates c JOIN post p ON p.slug = c.slug WHERE p.id <> c.post_id) AS "currentOwnerConflicts"`)
+  return result.rows[0]
+}
+
 export async function migrate(db: Database, migrations: Migration[]) {
   return db.transaction(async (tx) => {
     await tx.execute(sql`select pg_advisory_xact_lock(62874109)`)
@@ -72,7 +92,8 @@ export async function seedIntroduction(db: Database) {
     ]
     const created: string[] = []
     for (const entry of entries) {
-      const rows = await tx.insert(post).values({ ...entry, categoryId: topic.id, status: 'published', publishedAt: new Date() }).onConflictDoNothing().returning({ slug: post.slug })
+      const [reserved] = await tx.select({ slug: postSlugHistory.slug }).from(postSlugHistory).where(eq(postSlugHistory.slug, entry.slug)).limit(1)
+      const rows = reserved ? [] : await tx.insert(post).values({ ...entry, categoryId: topic.id, status: 'published', publishedAt: new Date() }).onConflictDoNothing().returning({ slug: post.slug })
       // Fill covers for original optional seeds created by older releases, but never
       // overwrite a cover chosen by an operator after the seed was customized.
       await tx.update(post).set({ coverImageUrl: entry.coverImageUrl, coverImageAltEn: entry.coverImageAltEn, coverImageAltVi: entry.coverImageAltVi })

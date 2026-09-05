@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T09:58:59Z",
+  "updated_at": "2026-09-05T14:46:09Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -4728,7 +4728,7 @@
       "title": "Implement permanent published-slug registry and redirects",
       "objective": "Preserve inbound links when published post slugs change with an additive, collision-safe registry and one-hop HTML/API redirects; do not deploy or apply the migration to production in this implementation task.",
       "level": "L3",
-      "status": "in_progress",
+      "status": "blocked",
       "owner": "astra",
       "assigned_to": "astra",
       "scope": [
@@ -4770,7 +4770,7 @@
       "reports": [],
       "attempts": 0,
       "created_at": "2026-09-05T09:32:06Z",
-      "updated_at": "2026-09-05T09:58:59Z",
+      "updated_at": "2026-09-05T14:39:36Z",
       "assignment_path": "work/agents/astra/inbox/UA-0073.md",
       "dispatched_at": "2026-09-05T09:54:18Z",
       "started_at": "2026-09-05T09:54:45Z"
@@ -4930,6 +4930,128 @@
       "attempts": 1,
       "created_at": "2026-09-05T09:53:27Z",
       "updated_at": "2026-09-05T09:54:04Z",
+      "last_result": "completed"
+    },
+    "UA-0077": {
+      "id": "UA-0077",
+      "title": "Take over slug-history implementation and verification",
+      "objective": "Audit the retained Astra changes for permanent published-slug ownership, correct any defects, and produce evidence-backed local gates without applying the migration or deploying.",
+      "level": "L3",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "docs/architecture.md",
+        "docs/vi/architecture.md",
+        "drizzle/0004_post_slug_history.sql",
+        "knowledge/architecture.md",
+        "src/app/admin/AdminPostEditorPage.test.tsx",
+        "src/app/admin/AdminPostEditorPage.tsx",
+        "src/server/content.ts",
+        "src/server/provision.ts",
+        "src/server/router.ts",
+        "src/server/schema.ts",
+        "tests/browser/publishing.spec.ts",
+        "tests/server/content.test.ts",
+        "tests/server/runtime.integration.test.ts",
+        "tests/server/seo.test.ts",
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence/UA-0077-review.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "acceptance": [
+        "Retained or corrected implementation adds additive ever-published slug ownership with deterministic fail-closed backfill, direct one-hop 308 redirects for visible historical HTML/API URLs, hidden content 404s, current-only canonical SEO/sitemap, editor warning plus conflict preservation, idempotent seed, focused and broad verification; no production migration or deploy."
+      ],
+      "verification": [
+        "Run focused slug-history tests, npm test, npm run typecheck, npm run lint, npm run build, npm audit --audit-level=high, python tools/useagent.py validate, conformance replay and git diff --check; inspect migration and report residual risks."
+      ],
+      "files": [
+        "docs/architecture.md",
+        "docs/vi/architecture.md",
+        "drizzle/0004_post_slug_history.sql",
+        "knowledge/architecture.md",
+        "src/app/admin/AdminPostEditorPage.test.tsx",
+        "src/app/admin/AdminPostEditorPage.tsx",
+        "src/server/content.ts",
+        "src/server/provision.ts",
+        "src/server/router.ts",
+        "src/server/schema.ts",
+        "tests/browser/publishing.spec.ts",
+        "tests/server/content.test.ts",
+        "tests/server/runtime.integration.test.ts",
+        "tests/server/seo.test.ts",
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence/UA-0077-review.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Focused slug-history/content/runtime/SEO/editor tests: 31 passed",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "Full Vitest: 18 files, 93 tests passed",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "Playwright E2E with installed headless shell: 2 passed",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run typecheck: PASS",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run lint: PASS",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm run build: PASS",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "npm audit --audit-level=high: 0 vulnerabilities",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "python tools/useagent.py validate: VALID",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "python -B tests/useagent-conformance/replay.py: REPLAY_PASS",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "check",
+          "value": "git diff --check: no content errors; LF/CRLF normalization warnings only",
+          "recorded_at": "2026-09-05T14:45:59Z"
+        },
+        {
+          "kind": "review",
+          "value": "PASS — reviewed retained Astra edits and supervisor correction against UA-0077 acceptance. No P0/P1/P2 findings remain. Evidence: work/evidence/UA-0077-review.md; full and focused tests, typecheck, lint, build, audit, validate, conformance and E2E are recorded there. Residual rollout gates are explicit and out of scope: Neon backup/restore, production preflight, migration application, provider contention test and live redirect smoke.",
+          "recorded_at": "2026-09-05T14:46:09Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0077-20260905T144559Z-3f9ddf.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T14:39:46Z",
+      "updated_at": "2026-09-05T14:46:09Z",
       "last_result": "completed"
     }
   }

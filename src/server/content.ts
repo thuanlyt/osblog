@@ -1,5 +1,5 @@
 import { and, count, desc, eq, getTableColumns, ilike, lte, ne, or, sql } from 'drizzle-orm'
-import { auditEvent, category, post } from './schema'
+import { auditEvent, category, post, postSlugHistory } from './schema'
 import type { Database, Store } from './db'
 import { HttpError } from './http'
 import { createPostInput, listPostsQuery, type CreatePostInput, type UpdatePostInput } from './content-contract'
@@ -32,6 +32,13 @@ export async function getPublishedPost(db: Store, slug: string) {
 export async function getPublishedPostById(db: Store, id: string) {
   const [row] = await db.select(publicColumns).from(post).innerJoin(category, eq(post.categoryId, category.id)).where(and(visiblePost(), eq(post.id, id))).limit(1)
   return row
+}
+export async function resolvePublishedSlug(db: Store, slug: string): Promise<string | undefined> {
+  if (slug.length > 180 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return undefined
+  const [row] = await db.select({ slug: post.slug }).from(postSlugHistory)
+    .innerJoin(post, eq(postSlugHistory.postId, post.id)).innerJoin(category, eq(post.categoryId, category.id))
+    .where(and(eq(postSlugHistory.slug, slug), ne(post.slug, slug), visiblePost())).limit(1)
+  return row?.slug
 }
 export async function relatedPosts(db: Store, categoryId: string, id: string) {
   return db.select({ id: post.id, slug: post.slug, titleEn: post.titleEn, titleVi: post.titleVi, excerptEn: post.excerptEn, excerptVi: post.excerptVi })

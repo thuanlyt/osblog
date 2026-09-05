@@ -60,6 +60,12 @@ export const post = pgTable(
   }),
 )
 
+export const postSlugHistory = pgTable('post_slug_history', {
+  slug: varchar('slug', { length: 180 }).primaryKey(),
+  postId: uuid('post_id').references(() => post.id, { onDelete: 'cascade' }).notNull(),
+  firstPublishedAt: timestamp('first_published_at', { withTimezone: true, precision: 3 }).defaultNow().notNull(),
+}, (table) => ({ postIdx: index('post_slug_history_post_idx').on(table.postId) }))
+
 export const comment = pgTable(
   'comment',
   {
@@ -108,4 +114,4 @@ export const auditEvent = pgTable(
   }),
 )
 
-export const schema = { category, post, comment, rateLimitBucket, auditEvent }
+export const schema = { category, post, postSlugHistory, comment, rateLimitBucket, auditEvent }

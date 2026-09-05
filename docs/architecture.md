@@ -32,7 +32,7 @@ Shared request router (src/server/router.ts)
 - `src/server/` owns the router, schema, query services (`content.ts`, `comments.ts`, `docs.ts`, `pages.ts`), validation contracts, and auth configuration. It is imported only by server entry points and must never be bundled for the client.
 - `src/server/node-adapter.ts` adapts the `Request/Response`-based router to Node's `IncomingMessage`/`ServerResponse`, used by both `tools/server/start.ts` and, indirectly, by the Vercel/Netlify adapters (which run the same built router in their own request model).
 - `api/index.ts` and `netlify/functions/osblog.mts` are thin re-exports of the built `dist/server/index.js` handler — neither contains routing logic of its own.
-- `drizzle/` owns the four applied SQL migrations; `src/server/provision.ts` owns migration execution, admin bootstrap, and the optional content seed.
+- `drizzle/` owns the four previously applied SQL migrations and additive `0004_post_slug_history.sql`, verified locally but not applied to production under UA-0073. `src/server/provision.ts` owns migration execution, slug-history preflight, admin bootstrap, and the optional content seed.
 
 ## Routes
 
@@ -44,7 +44,7 @@ Route resolution happens in [`src/server/pages.ts`](https://github.com/thuanlyt/
 | `/archive` | public | Same listing shape as home, framed as the full archive. SSR. |
 | `/category/:slug` | public | Published posts filtered to one category. SSR. |
 | `/search?q=` | public | Bounded server-side search across title/excerpt (both languages); `noindex,follow`. |
-| `/post/:slug` | public | Published article: bilingual body, approved comments, up to 3 related posts from the same category. SSR. |
+| `/post/:slug` | public | Current visible article returns SSR; a visible historical slug returns a one-hop 308 to its current URL. Hidden or unknown slugs return 404. |
 | `/about` | public | Static bilingual about page. |
 | `/docs`, `/docs/:slug` | public | This documentation set, read from `docs/**/*.md`; `?lang=vi` selects the Vietnamese variant. |
 | `/admin/login` | unauthenticated | Better Auth sign-in only; no public registration. |
@@ -54,7 +54,7 @@ API handlers, all under `/api/`:
 
 | Method and path | Boundary |
 |---|---|
-| `GET /api/posts`, `GET /api/posts/slug/:slug` | Public published reads only. |
+| `GET /api/posts`, `GET/HEAD /api/posts/slug/:slug` | Public published reads only; historical slugs redirect with 308 to the current JSON endpoint. |
 | `GET /api/categories` | Public read of active categories. |
 | `POST /api/posts/:id/view` | Rate-limited (1 per IP per post per 24h), increments `view_count`. |
 | `GET /api/comments/token` | Issues a signed, time-boxed comment form token. |
@@ -81,6 +81,18 @@ Schema source: [`src/server/schema.ts`](https://github.com/thuanlyt/osblog/blob/
 - **`audit_event`** — actor user ID, action, entity, entity ID, before/after JSON summary, request ID, timestamp. Never stores raw passwords, tokens, or comment email.
 
 Published content is not literally immutable, but every edit bumps `updated_at` (`nextTimestamp`, strictly increasing) and is guarded by optimistic concurrency (`expectedUpdatedAt`) so concurrent edits are rejected as `409` rather than silently lost.
+
+## Permanent published-slug ownership
+
+`post_slug_history` maps each ever-published slug directly to `post.id`, with a primary key on `slug`, a `post_id` index, and the earliest known `first_published_at`. The registry includes the current slug once published, including scheduled posts. An `AFTER INSERT OR UPDATE OF slug, status` database trigger takes transaction advisory lock `62874110`, checks ownership and records publication. Direct SQL and older application instances receive the same guard. The existing current-slug unique constraint still applies.
+
+Published slugs cannot be reused by another post or reclaimed by the same post. This prevents loops from previously cached permanent redirects. Renaming `a` to `b` to `c` leaves both `a` and `b` pointing to the immutable post ID; the resolver reads its current slug `c`, never another alias. Draft-only names are not reserved. Unpublish/archive retains all prior ownership; the application does not hard-delete posts. An explicitly authorized hard deletion cascades history and changes this retention guarantee.
+
+`content.ts:resolvePublishedSlug` applies the same publication date, status and category visibility predicate as public reads. Historical HTML GET/HEAD requests return 308 to the absolute current `/post/:slug?lang=en|vi`, using the configured SSR origin, selecting `vi` only when explicitly requested, and dropping unrelated query parameters. Historical API GET/HEAD requests redirect to `/api/posts/slug/:current`, without query parameters, so redirect-following clients still receive JSON. Hidden targets return 404 with no `Location`, including their historical URLs. Redirects keep `Cache-Control: no-store`. Only the final current page renders; canonical/hreflang/Open Graph/JSON-LD and sitemap URLs therefore contain only the current slug.
+
+The editor keeps the saved slug as its baseline and displays a non-blocking warning when an existing slug changes. Its preview uses the proposed URL. History conflicts raise SQLSTATE `23505`, preserving HTTP 409 `SLUG_TAKEN` and the slug field error; the form stays dirty and typed content remains available. A successful save resets the baseline. Seed reruns skip reserved names, so renaming a published seed does not recreate it.
+
+Source anchors: `drizzle/0004_post_slug_history.sql`, `schema.ts:postSlugHistory`, `content.ts:resolvePublishedSlug`, the post routes in `router.ts`, `provision.ts:preflightSlugHistory` / `seedIntroduction`, and `AdminPostEditorPage.tsx`.
 
 ## Auth and CRUD flow
 
@@ -126,6 +138,14 @@ npm run db:seed         # optional, idempotent bilingual introduction content
 
 Migrations `0000_durable_content.sql` through `0003_auth_issuer.sql` have run against the provisioned Neon database and replay is idempotent (see [Backups and rollback](backups-and-rollback.md)). None of these three commands runs automatically as part of `npm run build` or any deployment — they are explicit operator steps.
 
+Migration `0004_post_slug_history.sql` is an additive, local implementation awaiting its own production rollout gate. It locks post/audit writes while backfilling current published slugs and valid `before_summary.slug` values whose audited status was published. Candidates join to an existing post by ID, are deduplicated by slug/owner and retain the earliest available timestamp. Missing targets and malformed audit slugs are excluded. A slug associated with multiple posts, or with a different current owner (even a draft), aborts the entire migration before any changes commit. An operator must reconcile ambiguous ownership; the migration never chooses a winner.
+
+Before an authorized production rollout, call the read-only `preflightSlugHistory(db)` helper with the operator's database handle. It returns counts only: malformed published audit candidates, missing targets, multiple historical owners, and conflicts with current owners. It can run on the pre-0004 schema. Review any skipped evidence and require zero ownership conflicts, a verified backup/recovery checkpoint, a lock-duration check and a separate two-session PostgreSQL contention check. Local PGlite tests exercise competing application calls but serialize database sessions; they do not measure provider lock contention. No production preflight or Neon mutation was performed by UA-0073.
+
+Apply the additive migration before deploying redirect-aware code. Older instances then preserve publication history through the trigger. A stale seed invocation racing a rename can still receive a collision; retry the idempotent seed after the concurrent write completes. Audit records cannot recover unaudited renames, deleted posts or missing historical events. Preservation for those unknown names starts at migration time, unless an operator separately supplies a reviewed mapping.
+
+For application rollback, keep the registry and trigger: old code remains protected against reuse, though historical URLs return 404 until redirect-aware code is restored. Dropping the registry/trigger would lose ownership and reopen slugs, and is not a routine rollback. It requires explicit operator approval and reconciliation/restoration. These rollout requirements supersede the older editor guide's statement that slug redirects are unavailable once migration 0004 and this code are deployed.
+
 Rollback is two-dimensional: for code-only failures, point the deployment target back at the last known-good build and smoke-test; for schema changes, keep rollback code backward-compatible with the deployed schema rather than running an unreviewed destructive migration. Full detail in [Backups and rollback](backups-and-rollback.md).
 
 ## Verification boundaries
@@ -143,7 +163,7 @@ What is verified as of 2026-09-05: schema, environment parsing, auth policy, com
 
 ## Known gaps and next action
 
-- **No slug-redirect mechanism.** Changing a published post's slug breaks existing inbound links; see [Markdown editor](editor.md).
+- **Slug redirects await rollout.** Registry, one-hop redirects and editor feedback are locally implemented; production backup, count-only preflight, lock/contending-session verification and migration 0004 remain separate operator gates.
 - **Turnstile is unwired.** The secret is accepted but unused; comments are not CAPTCHA-protected today.
 - **Non-Vercel operations remain open.** Netlify's adapter and the VPS path have not been exercised on their live platforms; Neon backup/restore and Vercel alias rollback drills are also pending. See [Deployment](deployment.md) and [Backups and rollback](backups-and-rollback.md).
 - **Coverage boundary.** The compiled-browser gate proves the tested publishing/comment/moderation and responsive-docs flows; it does not replace provider rollback/restore drills or a full exploratory audit of every admin screen.

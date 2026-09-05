@@ -170,6 +170,69 @@ describe('real SQL and Fetch runtime integration', () => {
     const count = await db.execute(sql`select count(*) as count from comment`)
     expect(Number(count.rows[0].count)).toBe(1)
   })
+  it('redirects published slug history directly to current HTML/API URLs, rejects reuse and hides non-public targets', async () => {
+    const original = 'redirect-original', middle = 'redirect-middle', current = 'redirect-current'
+    const payload = { categoryId, slug: original, titleEn: 'Redirect article', titleVi: 'Bài viết chuyển hướng', excerptEn: 'Redirect excerpt.', excerptVi: 'Tóm tắt.', bodyEn: 'Body.', bodyVi: 'Nội dung.', status: 'published', publishedAt: '2024-01-01T00:00:00.000Z' }
+    const created = await request('/api/admin/posts', { method: 'POST', cookie: true, body: payload })
+    expect(created.status).toBe(201)
+    let saved = (await created.json()).data
+    for (const slug of [middle, current]) {
+      const renamed = await request(`/api/admin/posts/${saved.id}`, { method: 'PATCH', cookie: true, body: { slug, expectedUpdatedAt: saved.updatedAt } })
+      expect(renamed.status).toBe(200)
+      saved = (await renamed.json()).data
+    }
+    for (const old of [original, middle]) {
+      for (const query of ['?lang=vi&extra=ignored', '?lang=en', '?lang=fr', '']) {
+        const language = query.startsWith('?lang=vi') ? 'vi' : 'en'
+        for (const method of ['GET', 'HEAD']) {
+          const redirected = await request(`/post/${old}${query}`, { method })
+          expect(redirected.status).toBe(308)
+          expect(redirected.headers.get('location')).toBe(`${origin}/post/${current}?lang=${language}`)
+          expect(redirected.headers.get('cache-control')).toBe('no-store')
+          expect(await redirected.text()).toBe('')
+        }
+      }
+      for (const method of ['GET', 'HEAD']) {
+        const api = await request(`/api/posts/slug/${old}?lang=vi&extra=ignored`, { method })
+        expect(api.status).toBe(308)
+        expect(api.headers.get('location')).toBe(`${origin}/api/posts/slug/${current}`)
+        expect(api.headers.get('cache-control')).toBe('no-store')
+        const final = await handler(new Request(api.headers.get('location')!))
+        expect(final.status).toBe(200)
+        expect(final.headers.get('content-type')).toContain('application/json')
+        expect((await final.json()).data.slug).toBe(current)
+      }
+    }
+    const html = await (await request(`/post/${current}?lang=vi`)).text()
+    expect(html).toContain(`<link rel="canonical" href="${origin}/post/${current}?lang=vi"`)
+    expect(html).toContain(`<meta property="og:url" content="${origin}/post/${current}?lang=vi"`)
+    expect(html).toContain(`"mainEntityOfPage":"${origin}/post/${current}?lang=vi"`)
+    for (const lang of ['en', 'vi']) expect(html).toContain(`hreflang="${lang}" href="${origin}/post/${current}?lang=${lang}"`)
+    const sitemap = await (await request('/sitemap.xml')).text()
+    expect(sitemap).toContain(`/post/${current}?lang=en`)
+    for (const old of [original, middle]) { expect(html).not.toContain(`/post/${old}`); expect(sitemap).not.toContain(`/post/${old}`) }
+    const reused = await request(`/api/admin/posts/${saved.id}`, { method: 'PATCH', cookie: true, body: { slug: original, expectedUpdatedAt: saved.updatedAt } })
+    expect(reused.status).toBe(409)
+    expect((await reused.json()).error).toMatchObject({ code: 'SLUG_TAKEN', fields: { slug: expect.any(Array) } })
+    const stolen = await request('/api/admin/posts', { method: 'POST', cookie: true, body: { ...payload, slug: middle, status: 'draft' } })
+    expect(stolen.status).toBe(409)
+    const audits = await db.execute(sql`select action from audit_event where entity_id = ${saved.id}`)
+    expect(audits.rows.map((row) => row.action)).toEqual(['post.create', 'post.update', 'post.update'])
+    for (const hidden of ['draft', 'archived', 'future', 'category']) {
+      await db.execute(sql`update post set status = ${hidden === 'draft' || hidden === 'archived' ? hidden : 'published'}::post_status, published_at = ${hidden === 'future' ? '2999-01-01' : '2024-01-01'}::timestamptz where id = ${saved.id}::uuid`)
+      if (hidden === 'category') await db.execute(sql`update category set is_archived = true where id = ${categoryId}::uuid`)
+      for (const slug of [original, middle, current]) for (const path of [`/post/${slug}?lang=vi`, `/api/posts/slug/${slug}`]) for (const method of ['GET', 'HEAD']) {
+        const response = await request(path, { method })
+        expect(response.status).toBe(404)
+        expect(response.headers.get('location')).toBeNull()
+        expect(response.headers.get('cache-control')).toBe('no-store')
+      }
+      if (hidden === 'category') await db.execute(sql`update category set is_archived = false where id = ${categoryId}::uuid`)
+    }
+    expect((await request(`/post/${original}`)).status).toBe(308)
+    expect((await request(`/post/${current}`)).status).toBe(200)
+  })
+
   it('archives categories without data loss and hides all associated public surfaces', async () => {
     const response = await request(`/api/admin/categories/${categoryId}`, { method: 'DELETE', cookie: true, body: { expectedUpdatedAt: categoryUpdated } })
     expect(response.status).toBe(200)

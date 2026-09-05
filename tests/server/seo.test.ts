@@ -1,8 +1,27 @@
 import { describe, expect, it } from 'vitest'
 import { escapeHtml, renderDocument, renderHtmlDocument, seoForPath } from '../../src/server/seo'
-import type { PageData } from '../../src/app/types'
+import type { PageData, Post } from '../../src/app/types'
 
 describe('SSR SEO boundary', () => {
+  it.each(['en', 'vi'] as const)('uses only the final current slug in article metadata after a %s redirect', (lang) => {
+    const origin = 'https://osblog.example'
+    const post: Post = {
+      id: '00000000-0000-4000-8000-000000000001', categoryId: '00000000-0000-4000-8000-000000000002', slug: 'current-slug',
+      titleEn: 'Current article', titleVi: 'Bài viết hiện tại', excerptEn: 'Summary', excerptVi: 'Tóm tắt',
+      coverImageUrl: null, coverImageAltEn: null, coverImageAltVi: null, seoTitleEn: null, seoTitleVi: null, seoDescriptionEn: null, seoDescriptionVi: null,
+      status: 'published', publishedAt: '2024-01-01T00:00:00.000Z', createdAt: '2024-01-01T00:00:00.000Z', updatedAt: '2024-02-01T00:00:00.000Z', viewCount: 0,
+      category: { id: '00000000-0000-4000-8000-000000000002', slug: 'topic', nameEn: 'Topic', nameVi: 'Chủ đề' },
+    }
+    const source = renderDocument('<main>Article</main>', { kind: 'article', path: `/post/${post.slug}?lang=${lang}`, lang, status: 200, title: post.titleEn, description: post.excerptEn, post }, origin, 'nonce', { scripts: [], styles: [] })
+    const html = new DOMParser().parseFromString(source, 'text/html')
+    const current = `${origin}/post/current-slug?lang=${lang}`
+    expect(html.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(current)
+    expect(html.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe(current)
+    const json = JSON.parse(html.querySelector('script[type="application/ld+json"]')!.textContent!)
+    expect(json.mainEntityOfPage).toBe(current)
+    for (const language of ['en', 'vi']) expect(html.querySelector(`link[rel="alternate"][hreflang="${language}"]:not([type])`)?.getAttribute('href')).toBe(`${origin}/post/current-slug?lang=${language}`)
+  })
+
   it('escapes metadata and marks private/search routes noindex', () => {
     expect(escapeHtml('<title>"safe" & sound</title>')).toBe('&lt;title&gt;&quot;safe&quot; &amp; sound&lt;/title&gt;')
     expect(seoForPath('/search?q=secret', { NODE_ENV: 'test' }).noIndex).toBe(true)

@@ -9,7 +9,7 @@ import { siteOrigin } from './env'
 import { HttpError } from './http'
 import { assertOrigin, boundedBody, errorResponse, json, parseJson } from './request'
 import { category, post } from './schema'
-import { archivePost, countPublishedPosts, createPost, getPublishedPost, getPublishedPostById, listCategories, listPublishedPosts, updatePost, visiblePost } from './content'
+import { archivePost, countPublishedPosts, createPost, getPublishedPost, getPublishedPostById, listCategories, listPublishedPosts, resolvePublishedSlug, updatePost, visiblePost } from './content'
 import { categoryInput, categoryUpdateInput, createPostInput, deletePostInput, listPostsQuery, updatePostInput } from './content-contract'
 import { saveCategory } from './categories'
 import { approvedComments, consumeRateLimit, deleteComment, listModerationComments, moderateComment, submitComment } from './comments'
@@ -87,9 +87,12 @@ export function createRouter(options: RouterOptions) {
       const [posts, total] = await Promise.all([listPublishedPosts(database(), query), countPublishedPosts(database(), query)])
       return json({ posts, total }, requestId)
     }
-    if (path.startsWith('/api/posts/slug/') && method === 'GET') {
-      const row = await getPublishedPost(database(), path.slice('/api/posts/slug/'.length))
-      return row ? json(row, requestId) : notFound()
+    if (path.startsWith('/api/posts/slug/') && ['GET', 'HEAD'].includes(method)) {
+      const slug = path.slice('/api/posts/slug/'.length)
+      const row = await getPublishedPost(database(), slug)
+      if (row) return json(row, requestId)
+      const current = await resolvePublishedSlug(database(), slug)
+      return current ? Response.redirect(new URL(`/api/posts/slug/${encodeURIComponent(current)}`, origin).href, 308) : notFound()
     }
     if (path === '/api/categories' && method === 'GET') return json(await listCategories(database()), requestId)
     const viewMatch = path.match(/^\/api\/posts\/([^/]+)\/view$/)
@@ -182,6 +185,14 @@ export function createRouter(options: RouterOptions) {
         if (entries.length > 49000) throw new HttpError(503, 'SITEMAP_CAPACITY', 'Sitemap index partitioning is required for this site size.')
       }
       return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.map((entry) => `<url><loc>${escapeHtml(origin + entry.path)}</loc>${entry.modified ? `<lastmod>${entry.modified.toISOString()}</lastmod>` : ''}</url>`).join('')}</urlset>`, { headers: { 'content-type': 'application/xml; charset=utf-8' } })
+    }
+    if (path.startsWith('/post/')) {
+      const current = await resolvePublishedSlug(database(), path.slice('/post/'.length))
+      if (current) {
+        const destination = new URL(`/post/${encodeURIComponent(current)}`, origin)
+        destination.searchParams.set('lang', url.searchParams.get('lang') === 'vi' ? 'vi' : 'en')
+        return Response.redirect(destination.href, 308)
+      }
     }
     let email: string | undefined
     if (/^\/admin(?:\/|$)/.test(path) && path !== '/admin/login') {

@@ -174,3 +174,10 @@ Live-verified reviewed RSS/Atom release on both public OSBlog domains. All EN/VI
 
 - Report: `work/reports/inbox/UA-0076-20260905T095336Z-790de0.md`
 - Next: Dispatch UA-0073 for permanent published-slug history and one-hop redirects.
+
+## 2026-09-05T14:45:59Z - UA-0077 (completed)
+
+Supervisor takeover completed after Astra quota exhaustion. Audited and retained the additive slug-history migration, deterministic backfill/preflight, trigger ownership guard, resolver, HTML/API one-hop 308 redirects, hidden-target behavior, current-only SEO/sitemap, published-only editor warning with 409 preservation, idempotent seed and bilingual docs. Corrected two Testing Library type assertions and limited the warning to published posts.
+
+- Report: `work/reports/inbox/UA-0077-20260905T144559Z-3f9ddf.md`
+- Next: Close review gate, then create the separate authorized Neon rollout task for backup/restore, count-only preflight, migration 0004 and live historical-URL smoke; do not apply production migration in this task.

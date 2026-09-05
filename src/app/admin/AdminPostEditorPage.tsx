@@ -96,6 +96,7 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
   const draftKey = postId ?? 'new'
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [updatedAt, setUpdatedAt] = useState<string | null>(null)
+  const [savedSlug, setSavedSlug] = useState<string | null>(null)
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(mode === 'new')
@@ -124,6 +125,7 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
           const next = postToForm(post)
           setForm(next)
           setUpdatedAt(post.updatedAt)
+          setSavedSlug(post.slug)
           savedSnapshotRef.current = JSON.stringify(next)
           setLoaded(true)
         })
@@ -224,6 +226,7 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
       if (currentId) {
         const post = await updateAdminPost(currentId, { ...buildPayload(nextForm), expectedUpdatedAt: updatedAt ?? '' })
         setUpdatedAt(post.updatedAt)
+        setSavedSlug(post.slug)
         savedSnapshotRef.current = JSON.stringify(nextForm)
         clearDraft(adminEmail, draftKey)
         setSavedMessage(targetStatus === 'draft' ? 'Draft saved.' : 'Post published.')
@@ -232,6 +235,7 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
         savedSnapshotRef.current = JSON.stringify(nextForm)
         clearDraft(adminEmail, 'new')
         setCurrentId(post.id)
+        setSavedSlug(post.slug)
         setUpdatedAt(post.updatedAt)
         setSavedMessage(targetStatus === 'draft' ? 'Draft saved.' : 'Post published.')
         navigate(`/admin/posts/${post.id}/edit`, { replace: true })
@@ -262,6 +266,7 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
       restoringRef.current = true
       setForm(next)
       setUpdatedAt(post.updatedAt)
+      setSavedSlug(post.slug)
       savedSnapshotRef.current = JSON.stringify(next)
       setConflict(null)
       clearDraft(adminEmail, draftKey)
@@ -278,6 +283,7 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
       const next = postToForm(post)
       setForm(next)
       setUpdatedAt(post.updatedAt)
+      setSavedSlug(post.slug)
       savedSnapshotRef.current = JSON.stringify(next)
       clearDraft(adminEmail, draftKey)
       setSavedMessage('Post archived.')
@@ -288,6 +294,8 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
   }
 
   const previewUrl = useMemo(() => (form.slug ? `/post/${form.slug}` : ''), [form.slug])
+  const slugChanged = Boolean(currentId && savedSlug && form.slug !== savedSlug)
+  const publishedSlugChanged = slugChanged && form.status === 'published'
   const activeBody = activeLang === 'en' ? form.bodyEn : form.bodyVi
 
   if (loadError) {
@@ -448,9 +456,10 @@ export function AdminPostEditorPage({ mode, postId, adminEmail }: { mode: 'new' 
           {fieldErrors.categoryId && <p className="field-error" role="alert">{fieldErrors.categoryId}</p>}
 
           <label htmlFor="post-slug">Slug
-            <input id="post-slug" value={form.slug} onChange={(event) => update('slug', event.target.value)} onBlur={handleSlugBlur} aria-invalid={Boolean(fieldErrors.slug)} />
+            <input id="post-slug" value={form.slug} onChange={(event) => update('slug', event.target.value)} onBlur={handleSlugBlur} aria-invalid={Boolean(fieldErrors.slug)} aria-describedby={[fieldErrors.slug ? 'post-slug-error' : '', publishedSlugChanged ? 'post-slug-warning' : ''].filter(Boolean).join(' ') || undefined} />
           </label>
-          {fieldErrors.slug && <p className="field-error" role="alert">{fieldErrors.slug}</p>}
+          {fieldErrors.slug && <p id="post-slug-error" className="field-error" role="alert">{fieldErrors.slug}</p>}
+          {publishedSlugChanged && <p id="post-slug-warning" className="status-note" role="status">Saving changes the canonical URL. Previously published URLs permanently redirect to the current URL when the post is public. Published slugs cannot be reused, even by this post.</p>}
           <p className="preview-url">{previewUrl ? <a href={previewUrl} target="_blank" rel="noopener noreferrer">{previewUrl}</a> : 'Add a slug to see the live URL.'}</p>
 
           <label htmlFor="post-cover-url">Cover image URL

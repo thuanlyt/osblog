@@ -54,4 +54,24 @@ Xem bảng API đầy đủ, hợp đồng entity, biến môi trường, kế h
 
 **Chưa xác minh:** xác minh Turnstile (chưa nối vào mã), triển khai Netlify/VPS, và drill sao lưu/khôi phục/rollback. Vercel/Neon production, browser E2E, SSR và media smoke đã đạt. Xem [Triển khai](deployment.md) và [Sao lưu và khôi phục](backups-and-rollback.md).
 
+## Lịch sử slug đã xuất bản
+
+UA-0073 bổ sung migration `0004_post_slug_history.sql`, bảng `post_slug_history`, bộ phân giải URL cũ và cảnh báo trong editor. Thay đổi này được kiểm tra cục bộ; UA-0073 không chạy preflight trên production, không áp dụng migration và không ghi dữ liệu Neon.
+
+Mỗi slug từng có trạng thái `published` (kể cả bài hẹn giờ) được giữ cho đúng một ID bài viết. Trigger cơ sở dữ liệu chạy sau INSERT hoặc UPDATE slug/status, dùng advisory lock trong transaction và trả SQLSTATE `23505` khi trùng quyền sở hữu. Slug đã xuất bản không được tái sử dụng, kể cả bởi chính bài cũ. Slug chỉ dùng cho bản nháp không bị giữ lại; bỏ xuất bản hoặc lưu trữ không giải phóng tên đã xuất bản. Ứng dụng chỉ lưu trữ bài; thao tác xóa vĩnh viễn được người vận hành cho phép riêng mới có thể xóa lịch sử theo cascade.
+
+Khi đổi `a → b → c`, cả `a` và `b` đều trỏ qua ID bài đến slug hiện tại `c`, không tạo chuỗi redirect. GET/HEAD URL HTML cũ trả 308 đến URL tuyệt đối hiện tại với `lang=vi` nếu yêu cầu chọn tiếng Việt, nếu không dùng `lang=en`; bỏ các tham số khác. URL API cũ trả 308 đến API JSON hiện tại, không chuyển sang HTML. Bài nháp, lưu trữ, hẹn giờ hoặc thuộc chuyên mục lưu trữ trả 404 cho cả URL mới/cũ và không có header `Location`. Redirect giữ `Cache-Control: no-store`. Canonical, hreflang, Open Graph, JSON-LD và sitemap chỉ chứa slug hiện tại.
+
+Editor ghi nhớ slug đã lưu, cảnh báo khi thay đổi slug của bài có sẵn và cập nhật URL xem trước. Lỗi 409 `SLUG_TAKEN` gắn với trường slug, giữ nguyên nội dung chưa lưu. Lưu thành công cập nhật lại mốc so sánh. Chạy lại seed bỏ qua slug đã được giữ nên không tạo lại bài mẫu đã đổi tên.
+
+## Cổng triển khai migration 0004
+
+Migration bổ sung giữ khóa ghi bảng post/audit trong lúc khôi phục slug hiện tại đã xuất bản và slug hợp lệ từ `before_summary` của audit có trạng thái published. Nó giữ thời điểm sớm nhất, bỏ bản ghi sai định dạng hoặc không còn bài đích. Nếu một slug có nhiều chủ lịch sử hoặc khác chủ hiện tại (kể cả bản nháp), toàn bộ migration bị rollback; cần người vận hành đối chiếu thay vì tự chọn chủ.
+
+Helper chỉ đọc `provision.ts:preflightSlugHistory(db)` chạy được trước migration 0004 và chỉ trả số lượng: audit sai định dạng, thiếu bài đích, nhiều chủ lịch sử, xung đột với chủ hiện tại. Trước khi triển khai cần checkpoint sao lưu/khôi phục đã xác minh, xem xét các bản ghi bị bỏ, không còn xung đột sở hữu, kiểm tra thời gian khóa và thử tranh chấp bằng hai phiên PostgreSQL riêng. PGlite cục bộ kiểm tra các lời gọi cạnh tranh nhưng tuần tự hóa phiên cơ sở dữ liệu, không chứng minh thời gian chờ khóa trên provider.
+
+Áp dụng migration trước khi phát hành code redirect để instance cũ cũng giữ lịch sử nhờ trigger. Seed chạy đồng thời với đổi tên có thể bị từ chối do xung đột; chạy lại sau khi thao tác kia hoàn tất. Không thể tự suy ra slug đã đổi mà không có audit, audit đã mất hoặc bài đã xóa. Rollback ứng dụng giữ nguyên bảng/trigger; code cũ vẫn chặn tái sử dụng nhưng tạm trả 404 cho URL lịch sử. Xóa bảng/trigger không phải rollback thông thường và cần quyền riêng cùng phương án khôi phục/đối chiếu.
+
+Nguồn đối chiếu: `drizzle/0004_post_slug_history.sql`, `src/server/schema.ts:postSlugHistory`, `content.ts:resolvePublishedSlug`, `router.ts`, `provision.ts` và `src/app/admin/AdminPostEditorPage.tsx`. Sau khi migration và code này được triển khai, mục này thay thế nhận định cũ trong hướng dẫn editor rằng không có slug redirect.
+
 Quay lại [Mục lục tài liệu](index.md).
