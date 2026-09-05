@@ -55,3 +55,7 @@
 - 2026-09-05T14:49:10Z - `UA-0078` - Align migration rollout documentation after slug-history review - pending review - `work/reports/inbox/UA-0078-20260905T144910Z-c05965.md`
 
 - 2026-09-05T14:50:02Z - `UA-0079` - Refresh supervisor report after slug takeover - pending review - `work/reports/inbox/UA-0079-20260905T145002Z-fe0c92.md`
+
+- 2026-09-05T15:11:47Z - `UA-0081` - Refresh public docs after slug-history production rollout - pending review - `work/reports/inbox/UA-0081-20260905T151147Z-08cb76.md`
+
+- 2026-09-05T15:17:36Z - `UA-0082` - Record post-deploy docs and route smoke - pending review - `work/reports/inbox/UA-0082-20260905T151736Z-56651c.md`

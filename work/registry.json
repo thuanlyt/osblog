@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T15:11:48Z",
+  "updated_at": "2026-09-05T15:17:51Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -5325,6 +5325,70 @@
       "attempts": 1,
       "created_at": "2026-09-05T15:07:09Z",
       "updated_at": "2026-09-05T15:11:48Z",
+      "last_result": "completed"
+    },
+    "UA-0082": {
+      "id": "UA-0082",
+      "title": "Record post-deploy docs and route smoke",
+      "objective": "Refresh the production evidence after the public README/docs synchronization deployment.",
+      "level": "L1",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/evidence/slug-history-rollout.md",
+        "work/SUPERVISOR_REPORT.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "acceptance": [
+        "Latest READY Vercel deployment is identified; both aliases pass health/current route/unknown safety/docs/feed/sitemap/robots smoke; live docs expose migration 0004 state; no positive historical alias is claimed without a fixture."
+      ],
+      "verification": [
+        "Vercel inspect latest deployment; concise Invoke-WebRequest smoke on both aliases; inspect docs content and no-secret evidence."
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence/slug-history-rollout.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "npx vercel inspect https://osblog-2w6febmt3-thuanlyts-projects.vercel.app --json: READY, aliases include osblog.thuanlyt.id.vn and osblog.vercel.app",
+          "recorded_at": "2026-09-05T15:17:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "Invoke-WebRequest smoke on both aliases: health/current EN+VI/docs/feed.xml/feed.atom/sitemap.xml/robots.txt 200; unknown HTML/API 404 with no Location",
+          "recorded_at": "2026-09-05T15:17:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "Live docs content: 0004_post_slug_history.sql=true; historical-alias=true; five SQL migrations=true",
+          "recorded_at": "2026-09-05T15:17:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "No-secret evidence review: PASS",
+          "recorded_at": "2026-09-05T15:17:36Z"
+        },
+        {
+          "kind": "review",
+          "value": "PASS — deployment dpl_7u4LuF7JfhkUNkYwn4Vi2eRfv8Xe is READY; both aliases passed the bounded route smoke and docs expose 0004_post_slug_history.sql plus the five-migration production state. Unknown HTML/API paths returned 404 with no Location. Positive historical 308 remains intentionally unclaimed because no production alias fixture exists.",
+          "recorded_at": "2026-09-05T15:17:45Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0082-20260905T151736Z-56651c.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T15:14:07Z",
+      "updated_at": "2026-09-05T15:17:51Z",
       "last_result": "completed"
     }
   }

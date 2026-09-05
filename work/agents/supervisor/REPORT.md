@@ -216,3 +216,10 @@ Synchronized README, README.vi.md, CHANGELOG.md, bilingual architecture and reco
 
 - Report: `work/reports/inbox/UA-0081-20260905T151147Z-08cb76.md`
 - Next: Keep the documented historical-alias evidence boundary; rerun live 308/canonical/sitemap smoke after an intentional published-post rename, and continue separate Turnstile/non-Vercel/provider-contention work.
+
+## 2026-09-05T15:17:36Z - UA-0082 (completed)
+
+Revalidated post-deploy production evidence: Vercel deployment dpl_7u4LuF7JfhkUNkYwn4Vi2eRfv8Xe is READY with both public aliases; both aliases pass health/database, current EN/VI article, public posts API, docs, feeds, sitemap, robots, and unknown HTML/API 404 without Location. Live architecture docs expose 0004_post_slug_history.sql, five SQL migrations and the historical-alias evidence boundary. No positive historical 308 claim was added because production has no historical alias fixture.
+
+- Report: `work/reports/inbox/UA-0082-20260905T151736Z-56651c.md`
+- Next: Close the review gate; retain the no-mutation boundary and rerun positive 308 smoke only after an intentional published-post rename.
