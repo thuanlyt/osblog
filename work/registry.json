@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T15:17:51Z",
+  "updated_at": "2026-09-05T15:23:49Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -4317,7 +4317,7 @@
       "title": "Authenticate Neon and rehearse disposable recovery",
       "objective": "Complete a non-production Neon backup and restore rehearsal with evidence before the next material schema migration.",
       "level": "L2",
-      "status": "blocked",
+      "status": "cancelled",
       "owner": "supervisor",
       "assigned_to": null,
       "scope": [
@@ -4341,7 +4341,7 @@
       "reports": [],
       "attempts": 0,
       "created_at": "2026-09-05T09:09:42Z",
-      "updated_at": "2026-09-05T09:17:34Z"
+      "updated_at": "2026-09-05T15:23:16Z"
     },
     "UA-0068": {
       "id": "UA-0068",
@@ -4728,7 +4728,7 @@
       "title": "Implement permanent published-slug registry and redirects",
       "objective": "Preserve inbound links when published post slugs change with an additive, collision-safe registry and one-hop HTML/API redirects; do not deploy or apply the migration to production in this implementation task.",
       "level": "L3",
-      "status": "blocked",
+      "status": "cancelled",
       "owner": "astra",
       "assigned_to": "astra",
       "scope": [
@@ -4770,7 +4770,7 @@
       "reports": [],
       "attempts": 0,
       "created_at": "2026-09-05T09:32:06Z",
-      "updated_at": "2026-09-05T14:39:36Z",
+      "updated_at": "2026-09-05T15:23:16Z",
       "assignment_path": "work/agents/astra/inbox/UA-0073.md",
       "dispatched_at": "2026-09-05T09:54:18Z",
       "started_at": "2026-09-05T09:54:45Z"
@@ -5253,7 +5253,7 @@
       ],
       "attempts": 2,
       "created_at": "2026-09-05T14:50:38Z",
-      "updated_at": "2026-09-05T15:06:50Z",
+      "updated_at": "2026-09-05T15:23:49Z",
       "last_result": "blocked"
     },
     "UA-0081": {

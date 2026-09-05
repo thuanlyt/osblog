@@ -1,17 +1,15 @@
 # UseAgent supervisor report
 
-- **Cycle:** `cycle-20260905T093129Z-8427aa`
-- **Generated:** 2026-09-05T09:31:29Z
-- **Next action:** Resolve blocker for UA-0067 and attach the missing decision/evidence.
+- **Cycle:** `cycle-20260905T152316Z-65f5bd`
+- **Generated:** 2026-09-05T15:23:16Z
+- **Next action:** Resolve blocker for UA-0080 and attach the missing decision/evidence.
 - **Production snapshot:** `not_ready`
 
 ## Status counts
 
-- `assigned`: 1
 - `blocked`: 1
-- `cancelled`: 22
-- `done`: 46
-- `reported`: 2
+- `cancelled`: 25
+- `done`: 56
 
 ## Reports ingested this cycle
 
@@ -19,13 +17,10 @@
 
 ## Assignments issued this cycle
 
-- `UA-0072` -> `astra` — `work/agents/astra/inbox/UA-0072.md`
 - none
 
 ## Worker reports awaiting review
 
-- `UA-0069` — Add production RSS Atom feeds — reports: work/reports/inbox/UA-0069-20260905T092830Z-3995ab.md
-- `UA-0071` — Audit slug history redirect strategy — reports: work/reports/inbox/UA-0071-20260905T092837Z-fe5f5f.md
 - none
 
 ## Completed tasks
@@ -76,11 +71,21 @@
 - `UA-0065` — Audit superseded Astra handover — evidence: 4
 - `UA-0066` — Run disposable Neon backup restore and Vercel alias rollback drill — evidence: 4
 - `UA-0068` — Refresh live recovery evidence after documentation deploy — evidence: 4
+- `UA-0069` — Add production RSS Atom feeds — evidence: 10
+- `UA-0071` — Audit slug history redirect strategy — evidence: 9
+- `UA-0072` — Harden feed text encoding and discovery — evidence: 11
+- `UA-0074` — Refresh knowledge ledger for feed routes — evidence: 4
+- `UA-0076` — Verify production RSS and Atom feeds — evidence: 5
+- `UA-0077` — Take over slug-history implementation and verification — evidence: 11
+- `UA-0078` — Align migration rollout documentation after slug-history review — evidence: 4
+- `UA-0079` — Refresh supervisor report after slug takeover — evidence: 3
+- `UA-0081` — Refresh public docs after slug-history production rollout — evidence: 4
+- `UA-0082` — Record post-deploy docs and route smoke — evidence: 5
 - none
 
 ## Blocked work
 
-- `UA-0067` — Authenticate Neon and rehearse disposable recovery
+- `UA-0080` — Roll out published-slug history to Neon and Vercel
 - none
 
 ## QA
@@ -97,4 +102,4 @@
 
 ## Resume instruction
 
-Resolve blocker for UA-0067 and attach the missing decision/evidence.
+Resolve blocker for UA-0080 and attach the missing decision/evidence.

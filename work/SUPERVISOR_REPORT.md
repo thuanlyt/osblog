@@ -1,6 +1,12 @@
 # UseAgent supervisor report
 
-## Current checkpoint — post-deploy evidence boundary (2026-09-05)
+## Current checkpoint — production release candidate with one explicit evidence boundary
+
+Autopilot cycle: `cycle-20260905T152316Z-65f5bd`
+
+Checkpoint: `work/checkpoints/20260905T152349Z-cycle-20260905t152316z-65f5bd.md`
+
+Generated: 2026-09-05 (Asia/Bangkok)
 
 OSBlog is a bilingual, open-source Vite + React + TypeScript Markdown blog with Neon Postgres persistence, Better Auth admin access, category/post CRUD, a Markdown editor with preview, bilingual content, custom slug/cover/SEO fields, moderated email-only comments, SSR SEO, co-located docs, Cap media, and Vercel/Netlify/Node adapters.
 
@@ -18,15 +24,15 @@ The current release candidate is live on Vercel. Published-slug history and one-
 ## Control-plane status
 
 - `done`: 56
-- `cancelled`: 23
-- `blocked`: 3
+- `cancelled`: 25
+- `blocked`: 1 (`UA-0080`)
 - active/review tasks: none
 
-UA-0082 closed the post-deploy documentation and route-smoke evidence gate. The full lifecycle ledger remains in `work/registry.json`; the most recent report is `work/reports/inbox/UA-0082-20260905T151736Z-56651c.md`.
+`UA-0067` is a historical authentication blocker superseded by completed `UA-0066` and `UA-0068`, which contain the authenticated Neon recovery rehearsal evidence. `UA-0073` is a worker-runtime-quota blocker superseded by completed `UA-0077`, which contains the supervisor takeover, implementation and review evidence. Their original blocker events remain preserved in the task items; no worker attribution is fabricated.
 
 ## Remaining gaps and explicit boundaries
 
-- No positive live historical `308` claim is made because production has no historical-alias fixture. Run that smoke only after an intentional published-post rename; do not create a content fixture solely for testing.
+- `UA-0080` remains blocked only on a positive live historical `308` fixture. Production has no historical-alias row, so the current/unknown route gates are verified but a positive redirect is not claimed. Run it only after an intentional published-post rename or a separately approved temporary fixture; do not create content solely to make a test pass.
 - Turnstile is accepted in configuration but is not wired into comment verification.
 - Netlify and VPS adapters are implemented but have not been exercised on their live platforms.
 - Native `pg_dump`/`pg_restore`, migration-lock contention testing, and explicit recovery time/data-loss objectives remain open. The provider-native disposable Neon branch mechanism is the current recovery evidence.
@@ -41,8 +47,9 @@ UA-0082 closed the post-deploy documentation and route-smoke evidence gate. The 
 - [feed live smoke](evidence/feed-live-smoke.md)
 - [slug-history takeover review](evidence/UA-0077-review.md)
 - [Neon/Vercel recovery evidence](evidence/ops-recovery-drill.md)
+- [UA-0080 rollout reports](reports/inbox/UA-0080-20260905T150650Z-f528ba.md)
 - [UA-0082 report](reports/inbox/UA-0082-20260905T151736Z-56651c.md)
 
 ## Next action
 
-Keep the production release candidate under bounded monitoring. Only open a new work item for the positive historical-alias smoke when an intentional published-post rename is approved; otherwise prioritize the remaining explicit operations/security gaps without mutating public content.
+Obtain the explicit content-fixture decision for `UA-0080`; if approved, run the live historical-308/canonical/hreflang/JSON-LD/sitemap smoke, otherwise keep the no-mutation boundary and continue the independent Turnstile/non-Vercel/provider-operations work in new bounded tasks.
