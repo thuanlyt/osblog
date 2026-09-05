@@ -146,3 +146,10 @@ Confirmed UA-0041's quota-failed Astra attempt left no unique missing implementa
 
 - Report: `work/reports/inbox/UA-0065-20260905T085437Z-184086.md`
 - Next: Refresh the supervisor report with the live Vercel/Neon evidence and continue the next bounded feature cycle.
+
+## 2026-09-05T09:07:16Z - UA-0066 (completed)
+
+Vercel alias rollback rehearsal passed against the live primary alias and was restored to the current READY deployment; both production aliases passed final live smoke. Neon branch/backup restore was not executed because CLI authentication is missing and native Postgres dump tools are unavailable; no production DB mutation was made.
+
+- Report: `work/reports/inbox/UA-0066-20260905T090716Z-e0114d.md`
+- Next: Authenticate Neon CLI, create a short-lived disposable branch, and run the non-production backup/restore rehearsal before the next schema migration.

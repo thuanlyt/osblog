@@ -2,7 +2,7 @@
 
 *Tiếng Việt: [docs/vi/backups-and-rollback.md](vi/backups-and-rollback.md)*
 
-**Current status (2026-09-05):** a real Neon Postgres database (`osblog-db`, Singapore region) is provisioned and linked to the live Vercel production deployment. Migrations `0000` through `0003` have run against it, and replaying the migration runner is idempotent. Live route smoke is verified; no incident or rollback drill has been exercised yet.
+**Current status (2026-09-05):** a real Neon Postgres database (`osblog-db`, Singapore region) is provisioned and linked to the live Vercel production deployment. Migrations `0000` through `0003` have run against it, and replaying the migration runner is idempotent. Live route smoke is verified, and a reversible Vercel alias rollback rehearsal has now passed. Neon backup/restore remains unverified because the local Neon CLI session is not authenticated.
 
 ## Database migrations
 
@@ -32,7 +32,7 @@ Neon Postgres provides point-in-time restore and branching on the free tier used
 - Take a provider backup or disposable branch immediately before running any migration against the production database.
 - Record the backup/branch identifier alongside the migration evidence in the work report, not just in a chat message.
 
-Neon backup/branch-restore has not been exercised end to end against this project yet — treat the steps above as the procedure, not a completed drill.
+Neon backup/branch-restore has not been exercised end to end against this project yet — treat the steps above as the procedure, not a completed drill. The 2026-09-05 operations cycle could not create a disposable branch: `npx neon@latest profile list -o json` reported the unauthenticated `DEFAULT` profile (`account: "-"`), and `neon status` required browser OAuth. No production database mutation was made. Authenticate the Neon CLI, create a short-lived branch, record its identifier, and run the restore rehearsal before the next schema migration.
 
 ## Code rollback
 
@@ -41,7 +41,7 @@ Rollback is two-dimensional:
 1. **Code-only failure:** point the deployment target's alias/domain back to the last known-good build, then run smoke checks (at minimum, `GET /api/healthz` and a real article page) against the restored deployment before considering the incident closed.
 2. **Schema change involved:** roll back code only while the database remains backward-compatible with the previous version (expand/contract migrations, not destructive in-place changes). Never run an unreviewed destructive "down" migration during an incident. If content must be restored, use Neon's tested backup/point-in-time mechanism under explicit incident approval, then reconcile `audit_event` rows and invalidate any cached HTML.
 
-The "point the alias back" step above has not been exercised in this repository — the procedure is documented and the current production alias is known, but no incident rollback has been performed.
+The "point the alias back" step was rehearsed on 2026-09-05. The primary alias `osblog.thuanlyt.id.vn` was temporarily assigned to the previous READY deployment `osblog-q0r15ysiu-thuanlyts-projects.vercel.app`; `/api/healthz`, `/`, `/docs`, `/sitemap.xml`, and `/robots.txt` all returned the expected successful response. The alias was then restored to the current READY deployment `osblog-4p4nm76sx-thuanlyts-projects.vercel.app`, the temporary alias was removed, and both production aliases were smoke-tested again. Full evidence is in [`work/evidence/ops-recovery-drill.md`](https://github.com/thuanlyt/osblog/blob/main/work/evidence/ops-recovery-drill.md).
 
 ## Content-level recovery
 
@@ -49,8 +49,8 @@ Because posts and categories use soft deletion (`archived` status, not a hard de
 
 ## What is still unverified
 
-- Neon backup/branch-restore has not been exercised for an actual incident.
-- Deployment-alias rollback has not been exercised against the live deployment yet.
+- Neon backup/branch-restore has not been exercised for an actual incident; the current blocker is CLI authentication.
+- Deployment-alias rollback has been rehearsed safely against the live primary alias and restored successfully.
 - Migration locking behavior under concurrent operator runs is guarded by an advisory lock but has not been load-tested.
 - Recovery time and acceptable data-loss objectives have not been defined by the project owner.
 

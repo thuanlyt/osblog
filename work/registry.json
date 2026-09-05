@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T08:54:38Z",
+  "updated_at": "2026-09-05T09:09:42Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -4249,6 +4249,99 @@
       "created_at": "2026-09-05T08:54:06Z",
       "updated_at": "2026-09-05T08:54:38Z",
       "last_result": "completed"
+    },
+    "UA-0066": {
+      "id": "UA-0066",
+      "title": "Run disposable Neon backup restore and Vercel alias rollback drill",
+      "objective": "Produce repeatable evidence for database recovery and deployment rollback without mutating production data.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "docs/backups-and-rollback.md",
+        "docs/vi/backups-and-rollback.md",
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence/UA-0066-review.md",
+        "work/evidence/ops-recovery-drill.md",
+        "work/evidence/ops-recovery-drill.md; docs/backups-and-rollback.md; work/SUPERVISOR_REPORT.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "Use a disposable Neon branch or document an exact provider limitation; verify a safe backup or point-in-time recovery path without exposing secrets; rehearse Vercel alias rollback against a known-good disposable/previous deployment; smoke-test current primary and secondary aliases afterward; record commands, timestamps, evidence, blockers, and next action; no production data loss or destructive cleanup."
+      ],
+      "verification": [
+        "Neon CLI/API evidence and Vercel CLI evidence are recorded; current live aliases return expected health and HTML; git diff --check and useagent validate pass."
+      ],
+      "files": [
+        "docs/backups-and-rollback.md",
+        "docs/vi/backups-and-rollback.md",
+        "work/evidence/ops-recovery-drill.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Vercel inspect and alias listing show both OSBlog production aliases on current deployment",
+          "recorded_at": "2026-09-05T09:07:16Z"
+        },
+        {
+          "kind": "check",
+          "value": "Live GET smoke for health, home, docs, sitemap, robots, GIF, and MP4 passed on both aliases",
+          "recorded_at": "2026-09-05T09:07:16Z"
+        },
+        {
+          "kind": "check",
+          "value": "Temporary rollback alias was removed and no secret paths were staged",
+          "recorded_at": "2026-09-05T09:07:16Z"
+        },
+        {
+          "kind": "review",
+          "value": "UA-0066 review: no P0/P1 findings; Vercel rollback passed and current aliases restored; Neon backup/restore remains a documented P2 blocker because CLI auth and native dump tooling are unavailable. See work/evidence/UA-0066-review.md.",
+          "recorded_at": "2026-09-05T09:09:30Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0066-20260905T090716Z-e0114d.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T08:59:30Z",
+      "updated_at": "2026-09-05T09:09:31Z",
+      "last_result": "completed"
+    },
+    "UA-0067": {
+      "id": "UA-0067",
+      "title": "Authenticate Neon and rehearse disposable recovery",
+      "objective": "Complete a non-production Neon backup and restore rehearsal with evidence before the next material schema migration.",
+      "level": "L2",
+      "status": "planned",
+      "owner": "supervisor",
+      "assigned_to": null,
+      "scope": [
+        "work/evidence/neon-recovery-followup.md",
+        "docs/backups-and-rollback.md",
+        "docs/vi/backups-and-rollback.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "supervisor"
+      ],
+      "capabilities": [],
+      "acceptance": [
+        "After an authenticated Neon CLI session is available, create a short-lived disposable branch or equivalent point-in-time clone, record its identifier without secrets, verify a safe backup/restore or historical-branch path, smoke-test the restored non-production target, clean up only disposable resources, and update the recovery evidence and docs. Never restore over the production branch."
+      ],
+      "verification": [
+        "Neon CLI profile is authenticated; branch/backup identifier and exact commands are recorded; non-production restore verification passes; no secret path is tracked; useagent validate and git diff --check pass."
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 0,
+      "created_at": "2026-09-05T09:09:42Z",
+      "updated_at": "2026-09-05T09:09:42Z"
     }
   }
 }

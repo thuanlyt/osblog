@@ -2,7 +2,7 @@
 
 *English: [docs/backups-and-rollback.md](../backups-and-rollback.md)*
 
-**Trạng thái hiện tại (2026-09-05):** một database Neon Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát và liên kết với deployment Vercel production đang live. Các migration `0000` đến `0003` đã chạy trên đó, và chạy lại (replay) bộ chạy migration cho kết quả nhất quán (idempotent). Smoke route live đã được xác minh; chưa có sự cố hay drill rollback nào được thực hiện.
+**Trạng thái hiện tại (2026-09-05):** một database Neon Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát và liên kết với deployment Vercel production đang live. Các migration `0000` đến `0003` đã chạy trên đó, và chạy lại (replay) bộ chạy migration cho kết quả nhất quán (idempotent). Smoke route live đã được xác minh, và rehearsal rollback alias Vercel có thể hoàn tác đã pass. Backup/restore Neon vẫn chưa được xác minh vì phiên Neon CLI local chưa đăng nhập.
 
 ## Migration database
 
@@ -32,7 +32,7 @@ Neon Postgres cung cấp point-in-time restore và branching ngay ở gói miễ
 - Sao lưu hoặc mở branch dùng một lần ngay trước khi chạy bất kỳ migration nào trên database production.
 - Ghi lại định danh bản sao lưu/branch cùng bằng chứng migration trong báo cáo công việc, không chỉ trong tin nhắn chat.
 
-Việc sao lưu/restore từ branch của Neon chưa được thực hiện thử nghiệm đầu-cuối cho dự án này — hãy coi các bước trên là quy trình, không phải một lần diễn tập đã hoàn tất.
+Việc sao lưu/restore từ branch của Neon chưa được thực hiện thử nghiệm đầu-cuối cho dự án này — hãy coi các bước trên là quy trình, không phải một lần diễn tập đã hoàn tất. Cycle vận hành ngày 2026-09-05 không thể tạo branch disposable: `npx neon@latest profile list -o json` trả về profile `DEFAULT` chưa xác thực (`account: "-"`), và `neon status` yêu cầu OAuth qua trình duyệt. Không có mutation nào trên database production. Hãy đăng nhập Neon CLI, tạo branch có thời hạn ngắn, ghi lại định danh, rồi thực hiện rehearsal restore trước migration schema tiếp theo.
 
 ## Rollback mã nguồn
 
@@ -41,7 +41,7 @@ Rollback có hai chiều:
 1. **Lỗi chỉ do code:** trỏ alias/domain của target triển khai về bản build tốt gần nhất đã biết, sau đó chạy smoke check (tối thiểu là `GET /api/healthz` và một trang bài viết thật) trên bản đã khôi phục trước khi coi sự cố đã đóng.
 2. **Có thay đổi schema:** chỉ rollback code trong khi database vẫn tương thích ngược với phiên bản trước (migration kiểu expand/contract, không phải thay đổi phá hủy tại chỗ). Không bao giờ chạy một migration "down" phá hủy chưa được rà soát trong lúc xử lý sự cố. Nếu cần khôi phục nội dung, dùng cơ chế backup/point-in-time đã kiểm chứng của Neon dưới sự phê duyệt sự cố rõ ràng, sau đó đối soát lại các dòng `audit_event` và vô hiệu hóa HTML đã cache.
 
-Bước "trỏ alias về bản cũ" ở trên chưa từng được thực hiện trong kho mã này — quy trình đã được ghi lại và alias production hiện tại đã biết, nhưng chưa thực hiện rollback do sự cố.
+Bước "trỏ alias về bản cũ" đã được rehearsal vào ngày 2026-09-05. Alias chính `osblog.thuanlyt.id.vn` tạm thời trỏ tới deployment READY trước đó `osblog-q0r15ysiu-thuanlyts-projects.vercel.app`; `/api/healthz`, `/`, `/docs`, `/sitemap.xml`, và `/robots.txt` đều trả về kết quả thành công như kỳ vọng. Sau đó alias được trả về deployment READY hiện tại `osblog-4p4nm76sx-thuanlyts-projects.vercel.app`, alias tạm đã được gỡ, và cả hai alias production được smoke-test lại. Bằng chứng đầy đủ nằm tại [`work/evidence/ops-recovery-drill.md`](https://github.com/thuanlyt/osblog/blob/main/work/evidence/ops-recovery-drill.md).
 
 ## Khôi phục ở cấp nội dung
 
@@ -49,8 +49,8 @@ Vì post và category dùng soft delete (trạng thái `archived`, không xóa c
 
 ## Những gì vẫn chưa xác minh
 
-- Sao lưu/restore từ branch của Neon chưa được thử nghiệm cho một sự cố thật.
-- Rollback alias triển khai chưa được thử nghiệm trên deployment live.
+- Sao lưu/restore từ branch của Neon chưa được thử nghiệm cho một sự cố thật; blocker hiện tại là Neon CLI chưa xác thực.
+- Rollback alias triển khai đã được rehearsal an toàn trên alias production chính và khôi phục thành công.
 - Cơ chế khóa migration khi chạy đồng thời được bảo vệ bởi advisory lock nhưng chưa được load-test.
 - Mục tiêu thời gian khôi phục và mức mất dữ liệu chấp nhận được chưa được chủ dự án định nghĩa.
 
