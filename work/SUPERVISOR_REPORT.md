@@ -14,7 +14,7 @@ This section supersedes the archived scaffold checkpoint below. The requested Ve
 - Local gates on this source: 17 Vitest files / 64 tests passed, 2 compiled-browser E2E tests passed, typecheck, lint, production build, high-severity audit and source hygiene checks passed.
 - Real Cap product media is committed at `public/media/osblog-cap-demo.gif` and `public/media/osblog-cap-demo.mp4`; the media validation and local playback paths passed.
 - The operator accepted the Neon integration through the user's Brave session. Neon resource `osblog-db` (Free, Singapore) is connected to production only; migrations `0000`–`0003` ran idempotently, three bilingual seed posts exist, and the admin account was bootstrapped. Access details remain in ignored files and are never included in reports.
-- Vercel production deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` is READY and serves both [`osblog.thuanlyt.id.vn`](https://osblog.thuanlyt.id.vn) (primary) and [`osblog.vercel.app`](https://osblog.vercel.app) (secondary alias). Live smoke on both hosts returned `200` for health, home, seeded article, Vietnamese docs, sitemap, robots and Cap GIF/MP4; `/admin` returned `303` to `/admin/login`. The secondary's canonical metadata points to the primary as intended.
+- Vercel production deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` is READY and serves both [`osblog.thuanlyt.id.vn`](https://osblog.thuanlyt.id.vn) (primary) and [`osblog.vercel.app`](https://osblog.vercel.app) (secondary alias). Live smoke on both hosts returned `200` for health, home, seeded article, Vietnamese docs, sitemap, robots and Cap GIF/MP4; `/admin` returned `303` to `/admin/login`. The secondary's canonical metadata points to the primary as intended.
 - Brave's main window is not exposed to this desktop CUA session (only the Codex in-app browser was enumerable), so no claim is made that CUA itself performed the deploy. Vercel CLI/API and live HTTP checks are the deployment evidence.
 
 Remaining operational gaps: no Netlify or VPS deployment execution, no Neon backup/restore drill, no Vercel alias rollback drill, no Turnstile integration, and no independently generated Astra report for the final lifecycle pass because the requested reviewer hit the account usage limit. These are recorded as gaps, not silently promoted to completed evidence.
@@ -67,7 +67,7 @@ UA-0003, UA-0004, UA-0006, UA-0011, UA-0013, UA-0015, UA-0019, UA-0023, and UA-0
 - Control-plane validation: `python tools/useagent.py validate` → `VALID`.
 - Conformance replay: `python tests/useagent-conformance/replay.py` → repeated `REPLAY_PASS` in isolated runs.
 - Current local product gate: 64 unit/component/SQL integration tests and 2 compiled-browser E2E tests pass; lint, typecheck, build, high-severity audit, UseAgent validation/replay and security boundary scans pass.
-- Production gate: Vercel deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` is READY; both requested hostnames passed live health, SSR, docs, crawl, admin-redirect and media smoke on 2026-09-05.
+- Production gate: Vercel deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` is READY; both requested hostnames passed live health, SSR, docs, crawl, admin-redirect and media smoke on 2026-09-05.
 - Repository release gate is still pending the final commit/push of this release source; ignored `dist/`, `node_modules/`, environment and draft files remain excluded. Do not treat the existing earlier GitHub commit as containing this final release until the final push is verified.
 
 ## Evidence anchors

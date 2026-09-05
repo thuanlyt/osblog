@@ -16,7 +16,7 @@
 | Test tự động | 64 test unit/component/SQL integration đạt; 2 test E2E trên browser compile đạt; lint và typecheck đạt. |
 | Database | Một project Neon Free Postgres thật (`osblog-db`, khu vực Singapore) đã được cấp phát. Các migration `0000`–`0003` đã chạy và replay lại vẫn nhất quán (idempotent); tài khoản admin đã được bootstrap; ba bài viết giới thiệu song ngữ đã được seed. |
 | Build production tại local | `npm run build` + `npm start` phục vụ dữ liệu bài viết thật và asset đã hash qua HTTP 200 trên `127.0.0.1`. |
-| Triển khai thật | **Đang live trên Vercel.** `https://osblog.thuanlyt.id.vn` là domain chính và `https://osblog.vercel.app` là alias phụ của deployment production `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD`; cả hai đã đạt smoke test live gồm health Neon, trang SSR, sitemap, robots, redirect admin, GIF và MP4. Netlify đã có adapter nhưng chưa từng deploy. |
+| Triển khai thật | **Đang live trên Vercel.** `https://osblog.thuanlyt.id.vn` là domain chính và `https://osblog.vercel.app` là alias phụ của deployment production `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX`; cả hai đã đạt smoke test live gồm health Neon, trang SSR, sitemap, robots, redirect admin, GIF và MP4. Netlify đã có adapter nhưng chưa từng deploy. |
 | QA trình duyệt/E2E và media | Cổng browser compile đạt các luồng publish/comment/moderation thực và docs responsive; đã có walkthrough Cap thật trong [Media](docs/vi/media.md). |
 
 Mọi thông tin ở trên chỉ chính xác tại thời điểm ghi; xem [`work/SUPERVISOR_REPORT.md`](https://github.com/thuanlyt/osblog/blob/main/work/SUPERVISOR_REPORT.md) để biết trạng thái release được cập nhật liên tục.

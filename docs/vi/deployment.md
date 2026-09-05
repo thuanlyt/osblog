@@ -2,7 +2,7 @@
 
 *English: [docs/deployment.md](../deployment.md)*
 
-**Trạng thái hiện tại (2026-09-05): deployment production trên Vercel đã live và được xác minh.** Deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` liên kết với Neon và phục vụ cả hai hostname yêu cầu. Adapter Netlify đã được xây dựng nhưng chưa từng deploy; VPS vẫn là target đã viết tài liệu nhưng chưa chạy thực tế.
+**Trạng thái hiện tại (2026-09-05): deployment production trên Vercel đã live và được xác minh.** Deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` liên kết với Neon và phục vụ cả hai hostname yêu cầu. Adapter Netlify đã được xây dựng nhưng chưa từng deploy; VPS vẫn là target đã viết tài liệu nhưng chưa chạy thực tế.
 
 ## Điều mọi target đều dùng chung
 
@@ -93,7 +93,7 @@ Các domain dự kiến:
 - Chính: [`https://osblog.thuanlyt.id.vn`](https://osblog.thuanlyt.id.vn) — **live, đã xác minh 2026-09-05**. DNS/TLS và HTTP smoke đạt.
 - Phụ: [`https://osblog.vercel.app`](https://osblog.vercel.app) — **live, đã xác minh 2026-09-05** dưới dạng alias cùng deployment production. Canonical HTML cố ý trỏ về domain chính.
 
-Smoke route live cho `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` đạt trên cả hai hostname: `GET /api/healthz` trả `200` với `database=connected`; `/`, bài viết seed, `/docs/editor?lang=vi`, `/sitemap.xml`, `/robots.txt`, `/media/osblog-cap-demo.gif`, và `/media/osblog-cap-demo.mp4` trả `200`; `/admin` trả `303` tới `/admin/login`. Đây là xác minh đường Vercel/Neon production, không phải xác minh VPS hay Netlify.
+Smoke route live cho `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` đạt trên cả hai hostname: `GET /api/healthz` trả `200` với `database=connected`; `/`, bài viết seed, `/docs/editor?lang=vi`, `/sitemap.xml`, `/robots.txt`, `/media/osblog-cap-demo.gif`, và `/media/osblog-cap-demo.mp4` trả `200`; `/admin` trả `303` tới `/admin/login`. Đây là xác minh đường Vercel/Neon production, không phải xác minh VPS hay Netlify.
 
 Việc liên kết provider (project Vercel tồn tại, được liên kết với Neon) là một sự thật khác với việc ứng dụng đã thật sự được deploy — đừng đọc cái này như bằng chứng cho cái kia. Đừng coi bất kỳ URL nào ở trên là có thể truy cập cho đến khi trang này hoặc `work/SUPERVISOR_REPORT.md` xác nhận kèm bằng chứng có ngày tháng.
 

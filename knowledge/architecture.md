@@ -12,7 +12,7 @@ owner: supervisor
 - `src/server/auth.ts:createAuth` provides operator-only admin sessions, no public signup. The router calls Better Auth's native get-session handler for admin checks so renewal and failure cookie headers remain available on the shared response; API/SSR verify configured email and role. Mutations require exact Origin; login has durable rate limits.
 - `content.ts:visiblePost` limits public output to due published posts in active categories. Content/category/moderation mutations use optimistic timestamps and transactional audit records.
 - `comments.ts` and `comment-policy.ts` enforce pending moderation, signed tokens, honeypot and rate limits. Email is encrypted and never public. Turnstile is not wired.
-- `provision.ts` provides checksum-verified locked migrations, idempotent operator bootstrap and optional seed. Four migrations actually ran on authorized Neon; Vercel production deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` and both requested hostname smoke checks confirmed connectivity. Netlify deployment is not verified.
+- `provision.ts` provides checksum-verified locked migrations, idempotent operator bootstrap and optional seed. Four migrations actually ran on authorized Neon; Vercel production deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` and both requested hostname smoke checks confirmed connectivity. Netlify deployment is not verified.
 - Current responses use no-store. Sitemap SQL reads are paged with an explicit capacity guard requiring index partitioning at large scale.
 
 ### Current gate and known findings

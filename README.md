@@ -16,7 +16,7 @@
 | Automated tests | 64 unit/component/SQL integration tests pass; 2 compiled-browser E2E tests pass; lint and typecheck pass. |
 | Database | A real Neon Free Postgres project (`osblog-db`, Singapore region) is provisioned. Migrations `0000`–`0003` have run and replay is idempotent; the admin account is bootstrapped; three bilingual introduction posts are seeded. |
 | Local production build | `npm run build` + `npm start` serves real article data and hashed assets over HTTP 200 on `127.0.0.1`. |
-| Live deployment | **Live on Vercel.** `https://osblog.thuanlyt.id.vn` is primary and `https://osblog.vercel.app` is the secondary alias for production deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD`; both passed live route smoke, including Neon health, SSR pages, sitemap, robots, admin redirect, GIF and MP4. Netlify has an implemented adapter but no deployment has been attempted. |
+| Live deployment | **Live on Vercel.** `https://osblog.thuanlyt.id.vn` is primary and `https://osblog.vercel.app` is the secondary alias for production deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX`; both passed live route smoke, including Neon health, SSR pages, sitemap, robots, admin redirect, GIF and MP4. Netlify has an implemented adapter but no deployment has been attempted. |
 | Browser/E2E QA and media | The compiled-browser gate passes the real publishing/comment/moderation and responsive-docs flows; a genuine Cap walkthrough is available in [Media](docs/media.md). |
 
 Treat every claim above as current only as of the date shown; see [`work/SUPERVISOR_REPORT.md`](https://github.com/thuanlyt/osblog/blob/main/work/SUPERVISOR_REPORT.md) for the live release-gate record.

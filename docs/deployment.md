@@ -2,7 +2,7 @@
 
 *Tiếng Việt: [docs/vi/deployment.md](vi/deployment.md)*
 
-**Current status (2026-09-05): the Vercel production deployment is live and verified.** Deployment `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` is linked to the provisioned Neon database and serves both requested hostnames. Netlify's adapter is implemented but has never been deployed; VPS remains a documented, unexercised target.
+**Current status (2026-09-05): the Vercel production deployment is live and verified.** Deployment `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` is linked to the provisioned Neon database and serves both requested hostnames. Netlify's adapter is implemented but has never been deployed; VPS remains a documented, unexercised target.
 
 ## What every target shares
 
@@ -93,7 +93,7 @@ The intended domains are:
 - Primary: [`https://osblog.thuanlyt.id.vn`](https://osblog.thuanlyt.id.vn) — **verified live 2026-09-05**. DNS/TLS and HTTP smoke passed.
 - Secondary: [`https://osblog.vercel.app`](https://osblog.vercel.app) — **verified live 2026-09-05** as an alias to the same production deployment. HTML canonical URLs intentionally point to the primary domain.
 
-Live route smoke for `dpl_8PzrSBYo5rsYzwfeqTXn2tDLzdjD` passed on both hostnames: `GET /api/healthz` returned `200` with `database=connected`; `/`, a seeded article, `/docs/editor?lang=vi`, `/sitemap.xml`, `/robots.txt`, `/media/osblog-cap-demo.gif`, and `/media/osblog-cap-demo.mp4` returned `200`; `/admin` returned `303` to `/admin/login`. This verifies the Vercel/Neon production path, not VPS or Netlify.
+Live route smoke for `dpl_AsKSzD68imo2DbovtCD4LNGSEZbX` passed on both hostnames: `GET /api/healthz` returned `200` with `database=connected`; `/`, a seeded article, `/docs/editor?lang=vi`, `/sitemap.xml`, `/robots.txt`, `/media/osblog-cap-demo.gif`, and `/media/osblog-cap-demo.mp4` returned `200`; `/admin` returned `303` to `/admin/login`. This verifies the Vercel/Neon production path, not VPS or Netlify.
 
 Provider linkage (the Vercel project existing, being linked to Neon) is a separate fact from an actual application deployment — do not read one as evidence of the other. Do not treat either URL as reachable until this page or `work/SUPERVISOR_REPORT.md` says otherwise with dated evidence.
 
