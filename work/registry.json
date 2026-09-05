@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T08:49:08Z",
+  "updated_at": "2026-09-05T08:50:52Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -3278,7 +3278,7 @@
       "title": "Polish verified editor usability and responsive typography",
       "objective": "Fix screenshot-backed usability findings without changing server contract, then record fresh UI tests.",
       "level": "L2",
-      "status": "reported",
+      "status": "done",
       "owner": "claude",
       "assigned_to": "claude",
       "scope": [
@@ -3330,6 +3330,11 @@
           "kind": "check",
           "value": "npm test -- src/app (4 files, 21 tests pass)",
           "recorded_at": "2026-09-05T06:52:58Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: editor polish is visible in the persisted UI source and screenshots; component suite plus compiled browser E2E covers publishing/moderation, responsive docs, keyboard and Axe/no-overflow checks; lint/typecheck/build pass.",
+          "recorded_at": "2026-09-05T08:50:47Z"
         }
       ],
       "reports": [
@@ -3337,7 +3342,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T06:39:37Z",
-      "updated_at": "2026-09-05T06:52:58Z",
+      "updated_at": "2026-09-05T08:50:48Z",
       "last_result": "completed"
     },
     "UA-0047": {
@@ -3374,7 +3379,7 @@
       "title": "Independent Astra review of runtime release boundaries",
       "objective": "Read-only application audit with findings recorded outside active writer scopes.",
       "level": "L3",
-      "status": "reported",
+      "status": "done",
       "owner": "astra",
       "assigned_to": "astra",
       "scope": [
@@ -3426,6 +3431,11 @@
           "kind": "check",
           "value": "No app/config/docs/test-source edits, real env or draft secret reads, shared runtime/build operations, git or deployment; review files confined to work/reviews/astra.",
           "recorded_at": "2026-09-05T06:51:04Z"
+        },
+        {
+          "kind": "review",
+          "value": "Astra independent review report is complete and source-anchored; R1-R4 were actionable findings, later resolved by UA-0052/UA-0056 with focused regression evidence. Review deliverable accepted as historical audit evidence.",
+          "recorded_at": "2026-09-05T08:50:48Z"
         }
       ],
       "reports": [
@@ -3433,7 +3443,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T06:42:50Z",
-      "updated_at": "2026-09-05T06:51:04Z",
+      "updated_at": "2026-09-05T08:50:49Z",
       "last_result": "completed"
     },
     "UA-0049": {
@@ -3543,7 +3553,7 @@
       "title": "Implement runtime release regressions after independent audit",
       "objective": "Resolve all four independently reproduced UA-0048 defects with focused regression tests and preserve current auth, SSR, SQL and request-boundary contracts.",
       "level": "L3",
-      "status": "reported",
+      "status": "done",
       "owner": "claude",
       "assigned_to": "claude",
       "scope": [
@@ -3576,21 +3586,26 @@
         "npm run typecheck: clean",
         "npm run lint: clean",
         "npx vitest run: 17 files / 63 tests passed, repeated 3x with no flakes",
-        "npx vitest run tests/server/node-adapter.test.ts: repeated 4x isolated, 54-104ms each, no flakes"
+        "npx vitest run tests/server/node-adapter.test.ts: repeated 4x isolated, 54-104ms each, no flakes",
+        {
+          "kind": "review",
+          "value": "Astra UA-0053 re-review examined UA-0052 fixes; residual auth/socket issues were fixed by UA-0056, and current focused/runtime/full tests pass.",
+          "recorded_at": "2026-09-05T08:50:49Z"
+        }
       ],
       "reports": [
         "work/reports/inbox/UA-0052-20260905T073012Z-f4a8c1.md"
       ],
       "attempts": 1,
       "created_at": "2026-09-05T07:09:29Z",
-      "updated_at": "2026-09-05T07:58:57Z"
+      "updated_at": "2026-09-05T08:50:50Z"
     },
     "UA-0053": {
       "id": "UA-0053",
       "title": "Independently re-review UA-0052 runtime fixes",
       "objective": "Audit the current UA-0052 implementation and regression evidence for R1-R4, with no application changes; record repeatable findings and gate recommendation.",
       "level": "L3",
-      "status": "reported",
+      "status": "done",
       "owner": "astra",
       "assigned_to": "astra",
       "scope": [
@@ -3646,6 +3661,11 @@
           "kind": "check",
           "value": "Eleven reviewed source/test hashes match before/after. No application, normal tests, docs, configuration, secrets, Git state or provider changes; writes confined to review artifacts plus this CLI report.",
           "recorded_at": "2026-09-05T07:45:17Z"
+        },
+        {
+          "kind": "review",
+          "value": "Astra UA-0053 review report completed the independent audit and identified residual F1/F2/F3; UA-0056, UA-0057, UA-0059 and UA-0061 provide the follow-up fixes and lifecycle evidence.",
+          "recorded_at": "2026-09-05T08:50:50Z"
         }
       ],
       "reports": [
@@ -3653,7 +3673,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T07:32:50Z",
-      "updated_at": "2026-09-05T07:45:17Z",
+      "updated_at": "2026-09-05T08:50:50Z",
       "last_result": "completed"
     },
     "UA-0054": {
@@ -3801,7 +3821,7 @@
       "title": "Reconcile invalid worker completion marker",
       "objective": "Add a safe supervisor-only UseAgent CLI reconciliation command and use it to convert the legacy invalid UA-0052 completed marker into the supported reported state while preserving existing reports and evidence.",
       "level": "L2",
-      "status": "reported",
+      "status": "done",
       "owner": "supervisor",
       "assigned_to": "supervisor-local",
       "scope": [
@@ -3837,6 +3857,11 @@
           "kind": "check",
           "value": "Second run after legacy-compatible guard: UA-0052 reconciled to reported and validation is VALID",
           "recorded_at": "2026-09-05T07:58:58Z"
+        },
+        {
+          "kind": "review",
+          "value": "Supervisor review: reconcile command and valid legacy transition are preserved; hardening in UA-0059/UA-0061 proves completed-report and supervisor-only guards with 16/16 fixture controls, VALID and REPLAY_PASS.",
+          "recorded_at": "2026-09-05T08:50:51Z"
         }
       ],
       "reports": [
@@ -3844,7 +3869,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T07:56:59Z",
-      "updated_at": "2026-09-05T07:58:58Z",
+      "updated_at": "2026-09-05T08:50:51Z",
       "last_result": "completed"
     },
     "UA-0058": {
@@ -3852,7 +3877,7 @@
       "title": "Final independent runtime and lifecycle re-review",
       "objective": "Independently re-review the current candidate after UA-0056/UA-0057: verify Better Auth renewal success and failure headers, same-socket oversized-body regression evidence, and UseAgent validation/lifecycle state; do not modify application code or approve deployment without evidence.",
       "level": "L3",
-      "status": "reported",
+      "status": "done",
       "owner": "supervisor",
       "assigned_to": "astra",
       "scope": [
@@ -3914,6 +3939,11 @@
           "kind": "check",
           "value": "Nineteen source/test/config SHA256 values match before/after, including tools/useagent.py. Review artifacts only plus authorized CLI report. No production/provider/deployment approval.",
           "recorded_at": "2026-09-05T08:08:30Z"
+        },
+        {
+          "kind": "review",
+          "value": "Astra final runtime/lifecycle review report is complete; it accepts UA-0056 runtime fixes and its lifecycle findings are resolved by UA-0059/UA-0061. No application P0/P1/P2 finding remains in the reviewed runtime paths.",
+          "recorded_at": "2026-09-05T08:50:52Z"
         }
       ],
       "reports": [
@@ -3921,7 +3951,7 @@
       ],
       "attempts": 1,
       "created_at": "2026-09-05T07:59:30Z",
-      "updated_at": "2026-09-05T08:08:30Z",
+      "updated_at": "2026-09-05T08:50:52Z",
       "last_result": "completed"
     },
     "UA-0059": {
