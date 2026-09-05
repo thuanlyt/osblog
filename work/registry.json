@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T09:44:11Z",
+  "updated_at": "2026-09-05T09:58:59Z",
   "items": {
     "UA-0001": {
       "id": "UA-0001",
@@ -4728,9 +4728,9 @@
       "title": "Implement permanent published-slug registry and redirects",
       "objective": "Preserve inbound links when published post slugs change with an additive, collision-safe registry and one-hop HTML/API redirects; do not deploy or apply the migration to production in this implementation task.",
       "level": "L3",
-      "status": "planned",
+      "status": "in_progress",
       "owner": "astra",
-      "assigned_to": null,
+      "assigned_to": "astra",
       "scope": [
         "drizzle/0004_post_slug_history.sql",
         "src/server/schema.ts",
@@ -4770,7 +4770,10 @@
       "reports": [],
       "attempts": 0,
       "created_at": "2026-09-05T09:32:06Z",
-      "updated_at": "2026-09-05T09:32:06Z"
+      "updated_at": "2026-09-05T09:58:59Z",
+      "assignment_path": "work/agents/astra/inbox/UA-0073.md",
+      "dispatched_at": "2026-09-05T09:54:18Z",
+      "started_at": "2026-09-05T09:54:45Z"
     },
     "UA-0074": {
       "id": "UA-0074",
@@ -4832,6 +4835,101 @@
       "attempts": 1,
       "created_at": "2026-09-05T09:39:20Z",
       "updated_at": "2026-09-05T09:43:46Z",
+      "last_result": "completed"
+    },
+    "UA-0075": {
+      "id": "UA-0075",
+      "title": "Verify production RSS and Atom feeds",
+      "objective": "Record repeatable live evidence for the reviewed feed release on both public OSBlog domains before the next feature dispatch.",
+      "level": "L2",
+      "status": "cancelled",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/evidence/feed-live-smoke.md;work/SUPERVISOR_REPORT.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "acceptance": [
+        "Both public domains return valid RSS 2.0 and Atom 1.0 feeds with published-only bounded entries, language-aware output, safe XML, cache validators, HEAD support and discovery links; evidence is recorded without secrets."
+      ],
+      "verification": [
+        "Invoke-WebRequest live smoke against osblog.thuanlyt.id.vn and osblog.vercel.app; parse XML; validate ETag/304, HEAD, cache-control, language and discovery links."
+      ],
+      "files": [],
+      "evidence": [],
+      "reports": [],
+      "attempts": 1,
+      "created_at": "2026-09-05T09:50:56Z",
+      "updated_at": "2026-09-05T09:53:27Z"
+    },
+    "UA-0076": {
+      "id": "UA-0076",
+      "title": "Verify production RSS and Atom feeds",
+      "objective": "Record repeatable live evidence for the reviewed feed release on both public OSBlog domains before the next feature dispatch.",
+      "level": "L2",
+      "status": "done",
+      "owner": "supervisor",
+      "assigned_to": "supervisor",
+      "scope": [
+        "work/evidence/feed-live-smoke.md",
+        "work/SUPERVISOR_REPORT.md"
+      ],
+      "depends_on": [],
+      "preferred_agents": [
+        "astra"
+      ],
+      "capabilities": [
+        "review"
+      ],
+      "acceptance": [
+        "Both public domains return valid RSS 2.0 and Atom 1.0 feeds with published-only bounded entries, language-aware output, safe XML, cache validators, HEAD support and discovery links; evidence is recorded without secrets."
+      ],
+      "verification": [
+        "Invoke-WebRequest live smoke against osblog.thuanlyt.id.vn and osblog.vercel.app; parse XML; validate ETag/304, HEAD, cache-control, language and discovery links."
+      ],
+      "files": [
+        "work/SUPERVISOR_REPORT.md",
+        "work/evidence/feed-live-smoke.md"
+      ],
+      "evidence": [
+        {
+          "kind": "check",
+          "value": "Live Invoke-WebRequest smoke: both domains, /feed.xml and /feed.atom, lang=en/vi: PASS",
+          "recorded_at": "2026-09-05T09:53:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "XML parse, entry count <=20, language, no double escaping: PASS",
+          "recorded_at": "2026-09-05T09:53:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "Cache-Control, ETag, HEAD 200 and If-None-Match 304: PASS",
+          "recorded_at": "2026-09-05T09:53:36Z"
+        },
+        {
+          "kind": "check",
+          "value": "Homepage RSS/Atom discovery for / and /?lang=vi on both domains: PASS",
+          "recorded_at": "2026-09-05T09:53:36Z"
+        },
+        {
+          "kind": "review",
+          "value": "PASS — reviewed work/evidence/feed-live-smoke.md and work/SUPERVISOR_REPORT.md against UA-0076 acceptance. Evidence covers both aliases, RSS/Atom EN/VI, HTTP 200, parsed roots rss/feed, three bounded public entries, safe XML, Cache-Control public max-age=300, ETag, HEAD 200, If-None-Match 304, and homepage discovery links. No secrets present; only remaining unrelated gap is Neon backup/restore CLI authentication.",
+          "recorded_at": "2026-09-05T09:54:04Z"
+        }
+      ],
+      "reports": [
+        "work/reports/inbox/UA-0076-20260905T095336Z-790de0.md"
+      ],
+      "attempts": 1,
+      "created_at": "2026-09-05T09:53:27Z",
+      "updated_at": "2026-09-05T09:54:04Z",
       "last_result": "completed"
     }
   }

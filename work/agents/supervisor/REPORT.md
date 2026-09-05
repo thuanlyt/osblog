@@ -167,3 +167,10 @@ Refreshed architecture/project-map knowledge and added decision 0005 for RSS/Ato
 
 - Report: `work/reports/inbox/UA-0074-20260905T094338Z-a0d46d.md`
 - Next: Complete UA-0072/UA-0069 review and run live feed smoke after the authorized production deployment.
+
+## 2026-09-05T09:53:36Z - UA-0076 (completed)
+
+Live-verified reviewed RSS/Atom release on both public OSBlog domains. All EN/VI feed combinations returned 200 with valid RSS/Atom roots, bounded published entries, safe XML, cache headers, ETag, HEAD and conditional 304; homepage discovery links are present.
+
+- Report: `work/reports/inbox/UA-0076-20260905T095336Z-790de0.md`
+- Next: Dispatch UA-0073 for permanent published-slug history and one-hop redirects.
