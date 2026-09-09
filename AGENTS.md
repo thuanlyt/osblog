@@ -17,7 +17,9 @@ Workers must claim work before editing, stay inside the claimed scope, and submi
 - Prefer Vite + React + TypeScript with the smallest production-suitable persistence/admin approach compatible with Vercel.
 - Preserve the registered worker identities `antigravity`, `codex`, and `claude`; external runtimes are manual unless a configured runner exists.
 - Do not invent live vendor execution, secrets, credentials, GitHub/Vercel access, or deployment evidence.
-- Use the persisted UI/UX Pro Max design system as the visual source of truth. Meet WCAG-oriented contrast, keyboard/focus, semantic labels, responsive behavior, reduced motion, performance, and touch-target checks.
+- **Public pixel redesign owner override:** for the `feat/pixel-ui-rebuild` program, the user-provided pixel-game blog reference and `knowledge/decisions/0007-pixel-public-ui.md` supersede the legacy UI/UX Pro Max / Swiss-editorial visual direction for public pages only. Preserve the existing accessibility, responsive, reduced-motion, performance, semantic HTML, keyboard/focus, and touch-target contracts.
+- The protected admin/login UI remains outside the pixel redesign unless the owner explicitly expands scope. The legacy design system may continue to govern admin presentation.
+- Preserve backend/API behavior, persistence/schema, authentication, Markdown publishing, bilingual routing/content, SEO/feed behavior, comments, and deployment adapters unless a directly evidenced integration bug requires the smallest compatible fix.
 - Do not deploy, delete data, change secrets/permissions, or create external resources without explicit authorization and evidence.
 
 ## Required evidence

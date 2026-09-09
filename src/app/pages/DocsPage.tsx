@@ -9,9 +9,9 @@ function DocsSidebar({ data, mobileOpen, onClose }: { data: PageData; mobileOpen
   const docs = data.docs ?? []
   const isVi = lang === 'vi'
   return (
-    <nav className={mobileOpen ? 'docs-sidebar docs-sidebar-open' : 'docs-sidebar'} aria-label={isVi ? 'Mục lục tài liệu' : 'Documentation contents'}>
-      <div className="docs-sidebar-head">
-        <span>{isVi ? 'Tài liệu' : 'Documentation'}</span>
+    <nav className={mobileOpen ? 'docs-sidebar docs-sidebar-open pixel-docs-sidebar' : 'docs-sidebar pixel-docs-sidebar'} aria-label={isVi ? 'Mục lục tài liệu' : 'Documentation contents'}>
+      <div className="docs-sidebar-head pixel-mini-heading">
+        <span>{isVi ? 'TÀI LIỆU' : 'DOCUMENTATION'}</span>
         <button type="button" className="icon-button docs-sidebar-close" onClick={onClose} aria-label={isVi ? 'Đóng mục lục' : 'Close contents'}>
           <CloseIcon />
         </button>
@@ -20,6 +20,7 @@ function DocsSidebar({ data, mobileOpen, onClose }: { data: PageData; mobileOpen
         {docs.map((doc) => (
           <li key={doc.slug}>
             <a href={localPath(doc.slug === 'index' ? '/docs' : `/docs/${doc.slug}`, lang)} aria-current={data.doc?.slug === doc.slug ? 'page' : undefined}>
+              <span className="pixel-doc-bullet" aria-hidden="true" />
               {doc.title}
             </a>
           </li>
@@ -51,37 +52,52 @@ export function DocsPage({ data }: { data: PageData }) {
   }, [mobileOpen])
 
   return (
-    <div className="content-wrap docs-layout">
-      <button ref={toggleRef} type="button" className="button button-secondary docs-mobile-toggle" onClick={() => setMobileOpen(true)} aria-haspopup="true">
+    <div className="content-wrap docs-layout pixel-inner-page pixel-docs-page">
+      <section className="pixel-page-banner pixel-docs-banner">
+        <div className="pixel-page-banner-copy">
+          <p className="eyebrow">{isVi ? 'THƯ VIỆN OSBLOG' : 'OSBLOG LIBRARY'}</p>
+          <h1>{doc?.title ?? data.title}</h1>
+          <p className="page-lede">{doc?.description || data.description}</p>
+        </div>
+        <div className="pixel-page-banner-art" aria-hidden="true">
+          <span className="pixel-banner-book" />
+          <span className="pixel-banner-folder pixel-banner-folder-small" />
+        </div>
+      </section>
+
+      <button ref={toggleRef} type="button" className="button button-secondary docs-mobile-toggle pixel-docs-mobile-toggle" onClick={() => setMobileOpen(true)} aria-haspopup="true">
         <MenuIcon /> {isVi ? 'Mục lục' : 'Contents'}
       </button>
       {mobileOpen && <div className="docs-overlay" onClick={closeMobileSidebar} />}
-      <DocsSidebar data={data} mobileOpen={mobileOpen} onClose={closeMobileSidebar} />
-      <div className="docs-content">
-        {doc
-          ? (
-            <article lang={lang}>
-              <p className="eyebrow">{isVi ? 'Tài liệu' : 'Documentation'}</p>
-              <h1 id={slugifyHeading(doc.title)}>{doc.title}</h1>
-              {doc.description && <p className="page-lede">{doc.description}</p>}
-              <SafeMarkdown content={stripDuplicateLeadingH1(doc.body, doc.title)} lang={lang} mapLinks />
-            </article>
-          )
-          : (
-            <div>
-              <p className="eyebrow">{isVi ? 'Tài liệu' : 'Documentation'}</p>
-              <h1>{data.title}</h1>
-              <p className="page-lede">{data.description}</p>
-              <ul className="docs-index-list">
-                {(data.docs ?? []).filter((entry) => entry.slug !== 'index').map((entry) => (
-                  <li key={entry.slug}>
-                    <a href={localPath(`/docs/${entry.slug}`, lang)}>{entry.title}</a>
-                    <p>{entry.description}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+
+      <div className="pixel-docs-workspace">
+        <DocsSidebar data={data} mobileOpen={mobileOpen} onClose={closeMobileSidebar} />
+        <div className="docs-content pixel-reading-surface pixel-docs-content">
+          {doc
+            ? (
+              <article lang={lang}>
+                <div className="pixel-mini-heading"><strong>{isVi ? 'TRANG TÀI LIỆU' : 'DOC PAGE'}</strong><span aria-hidden="true">◆</span></div>
+                <h1 id={slugifyHeading(doc.title)}>{doc.title}</h1>
+                {doc.description && <p className="page-lede">{doc.description}</p>}
+                <SafeMarkdown content={stripDuplicateLeadingH1(doc.body, doc.title)} lang={lang} mapLinks />
+              </article>
+            )
+            : (
+              <div>
+                <div className="pixel-mini-heading"><strong>{isVi ? 'CHỈ MỤC' : 'INDEX'}</strong><span>{(data.docs ?? []).length}</span></div>
+                <h1>{data.title}</h1>
+                <p className="page-lede">{data.description}</p>
+                <ul className="docs-index-list pixel-docs-index-list">
+                  {(data.docs ?? []).filter((entry) => entry.slug !== 'index').map((entry) => (
+                    <li key={entry.slug}>
+                      <a href={localPath(`/docs/${entry.slug}`, lang)}>{entry.title}</a>
+                      <p>{entry.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+        </div>
       </div>
     </div>
   )

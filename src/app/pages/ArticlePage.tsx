@@ -56,14 +56,17 @@ function CommentForm({ postId, lang }: { postId: string; lang: 'en' | 'vi' }) {
   }
 
   return (
-    <section className="comment-section" aria-labelledby="comment-title">
-      <p className="eyebrow">{isVi ? 'Trò chuyện' : 'Conversation'}</p>
+    <section className="comment-section pixel-surface-panel pixel-comment-panel" aria-labelledby="comment-title">
+      <div className="pixel-mini-heading">
+        <strong>{isVi ? 'TRÒ CHUYỆN' : 'CONVERSATION'}</strong>
+        <span aria-hidden="true">♥</span>
+      </div>
       <h2 id="comment-title">{isVi ? 'Để lại bình luận' : 'Leave a note'}</h2>
       <p className="comment-intro">{isVi ? 'Email chỉ dùng để kiểm duyệt và không bao giờ được công khai.' : 'Email is used only for moderation and is never published.'}</p>
       {state === 'error' && <p className="status-note" role="alert">{message}</p>}
       {(state === 'success' || (state === 'ready' && message)) && <p className="status-note" role="status">{message}</p>}
       {state !== 'success' && (
-        <form className="comment-form" onSubmit={handleSubmit} noValidate>
+        <form className="comment-form pixel-comment-form" onSubmit={handleSubmit} noValidate>
           <label htmlFor="comment-email">{isVi ? 'Email' : 'Email'}
             <input id="comment-email" name="email" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} aria-describedby="comment-email-hint" />
           </label>
@@ -98,10 +101,15 @@ export function ArticlePage({ data }: { data: PageData }) {
 
   if (!post) {
     return (
-      <div className="content-wrap narrow-wrap">
-        <p className="eyebrow">{isVi ? 'Bài viết' : 'Article'}</p>
-        <h1>{isVi ? 'Không tìm thấy bài viết' : 'Article unavailable'}</h1>
-        <p className="page-lede">{isVi ? 'Bài viết này chưa được xuất bản.' : 'This article is not published.'}</p>
+      <div className="content-wrap narrow-wrap pixel-inner-page">
+        <section className="pixel-page-banner pixel-state-banner">
+          <div className="pixel-page-banner-copy">
+            <p className="eyebrow">{isVi ? 'BÀI VIẾT' : 'ARTICLE'}</p>
+            <h1>{isVi ? 'Không tìm thấy bài viết' : 'Article unavailable'}</h1>
+            <p className="page-lede">{isVi ? 'Bài viết này chưa được xuất bản.' : 'This article is not published.'}</p>
+          </div>
+          <div className="pixel-page-banner-art" aria-hidden="true"><span className="pixel-banner-book" /></div>
+        </section>
         <a className="button button-secondary" href={localPath('/archive', lang)}>{isVi ? 'Về kho lưu trữ' : 'Back to archive'} <ArrowUpRightIcon /></a>
       </div>
     )
@@ -111,28 +119,42 @@ export function ArticlePage({ data }: { data: PageData }) {
   const body = localized(post, 'body', lang)
   const related = data.related ?? []
   const comments = data.comments ?? []
+  const readMinutes = Math.max(1, Math.round(body.split(/\s+/).filter(Boolean).length / 200))
 
   return (
-    <article className="content-wrap narrow-wrap article-page" lang={lang}>
-      <p className="eyebrow"><a href={localPath(`/archive?category=${post.category.slug}`, lang)}>{localized(post.category, 'name', lang)}</a></p>
-      <h1>{title}</h1>
-      <div className="article-meta">
-        <span>{displayDate(post.publishedAt, lang)}</span>
-        <span className="post-meta-sep" aria-hidden="true">·</span>
-        <span><ClockIcon /> {Math.max(1, Math.round(body.split(/\s+/).filter(Boolean).length / 200))} {isVi ? 'phút đọc' : 'min read'}</span>
-      </div>
+    <article className="content-wrap narrow-wrap article-page pixel-inner-page pixel-article-page" lang={lang}>
+      <header className="pixel-page-banner pixel-article-banner">
+        <div className="pixel-page-banner-copy">
+          <p className="eyebrow"><a href={localPath(`/archive?category=${post.category.slug}`, lang)}>{localized(post.category, 'name', lang)}</a></p>
+          <h1>{title}</h1>
+          <div className="article-meta pixel-article-meta">
+            <span>{displayDate(post.publishedAt, lang)}</span>
+            <span className="post-meta-sep" aria-hidden="true">·</span>
+            <span><ClockIcon /> {readMinutes} {isVi ? 'phút đọc' : 'min read'}</span>
+          </div>
+        </div>
+        <div className="pixel-page-banner-art" aria-hidden="true">
+          <span className="pixel-banner-book" />
+          <span className="pixel-banner-spark pixel-banner-spark-a" />
+          <span className="pixel-banner-spark pixel-banner-spark-b" />
+        </div>
+      </header>
+
       {post.coverImageUrl && (
-        <div className="article-hero">
+        <div className="article-hero pixel-article-hero">
           <img src={post.coverImageUrl} alt={localized(post, 'coverImageAlt', lang)} loading="eager" decoding="async" width={1200} height={630} />
         </div>
       )}
-      <SafeMarkdown content={body} lang={lang} mapLinks />
+
+      <div className="pixel-reading-surface">
+        <SafeMarkdown content={body} lang={lang} mapLinks />
+      </div>
 
       {related.length > 0 && (
-        <section className="related-section" aria-labelledby="related-title">
-          <p className="eyebrow">{isVi ? 'Xem thêm' : 'Related'}</p>
+        <section className="related-section pixel-surface-panel pixel-related-panel" aria-labelledby="related-title">
+          <div className="pixel-mini-heading"><strong>{isVi ? 'XEM THÊM' : 'RELATED'}</strong><span>{related.length}</span></div>
           <h2 id="related-title">{isVi ? 'Bài viết liên quan' : 'Related articles'}</h2>
-          <div className="post-list post-list-related">
+          <div className="post-list post-list-related pixel-related-grid">
             {related.map((item) => (
               <article className="post-card" key={item.id}>
                 <div className="post-card-body">
@@ -146,7 +168,8 @@ export function ArticlePage({ data }: { data: PageData }) {
       )}
 
       {comments.length > 0 && (
-        <section className="approved-comments" aria-labelledby="approved-comments-title">
+        <section className="approved-comments pixel-surface-panel pixel-approved-comments" aria-labelledby="approved-comments-title">
+          <div className="pixel-mini-heading"><strong>{isVi ? 'BÌNH LUẬN ĐÃ DUYỆT' : 'APPROVED COMMENTS'}</strong><span>{comments.length}</span></div>
           <h2 id="approved-comments-title">{isVi ? `Bình luận (${comments.length})` : `Comments (${comments.length})`}</h2>
           <ul className="comment-list">
             {comments.map((comment) => (
@@ -160,7 +183,9 @@ export function ArticlePage({ data }: { data: PageData }) {
       )}
 
       <CommentForm postId={post.id} lang={lang} />
-      <a className="button button-secondary" href={localPath(`/archive?category=${post.category.slug}`, lang)}>{isVi ? 'Xem thêm bài viết' : 'More writing'} <ArrowUpRightIcon /></a>
+      <div className="pixel-article-footer-action">
+        <a className="button button-secondary" href={localPath(`/archive?category=${post.category.slug}`, lang)}>{isVi ? 'Xem thêm bài viết' : 'More writing'} <ArrowUpRightIcon /></a>
+      </div>
     </article>
   )
 }
