@@ -1,0 +1,235 @@
+/* OSBLOG Pixel V4 — authentic 16-bit fidelity pass.
+   Bounded scope: make typography, hero framing, cards and mobile composition read as pixel art,
+   without changing application behavior or long-form readability. */
+
+.pixel-app-shell {
+  --px4-dark: #14384c;
+  --px4-dark-2: #0d2d40;
+  --px4-blue: #536fc0;
+  --px4-blue-hi: #8ea4e0;
+  --px4-cream: #fff0c8;
+  --px4-cream-hi: #fff8df;
+  --px4-gold: #e4a843;
+  --px4-green: #3b7f48;
+  --px4-red: #ce6268;
+}
+
+.pixel-app-shell .pixel-hero-kicker,
+.pixel-app-shell .pixel-hero-notice h1,
+.pixel-app-shell .pixel-page-banner h1,
+.pixel-app-shell .post-card h3,
+.pixel-app-shell .pixel-side-panel h2,
+.pixel-app-shell .pixel-panel-heading h2 {
+  font-family: 'Pixelify Sans', 'Silkscreen', ui-monospace, monospace;
+  font-weight: 700;
+  font-variant-ligatures: none;
+}
+
+html[lang='en'] .pixel-app-shell .pixel-nav-link,
+html[lang='en'] .pixel-app-shell .pixel-category-link,
+html[lang='en'] .pixel-app-shell .pixel-hero-button,
+html[lang='en'] .pixel-app-shell .pixel-all-posts-button,
+html[lang='en'] .pixel-app-shell .button,
+html[lang='en'] .pixel-app-shell .pixel-mini-heading {
+  font-family: 'Press Start 2P', 'Silkscreen', ui-monospace, monospace;
+}
+
+.pixel-app-shell .pixel-hero-notice,
+.pixel-app-shell .post-card,
+.pixel-app-shell .pixel-side-panel,
+.pixel-app-shell .pixel-surface-panel,
+.pixel-app-shell .pixel-reading-surface,
+.pixel-app-shell .pixel-page-banner {
+  border: 4px solid var(--px4-dark);
+  box-shadow:
+    inset 0 0 0 3px rgba(255,255,255,.56),
+    inset 0 -4px 0 rgba(210,163,74,.18),
+    4px 4px 0 var(--px4-gold),
+    8px 8px 0 rgba(20,56,76,.34);
+}
+
+.pixel-app-shell .pixel-hero-notice {
+  background-color: rgba(255,240,200,.975);
+  background-image:
+    linear-gradient(90deg, rgba(228,168,67,.09) 2px, transparent 2px),
+    linear-gradient(rgba(228,168,67,.08) 2px, transparent 2px);
+  background-size: 16px 16px;
+}
+
+.pixel-app-shell .pixel-hero-notice::before,
+.pixel-app-shell .pixel-hero-notice::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: var(--px4-gold);
+  box-shadow: 8px 0 0 var(--px4-gold), 0 8px 0 var(--px4-gold);
+  pointer-events: none;
+}
+.pixel-app-shell .pixel-hero-notice::before { left: 14px; top: 14px; }
+.pixel-app-shell .pixel-hero-notice::after { right: 14px; bottom: 14px; transform: rotate(180deg); }
+
+.pixel-app-shell .pixel-hero-kicker {
+  letter-spacing: 0;
+  text-shadow:
+    4px 0 0 #173f31,
+    -4px 0 0 #173f31,
+    0 4px 0 #173f31,
+    0 -4px 0 #173f31,
+    6px 6px 0 #aacb76;
+}
+
+.pixel-app-shell .pixel-hero-notice h1 {
+  letter-spacing: 0;
+  text-shadow:
+    4px 0 0 var(--px4-dark-2),
+    -4px 0 0 var(--px4-dark-2),
+    0 4px 0 var(--px4-dark-2),
+    0 -4px 0 var(--px4-dark-2),
+    7px 7px 0 #e9b658;
+}
+
+.pixel-app-shell .pixel-hero-button,
+.pixel-app-shell .pixel-all-posts-button,
+.pixel-app-shell .button {
+  position: relative;
+  border: 4px solid var(--px4-dark-2);
+  background: var(--px4-blue);
+  color: #fff;
+  box-shadow:
+    inset 0 0 0 4px var(--px4-blue-hi),
+    inset 0 -8px 0 rgba(23,54,101,.22),
+    5px 5px 0 #243b6d;
+  text-shadow: 3px 3px 0 #263a66;
+}
+
+.pixel-app-shell .pixel-hero-button::before,
+.pixel-app-shell .pixel-all-posts-button::before,
+.pixel-app-shell .button::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-top: 2px solid rgba(255,255,255,.52);
+  border-left: 2px solid rgba(255,255,255,.32);
+  pointer-events: none;
+}
+
+.pixel-app-shell .pixel-post-grid .post-card,
+.pixel-app-shell .pixel-archive-grid .post-card,
+.pixel-app-shell .pixel-related-grid .post-card {
+  background: var(--px4-cream-hi);
+  overflow: hidden;
+}
+.pixel-app-shell .pixel-post-grid .post-thumb,
+.pixel-app-shell .pixel-archive-grid .post-thumb {
+  position: relative;
+  border-bottom: 4px solid var(--px4-dark);
+  background: linear-gradient(90deg, #8ecddd 50%, #83c3d7 50%) 0 0 / 12px 12px;
+}
+.pixel-app-shell .pixel-post-grid .post-thumb::after,
+.pixel-app-shell .pixel-archive-grid .post-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.45);
+  background: repeating-linear-gradient(0deg, transparent 0 5px, rgba(17,54,74,.06) 5px 6px);
+}
+.pixel-app-shell .pixel-post-grid .post-card h3,
+.pixel-app-shell .pixel-archive-grid .post-card h3,
+.pixel-app-shell .pixel-related-grid .post-card h3 {
+  color: var(--px4-dark-2);
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+  text-shadow: 2px 2px 0 rgba(228,168,67,.24);
+}
+
+.pixel-app-shell .pixel-hero {
+  min-height: 390px;
+  background: #74c9e7;
+  border-bottom: 5px solid var(--px4-dark-2);
+}
+.pixel-app-shell .pixel-hero-world {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: saturate(1.08) contrast(1.03);
+}
+.pixel-app-shell .pixel-hero-pager {
+  border-radius: 0;
+  border: 3px solid var(--px4-dark);
+  box-shadow: 3px 3px 0 var(--px4-gold);
+}
+.pixel-app-shell .pixel-hero-pager i { border-radius: 0; width: 9px; height: 9px; }
+
+.pixel-app-shell .pixel-category-strip {
+  border-top: 4px solid #8dc7c6;
+  border-bottom: 5px solid var(--px4-dark-2);
+}
+.pixel-app-shell .pixel-category-title {
+  border: 4px solid var(--px4-dark-2);
+  box-shadow: inset 0 0 0 3px #8ba1de, 4px 4px 0 var(--px4-gold);
+}
+.pixel-app-shell .pixel-category-link { border-right: 3px dashed #d9b36a; }
+.pixel-app-shell .pixel-category-icon {
+  width: 34px;
+  height: 34px;
+  border: 4px solid var(--px4-dark-2);
+  box-shadow: inset 3px 3px 0 rgba(255,255,255,.4), 4px 4px 0 var(--px4-gold);
+}
+
+@media (max-width: 768px) {
+  .pixel-app-shell { padding: 4px; }
+  .pixel-app-shell .pixel-hero { min-height: 570px; }
+  .pixel-app-shell .pixel-hero-world { object-position: 54% bottom; }
+  .pixel-app-shell .pixel-hero-notice {
+    width: calc(100% - 34px);
+    min-height: 0;
+    margin-top: 24px;
+    padding: 18px 18px 24px;
+    border-width: 4px;
+    box-shadow:
+      inset 0 0 0 3px rgba(255,255,255,.58),
+      4px 4px 0 var(--px4-gold),
+      8px 8px 0 rgba(20,56,76,.26);
+  }
+  .pixel-app-shell .pixel-hero-kicker {
+    margin-bottom: 12px;
+    font-size: clamp(1.4rem, 7.2vw, 1.9rem);
+    line-height: 1.03;
+    text-shadow: 3px 0 0 #173f31, -3px 0 0 #173f31, 0 3px 0 #173f31, 4px 4px 0 #aacb76;
+  }
+  .pixel-app-shell .pixel-hero-notice h1 {
+    font-size: clamp(1.16rem, 5.9vw, 1.55rem);
+    line-height: 1.18;
+    text-shadow: 3px 0 0 var(--px4-dark-2), -3px 0 0 var(--px4-dark-2), 0 3px 0 var(--px4-dark-2), 4px 4px 0 #e9b658;
+  }
+  .pixel-app-shell .pixel-hero-lede {
+    width: 100%;
+    margin-top: 16px;
+    font-size: .86rem;
+    line-height: 1.48;
+  }
+  .pixel-app-shell .pixel-hero-button {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    margin-top: 18px;
+    padding-inline: 10px;
+    gap: 10px;
+    font-size: .74rem;
+  }
+  .pixel-app-shell .pixel-button-star { transform: scale(.56); }
+  .pixel-app-shell .pixel-hero-pager { bottom: 12px; }
+  .pixel-app-shell .pixel-post-grid .post-card h3,
+  .pixel-app-shell .pixel-archive-grid .post-card h3,
+  .pixel-app-shell .pixel-related-grid .post-card h3 { font-size: 1.08rem; }
+}
+
+@media (max-width: 430px) {
+  .pixel-app-shell .pixel-hero { min-height: 535px; }
+  .pixel-app-shell .pixel-hero-notice { width: calc(100% - 26px); margin-top: 18px; padding: 16px 14px 20px; }
+  .pixel-app-shell .pixel-hero-notice::before,
+  .pixel-app-shell .pixel-hero-notice::after { transform: scale(.75); transform-origin: center; }
+  .pixel-app-shell .pixel-hero-notice::after { transform: rotate(180deg) scale(.75); }
+}
