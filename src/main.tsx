@@ -8,6 +8,7 @@ import '@fontsource-variable/source-serif-4/wght-italic.css'
 import '@fontsource-variable/playfair-display/wght.css'
 import './styles.css'
 import './pixel-public.css'
+import './pixel-pages.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
