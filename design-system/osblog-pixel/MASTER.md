@@ -1,165 +1,157 @@
-# OSBLOG Pixel Public Design System — MASTER
+# OSBLOG PIXEL — DESIGN SYSTEM MASTER V2
 
-status: active for public pixel redesign
-owner decision: `knowledge/decisions/0007-pixel-public-ui.md`
-reference: owner-supplied pixel-game blog screenshot (2026-09-09)
+status: **production-active**
+owner reference: uploaded 1448×1086 retro pixel blog screenshot, 2026-09-09
+scope: public OSBLOG frontend only
+admin/login: intentionally outside this visual system
 
-## Authority
+## 1. Authority
 
-This file is the public visual source of truth for the pixel redesign. It supersedes the legacy Swiss/editorial visual style for public pages only. The protected admin/login UI remains outside this redesign.
+This file is the source of truth for the public OSBLOG pixel frontend. The owner-supplied reference defines the visual grammar; OSBLOG keeps its own identity, text, routes, data and original artwork.
 
-Accessibility, semantic HTML, responsive behavior, keyboard/focus, touch-target, reduced-motion and performance requirements from the existing project remain mandatory.
+The public UI must not drift back to the previous Swiss/editorial theme or become a modern SaaS layout decorated with a few pixel stickers.
 
-## Visual thesis
+Functional contracts remain mandatory: bilingual VI/EN, semantic HTML, keyboard/focus behavior, 44px touch targets, reduced motion, Markdown readability, SEO/feed behavior, comments, auth boundaries and responsive behavior.
 
-OSBLOG should feel like a polished late-1990s/early-2000s game portal rebuilt with modern responsive HTML: cheerful pixel scenery, cream paper-like panels, cyan/blue structural framing, navy hard outlines, small warm-gold highlights, compact iconography, and clear content density.
+## 2. Visual target
 
-It must not look like a modern SaaS dashboard with a pixel font sprinkled on top.
+The target is a cheerful late-1990s/early-2000s game portal:
 
-### Required traits
+- cream paper panels framed by navy pixel outlines
+- cyan/sky outer field
+- teal footer and mint utility surfaces
+- warm gold separators and hard offset shadows
+- dense header with oversized mascot/logo and compact icon navigation
+- wide pixel-game hero with scenery visible around a centered announcement card
+- category band immediately under the hero
+- desktop main area near 2/3 article feed + 1/3 sidebar
+- hard square/stepped corners; no soft modern card language
+- original OSBLOG pixel scenery, not copied OviGame art
 
-- hard-edged pixel/stepped borders and shadows
-- framed cream panels on a cool sky-blue page field
-- dense but orderly navigation and content modules
-- hero scene with obvious pixel-game atmosphere
-- reusable 8px-grid-compatible spacing
-- flat colors; no glassmorphism, blur panels or glossy gradients
-- tiny decorative stars/sparkles/grass/clouds may support the composition
-- OSBLOG branding and real application content only
+## 3. Token architecture
 
-### Forbidden traits
+Follow the UI/UX Pro Max three-layer model: **primitive → semantic → component**.
 
-- copied OviGame logo, mascot, wording, domain or proprietary artwork
-- generic rounded SaaS cards
-- oversized empty whitespace typical of minimalist landing pages
-- glass/frosted panels, soft floating shadows or neon cyberpunk styling
-- emoji used as interface icons
-- fake counters or placeholder social proof presented as real data
-- pixelation filter applied to ordinary modern icons as a substitute for coherent art direction
+### Primitive colors
 
-## Core palette
-
-All public components should consume semantic tokens rather than page-specific color literals.
-
-| Token | Value | Use |
+| Primitive | Value | Role |
 |---|---:|---|
-| `--px-sky` | `#59B9DD` | page field / outer framing |
-| `--px-sky-light` | `#A9E4F1` | inner sky / quiet secondary field |
-| `--px-paper` | `#FFF6D8` | primary cream panels |
-| `--px-paper-light` | `#FFFBEA` | article/card surfaces |
-| `--px-ink` | `#153457` | primary navy outline/text |
-| `--px-ink-deep` | `#0A2543` | strongest outline / headings |
-| `--px-blue` | `#4169B2` | navigation/button fill |
-| `--px-blue-light` | `#7895D4` | inset/button highlight |
-| `--px-gold` | `#F0B24A` | separators, stars, small accents |
-| `--px-gold-light` | `#FFD97A` | highlight pixels |
-| `--px-green` | `#4F9B4F` | positive/scenery accent |
-| `--px-green-deep` | `#2D6D3D` | green outline/shadow |
-| `--px-red` | `#D96668` | favorite/error/accent |
-| `--px-pink` | `#E98E9E` | secondary warm accent |
-| `--px-muted` | `#7A8793` | secondary text only after contrast check |
-| `--px-white` | `#FFFFFF` | sparse highlight pixels / high contrast surface |
+| `sky-500` | `#71C4E4` | hero / outer sky |
+| `sky-800` | `#2F819F` | page frame field |
+| `paper-100` | `#FFF8E3` | bright panel |
+| `paper-200` | `#FFF1CE` | main cream |
+| `paper-400` | `#F4DFAD` | inset/depth |
+| `teal-300` | `#8CC9C4` | footer |
+| `teal-700` | `#4D898A` | teal border/depth |
+| `navy-600` | `#286074` | regular outline |
+| `navy-900` | `#173F57` | strongest outline/text |
+| `blue-500` | `#6177C2` | primary button/navigation accent |
+| `blue-700` | `#3F559E` | hover/headings |
+| `gold-500` | `#E6AC4C` | separator/shadow |
+| `gold-300` | `#FFD878` | sparkle/highlight |
+| `green-500` | `#4F9B4F` | scenery/accent |
+| `green-800` | `#2F7040` | scenery outline/kicker |
+| `red-500` | `#D7656D` | heart/warm accent |
+| `pink-400` | `#E68DA0` | secondary sprite accent |
 
-These are starting production tokens, not permission to bypass contrast QA. Normal text must still meet the project's WCAG-oriented contrast gate.
-
-## Border and depth language
-
-Preferred primitives:
+### Semantic aliases
 
 ```css
---px-border: 3px;
---px-border-strong: 4px;
---px-shadow-x: 3px;
---px-shadow-y: 3px;
+--surface-page: var(--paper-200);
+--surface-panel: var(--paper-100);
+--surface-utility: #DCEFE7;
+--surface-footer: var(--teal-300);
+--border-default: var(--navy-600);
+--border-strong: var(--navy-900);
+--text-primary: var(--navy-900);
+--text-link: var(--blue-700);
+--accent-primary: var(--blue-500);
+--accent-warm: var(--gold-500);
+--accent-positive: var(--green-800);
 ```
 
-- Primary modules: 3px navy outline + 1px warm/cool inner highlight where useful.
-- Buttons/tabs: hard offset shadow, no Gaussian blur.
-- Corners: square or tiny stepped/pixel corners. Avoid 8–16px smooth radius.
-- Hover may shift fill/shadow state but must not move layout bounds.
-- `image-rendering: pixelated` is valid for intentionally low-resolution sprite assets only.
+### Component aliases
 
-## Spacing and density
+Components may expose aliases such as `--header-bg`, `--panel-border`, `--button-bg`, `--button-shadow`, `--hero-card-bg`, but application TSX must not grow page-specific raw hex values.
 
-Use a 4px base rhythm, with 8/12/16/24/32px as dominant values. The reference is intentionally denser than the previous editorial layout.
+Pixel artwork is allowed its own compact `--art-*` palette when that improves sprite maintenance.
 
-- wide desktop outer gutter: 12–24px visual frame
-- module gap: 8–16px
-- card interior: 12–16px
-- long-form article interior: 20–32px for readability
-- hero can be visually dense but text must remain legible at 1024px and below
+## 4. Geometry lock
 
-## Typography
+### 1440-class desktop
 
-The UI needs a pixel identity without sacrificing Vietnamese readability.
+Reference order is fixed:
 
-- Display/navigation labels: use a pixel/block display face only if it has complete Vietnamese coverage; otherwise use a robust system/condensed sans with pixel-style outline treatment.
-- Body/article copy: readable sans or serif with full VI/EN glyph coverage; do not force a bitmap font for paragraphs.
-- Headings: strong navy weight, compact line-height, optional 1–2px hard shadow/outline in decorative contexts.
-- Never rasterize article text into images.
-- Preserve actual `lang` attributes and allow Vietnamese diacritics to wrap naturally.
+1. header ≈ 8–12% viewport composition height
+2. hero ≈ 300–360px
+3. category band ≈ 80–96px
+4. main feed + sidebar
+5. compact teal footer
 
-P1 deliberately does not add a new font dependency. Font selection is an implementation task only after glyph coverage is verified.
+Outer frame: 4–6px navy.
+Main internal gaps: 10–18px.
+Primary panel borders: 3px.
+Strong structural boundaries: 4–5px.
+Hard offset shadow: 3–6px, never Gaussian blur.
 
-## Icon contract
+### Header
 
-- Use a single consistent pixel icon family or OSBLOG-owned sprite set for public chrome.
-- Existing semantic SVGs may remain temporarily during migration when replacing them would risk functionality, but P9 visual QA must flag mixed icon language.
-- Decorative sprites require `aria-hidden="true"` / empty alt text.
-- Functional icon-only controls require accessible names.
+- logo block occupies roughly 28–34% desktop width
+- navigation is dense, horizontally separated by warm dashed rules
+- navigation icon + short label
+- utility controls are visually secondary to the five primary items
 
-## Public page hierarchy
+### Hero
 
-### Desktop shell
+- scenery must remain visible on both sides and along the ground line
+- centered cream notice consumes roughly 70–78% of hero width
+- headline is blocky, high contrast and compact
+- one large blue primary CTA
+- HTML text remains live; never bake VI/EN hero copy into raster artwork
 
-1. framed header/brand + primary navigation
-2. large pixel hero scene
-3. category/navigation strip
-4. main content grid (approximately 2/3 feed + 1/3 sidebar)
-5. footer/decorative close
+### Home content
 
-### Home
+- latest-post panel: 3 columns at wide desktop
+- sidebar: About → Stats → Feed/utility
+- cards are information-dense and visually framed
+- use actual application data only; never fake member/comment counts
 
-- pixel hero is the strongest visual anchor
-- latest posts appear as framed image cards in a dense grid
-- sidebar uses stacked pixel panels
-- only real application data may populate metadata/statistics
+## 5. Typography
 
-### Archive
+The visual language should read as pixel/block display without sacrificing Vietnamese glyph quality.
 
-Keep search/category/year/sort/pagination behavior intact; restyle controls as pixel panels/buttons without reducing labels, focus visibility or keyboard reachability.
+- display/logo: heavy condensed system/block face + hard outline/shadow treatment
+- navigation/labels/meta: `ui-monospace`, Consolas-compatible stack
+- article body: readable existing font stack, normal anti-aliased text
+- body copy should not imitate bitmap text
+- normal body target ≥ 15–16px on article surfaces; compact card/meta text may be smaller only with passing contrast
 
-### Article
+Do not add a webfont dependency until Vietnamese coverage and production loading are verified.
 
-Use pixel chrome around the article, but reduce decorative density inside the reading column. Prose stays near the existing readable line-length contract; code, tables, quotes, images and comments must remain usable.
+## 6. Pixel shape language
 
-### Docs / About / Error / 404
+Allowed:
 
-Use the same shell, panel, button, heading and decoration primitives. No route may fall back to the old public Swiss/editorial visual language.
+- square corners
+- stepped `clip-path` corners
+- 2–5px hard outlines
+- hard offset box shadows
+- tiny block sparkles
+- crisp sprite assets with `image-rendering: pixelated`
 
-## Responsive contract
+Forbidden:
 
-Reference widths remain 375 / 768 / 1024 / 1440px.
+- glassmorphism
+- backdrop blur
+- soft 12–24px rounded cards
+- diffuse shadows
+- modern gradient SaaS buttons
+- emoji as interface icons
+- random visual mixing of pixel and glossy 3D styles
 
-- 1440: full framed shell, wide hero, feed + sidebar
-- 1024: preserve two-column identity where readable; reduce decorative density
-- 768: primary content first; sidebar can stack below; navigation may collapse
-- 375: single column; compact hero; no horizontal scrolling; mobile navigation is a real accessible control
+## 7. Original art contract
 
-Do not scale the desktop page like a screenshot. Recompose it.
-
-## Motion
-
-Pixel UI should feel responsive, not animated for its own sake.
-
-- hard state changes may still use short 100–180ms opacity/background transitions
-- no looping parallax or sprite animation is required
-- respect `prefers-reduced-motion`
-- avoid animation that changes layout dimensions
-
-## Asset namespace
-
-Reserved public path:
+Reserved namespace:
 
 ```text
 public/pixel/
@@ -171,30 +163,118 @@ public/pixel/
   sprites/
 ```
 
-Assets must be OSBLOG-specific, optimized, explicitly sized and used with reserved aspect ratios to protect CLS.
+Current hero art is OSBLOG-owned and stored under `public/pixel/hero/`.
 
-## Implementation order
+Rules:
 
-Do not hard-code whole pages before primitives exist.
+- never copy OviGame logo, mascot, copy, domain or proprietary sprite art
+- style grammar may be referenced; actual assets must be original
+- SVG pixel scenes should use `shape-rendering="crispEdges"`
+- raster sprites must reserve width/height to avoid CLS
+- decorative assets use empty alt / `aria-hidden`
 
-1. semantic pixel tokens
-2. frame/panel/button/nav primitives
-3. shell
-4. Home hero/category
-5. Home feed/sidebar
-6. Archive
-7. Article
-8. remaining pages
-9. cross-width visual/a11y QA
+## 8. Component specifications
 
-## Visual acceptance checklist
+### Primary panel
 
-A public page fails the pixel gate if any of these are true:
+| State | Border | Surface | Depth |
+|---|---|---|---|
+| default | 3px navy | cream | 3px gold/neutral offset |
+| hoverable | same bounds | warm cream | deeper 4–5px hard offset |
+| focus-within | strong visible outline | unchanged | unchanged |
 
-- it still reads primarily as the old Swiss/editorial theme
-- rounded/blurred modern cards dominate the page
-- header → hero → category → feed/sidebar geometry is lost on desktop Home
-- pixel visuals are merely decorative stickers around an otherwise unchanged layout
-- OSBLOG identity is confused with OviGame
-- content/controls regress, bilingual text breaks, or mobile horizontally scrolls
-- visual density or readability is materially worse than the reference target
+### Primary button
+
+| State | Fill | Text | Border |
+|---|---|---|---|
+| default | blue | white | 3–5px navy |
+| hover | lighter blue | white | unchanged |
+| active | blue-deep | white | shadow reduced, no layout shift |
+| focus-visible | blue | white | explicit outer focus indicator |
+| disabled | muted surface | high-contrast muted text | still legible |
+
+### Post card
+
+- image 16:8.5–16:9
+- 3px outline
+- category eyebrow
+- title max visual weight inside card
+- short excerpt
+- bottom metadata row separated by dashed warm rule
+
+## 9. Responsive contract
+
+Required validation widths: **1440 / 1024 / 768 / 375 CSS px**.
+
+### 1440
+Full logo, horizontal nav, 3-card feed, sidebar.
+
+### 1024
+Compact logo/nav, 2-card feed allowed, sidebar may remain beside feed only if readable.
+
+### 768
+Mobile navigation becomes explicit accessible control; content prioritizes feed; sidebar stacks.
+
+### 375
+Single column. No horizontal scrolling. Hero notice nearly full width while scenery remains visible. Category grid becomes 2 columns. Minimum touch target 44×44px.
+
+Never scale the desktop page as an image. Recompose.
+
+## 10. Route rules
+
+### Home
+Closest route to the reference and visual fidelity benchmark.
+
+### Archive
+Keep search/category/year/sort/pagination behavior; pixelize only presentation.
+
+### Article
+Pixel chrome outside, calmer reading surface inside. Markdown, code, tables, images, links and comment form must remain usable.
+
+### Docs
+Pixel library/sidebar treatment but preserve information architecture and mobile contents drawer.
+
+### About / Error / 404
+Use the same banner/panel/button primitives; no fallback to the legacy public theme.
+
+## 11. QA stack
+
+Three complementary gates:
+
+1. **source gate** — lint, typecheck, focused tests/build
+2. **Playwright** — deterministic route, interaction and accessibility regression
+3. **Chrome DevTools MCP** — rendered screenshots/snapshots, responsive emulation, console, network, Lighthouse and performance traces
+
+Vercel build status proves deployability, not visual correctness.
+
+### Browser matrix
+
+- `/` — 1440 / 1024 / 768 / 375
+- `/archive` — 1440 / 768 / 375
+- one published article — 1440 / 768 / 375
+- `/docs` + one doc — 1440 / 375
+- `/about` — 375 + desktop spot-check
+- unknown route — 375
+
+## 12. Stop / challenge rules
+
+The supervisor should challenge a requested visual change when it:
+
+- improves screenshot similarity by reducing readability/accessibility
+- fakes real application statistics
+- introduces copied third-party assets
+- causes horizontal overflow or mobile scaling
+- expands into backend/auth/database changes without a real integration defect
+
+A bounded cycle stops when its declared visual outcome is achieved. Do not opportunistically restyle a second route.
+
+The whole pixel program can stop when:
+
+- no open P0/P1 visual/functional/a11y regression
+- 1440/1024/768/375 have no horizontal overflow
+- Home clearly preserves header → hero → category → feed/sidebar geometry
+- all public routes use the same visual grammar
+- full source/build gates are green
+- two consecutive visual-QA rounds produce only low-value micro adjustments
+
+At that point additional polish has diminishing return and should require a new owner goal.
