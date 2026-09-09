@@ -68,55 +68,136 @@ function PostGrid({ data }: { data: PageData }) {
   )
 }
 
+function PixelHero({ data }: { data: PageData }) {
+  const isVi = data.lang === 'vi'
+  return (
+    <section className="pixel-hero" aria-labelledby="hero-title">
+      <div className="pixel-hero-sky" aria-hidden="true">
+        <span className="pixel-cloud pixel-cloud-a" />
+        <span className="pixel-cloud pixel-cloud-b" />
+        <span className="pixel-spark pixel-spark-a" />
+        <span className="pixel-spark pixel-spark-b" />
+        <span className="pixel-tree pixel-tree-a" />
+        <span className="pixel-tree pixel-tree-b" />
+        <span className="pixel-castle" />
+        <span className="pixel-ground" />
+        <span className="pixel-chest" />
+        <span className="pixel-mascot" />
+      </div>
+      <div className="pixel-hero-copy">
+        <p className="pixel-hero-kicker">{isVi ? 'THÔNG BÁO TỪ OSBLOG' : 'A MESSAGE FROM OSBLOG'}</p>
+        <h1 id="hero-title">
+          {isVi ? <>Nơi ý tưởng mở <span>được viết & chia sẻ</span></> : <>Where open ideas <span>are written & shared</span></>}
+        </h1>
+        <p className="pixel-hero-lede">
+          {isVi
+            ? 'Một blog song ngữ về phần mềm, sáng tạo và những thứ đáng lưu lại — xây dựng công khai, đọc thoải mái.'
+            : 'A bilingual blog about software, craft and things worth keeping — built in the open and made to be read.'}
+        </p>
+        <div className="pixel-hero-actions">
+          <a className="button button-primary pixel-hero-button" href={localPath('/archive', data.lang)}>
+            <span aria-hidden="true">★</span> OSBLOG <span aria-hidden="true">★</span>
+          </a>
+          <a className="pixel-hero-secondary" href={localPath('/about', data.lang)}>
+            {isVi ? 'Khám phá câu chuyện' : 'Explore the story'} <ArrowUpRightIcon />
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function PixelCategoryStrip({ data }: { data: PageData }) {
+  const categories = (data.categories ?? []).filter((category) => !category.isArchived).slice(0, 6)
+  const isVi = data.lang === 'vi'
+
+  return (
+    <nav className="pixel-category-strip" aria-label={isVi ? 'Chuyên mục nổi bật' : 'Featured categories'}>
+      <span className="pixel-category-title">{isVi ? 'DANH MỤC' : 'CATEGORIES'}</span>
+      <div className="pixel-category-items">
+        {categories.length > 0 ? categories.map((category, index) => (
+          <a key={category.id} className="pixel-category-link" href={localPath(`/archive?category=${category.slug}`, data.lang)}>
+            <span className={`pixel-category-icon pixel-category-icon-${(index % 4) + 1}`} aria-hidden="true" />
+            <span>{localized(category, 'name', data.lang)}</span>
+          </a>
+        )) : (
+          <>
+            <a className="pixel-category-link" href={localPath('/archive', data.lang)}><span className="pixel-category-icon pixel-category-icon-1" aria-hidden="true" /><span>{isVi ? 'Bài viết' : 'Articles'}</span></a>
+            <a className="pixel-category-link" href={localPath('/docs', data.lang)}><span className="pixel-category-icon pixel-category-icon-2" aria-hidden="true" /><span>{isVi ? 'Tài liệu' : 'Docs'}</span></a>
+            <a className="pixel-category-link" href={localPath('/about', data.lang)}><span className="pixel-category-icon pixel-category-icon-3" aria-hidden="true" /><span>{isVi ? 'Giới thiệu' : 'About'}</span></a>
+          </>
+        )}
+      </div>
+    </nav>
+  )
+}
+
+function PixelSidebar({ data }: { data: PageData }) {
+  const isVi = data.lang === 'vi'
+  const posts = data.posts ?? []
+  const categories = (data.categories ?? []).filter((category) => !category.isArchived)
+
+  return (
+    <aside className="pixel-home-sidebar" aria-label={isVi ? 'Thông tin OSBLOG' : 'About OSBLOG'}>
+      <section className="pixel-side-panel">
+        <h2><span aria-hidden="true">♥</span> {isVi ? 'VỀ OSBLOG' : 'ABOUT OSBLOG'}</h2>
+        <div className="pixel-about-row">
+          <span className="pixel-side-mascot" aria-hidden="true" />
+          <p>{isVi ? 'Một góc nhỏ để lưu lại ý tưởng, tài liệu và những điều học được khi xây phần mềm.' : 'A small place for ideas, documentation and lessons learned while building software.'}</p>
+        </div>
+        <a className="pixel-side-link" href={localPath('/about', data.lang)}>{isVi ? 'Tìm hiểu thêm' : 'Learn more'} »</a>
+      </section>
+
+      <section className="pixel-side-panel">
+        <h2>{isVi ? 'THỐNG KÊ TRANG NÀY' : 'THIS PAGE'}</h2>
+        <div className="pixel-stat-grid">
+          <div><strong>{posts.length}</strong><span>{isVi ? 'Bài hiển thị' : 'Posts shown'}</span></div>
+          <div><strong>{categories.length}</strong><span>{isVi ? 'Chuyên mục' : 'Categories'}</span></div>
+        </div>
+      </section>
+
+      <section className="pixel-side-panel pixel-side-actions">
+        <h2>{isVi ? 'LỐI TẮT' : 'QUICK LINKS'}</h2>
+        <a href={localPath('/docs', data.lang)}>{isVi ? 'Đọc tài liệu' : 'Read docs'} <ArrowUpRightIcon /></a>
+        <a href="https://github.com/thuanlyt/osblog" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRightIcon /></a>
+      </section>
+    </aside>
+  )
+}
+
 export function HomePage({ data }: { data: PageData }) {
   const lang = data.lang
   const isVi = lang === 'vi'
   const posts = data.posts ?? []
-  const [featured, ...rest] = posts
 
   return (
-    <div className="content-wrap">
-      <section className="hero-grid" aria-labelledby="hero-title">
-        <div className="hero-copy">
-          <p className="eyebrow">{isVi ? '01 / blog mã nguồn mở' : '01 / open source blog'}</p>
-          <h1 id="hero-title">{isVi ? <>Ý tưởng đáng <em>chia sẻ.</em></> : <>Ideas worth <em>sharing.</em></>}</h1>
-          <p className="hero-lede">{isVi ? 'Một mái nhà song ngữ cho những bài viết chỉn chu về phần mềm, sự sáng tạo và tri thức chung.' : 'A bilingual home for thoughtful writing about software, craft, and the commons.'}</p>
-          <div className="hero-actions">
-            <a className="button button-primary" href={localPath('/archive', lang)}>{isVi ? 'Khám phá bài viết' : 'Explore writing'} <ArrowUpRightIcon /></a>
-            <a className="text-link" href={localPath('/about', lang)}>{isVi ? 'Đọc giới thiệu' : 'Read the manifesto'}</a>
-          </div>
-        </div>
-        <div className="hero-aside" aria-label={isVi ? 'Ghi chú dự án' : 'Project note'}>
-          <span className="aside-label">{isVi ? 'Trọng tâm' : 'The point'}</span>
-          <p>{isVi ? 'Giữ giao diện yên tĩnh để câu chữ được là điều quan trọng nhất.' : 'Keep the interface quiet so the words can do the work.'}</p>
-          <span className="aside-rule" aria-hidden="true" />
-          <span className="aside-label">{isVi ? 'Song ngữ' : 'Bilingual'}</span>
-          <p>{isVi ? 'Viết bằng tiếng Việt. Đọc bằng tiếng Anh. Hoặc ngược lại.' : 'Viết bằng tiếng Việt. Đọc bằng tiếng Anh. Or the other way around.'}</p>
-        </div>
-      </section>
+    <div className="pixel-home">
+      <PixelHero data={data} />
+      <PixelCategoryStrip data={data} />
 
-      {featured && (
-        <section className="section-block" aria-labelledby="featured-title">
-          <div className="section-heading">
-            <div><p className="eyebrow">{isVi ? '02 / mới nhất' : '02 / latest'}</p><h2 id="featured-title">{isVi ? 'Bài viết mới nhất' : 'Latest writing'}</h2></div>
+      <div className="pixel-home-main">
+        <section className="pixel-latest-panel" aria-labelledby="latest-title">
+          <div className="pixel-panel-heading">
+            <h2 id="latest-title"><span aria-hidden="true">★</span> {isVi ? 'BÀI VIẾT MỚI' : 'LATEST POSTS'}</h2>
+            <a href={localPath('/archive', lang)}>{isVi ? 'Xem tất cả' : 'View all'} <ArrowUpRightIcon /></a>
           </div>
-          <div className="post-list post-list-featured">
-            <PostCard post={featured} lang={lang} featured />
-          </div>
+          {posts.length > 0 ? (
+            <div className="pixel-post-grid">
+              {posts.slice(0, 6).map((post) => <PostCard key={post.id} post={post} lang={lang} />)}
+            </div>
+          ) : (
+            <div className="empty-card">
+              <span className="empty-index">—</span>
+              <div>
+                <h3>{isVi ? 'Chưa có bài viết.' : 'No posts yet.'}</h3>
+                <p>{isVi ? 'Hãy quay lại sau.' : 'Check back soon.'}</p>
+              </div>
+            </div>
+          )}
+          <a className="pixel-all-posts-button" href={localPath('/archive', lang)}>{isVi ? 'XEM TẤT CẢ BÀI VIẾT' : 'VIEW ALL POSTS'} <ArrowUpRightIcon /></a>
         </section>
-      )}
-
-      {rest.length > 0 && (
-        <section className="section-block" aria-labelledby="more-title">
-          <div className="section-heading">
-            <div><p className="eyebrow">{isVi ? '03 / kho lưu trữ' : '03 / archive'}</p><h2 id="more-title">{isVi ? 'Thêm bài viết' : 'More writing'}</h2></div>
-            <a className="text-link" href={localPath('/archive', lang)}>{isVi ? 'Xem toàn bộ kho lưu trữ' : 'Browse the full archive'} <ArrowUpRightIcon /></a>
-          </div>
-          <div className="post-list">
-            {rest.map((post) => <PostCard key={post.id} post={post} lang={lang} />)}
-          </div>
-        </section>
-      )}
+        <PixelSidebar data={data} />
+      </div>
     </div>
   )
 }
