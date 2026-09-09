@@ -11,6 +11,7 @@ import './pixel-public.css'
 import './pixel-pages.css'
 import './pixel-v2.css'
 import './pixel-v2-pages.css'
+import './pixel-v3-fidelity.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
