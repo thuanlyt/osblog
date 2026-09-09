@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap');
+
+/* OSBLOG Pixel V3 — fidelity layer.
+   Purpose: move the public UI from "pixel themed" to visibly 8/16-bit inspired.
+   Long-form body copy remains readable; display/chrome uses true pixel faces. */
+
+.pixel-app-shell {
+  --px3-font-pixel: 'Pixelify Sans', 'Silkscreen', 'Press Start 2P', 'VT323', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --px3-font-pixel-strict: 'Press Start 2P', 'Silkscreen', 'Pixelify Sans', ui-monospace, monospace;
+  --px3-font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --px3-step: 4px;
+  --px3-step-2: 8px;
+  --px3-step-3: 12px;
+  --px3-step-4: 16px;
+  --px3-hi: #fffbe9;
+  --px3-mid: #f5deb0;
+  --px3-edge: #1a4b63;
+  --px3-edge-deep: #12374d;
+  --px3-shadow: #2b6d86;
+}
+
+/* Pixel typography: chrome/display only. */
+.pixel-app-shell .pixel-brand-copy strong,
+.pixel-app-shell .pixel-brand-copy small,
+.pixel-app-shell .pixel-nav-link,
+.pixel-app-shell .pixel-tool-button,
+.pixel-app-shell .pixel-admin-link,
+.pixel-app-shell .pixel-hero-kicker,
+.pixel-app-shell .pixel-hero-notice h1,
+.pixel-app-shell .pixel-hero-button,
+.pixel-app-shell .pixel-hero-secondary,
+.pixel-app-shell .pixel-category-title,
+.pixel-app-shell .pixel-category-link,
+.pixel-app-shell .pixel-panel-heading h2,
+.pixel-app-shell .pixel-panel-heading a,
+.pixel-app-shell .pixel-all-posts-button,
+.pixel-app-shell .pixel-side-panel h2,
+.pixel-app-shell .pixel-mini-heading,
+.pixel-app-shell .pixel-page-banner .eyebrow,
+.pixel-app-shell .pixel-page-banner h1,
+.pixel-app-shell .pixel-docs-sidebar a,
+.pixel-app-shell .pagination a,
+.pixel-app-shell .pagination span,
+.pixel-app-shell .button,
+.pixel-app-shell .footer-note {
+  font-family: var(--px3-font-pixel);
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  font-variant-ligatures: none;
+  text-rendering: optimizeSpeed;
+}
+
+.pixel-app-shell .pixel-brand-copy strong {
+  font-family: 'Silkscreen', 'Pixelify Sans', var(--px3-font-pixel);
+  font-size: clamp(2rem, 3.3vw, 3.45rem);
+  line-height: .92;
+  letter-spacing: .01em;
+  -webkit-text-stroke: 0;
+  text-shadow:
+    4px 0 0 var(--px3-edge-deep),
+    -2px 0 0 var(--px3-edge-deep),
+    0 3px 0 var(--px3-edge-deep),
+    4px 5px 0 rgba(230,172,76,.7);
+}
+.pixel-app-shell .pixel-brand-copy small {
+  font-family: 'Pixelify Sans', var(--px3-font-pixel);
+  font-size: clamp(.68rem, .9vw, .86rem);
+  line-height: 1.15;
+  letter-spacing: .08em;
+}
+
+.pixel-app-shell .pixel-nav-link,
+.pixel-app-shell .pixel-category-link,
+.pixel-app-shell .pixel-tool-button,
+.pixel-app-shell .pixel-admin-link,
+.pixel-app-shell .button,
+.pixel-app-shell .pixel-all-posts-button,
+.pixel-app-shell .pixel-mini-heading,
+.pixel-app-shell .pixel-panel-heading a,
+.pixel-app-shell .pixel-docs-sidebar a,
+.pixel-app-shell .pagination a,
+.pixel-app-shell .pagination span {
+  font-size: clamp(.68rem, .9vw, .84rem);
+  line-height: 1.25;
+}
+
+.pixel-app-shell .pixel-hero-kicker {
+  font-family: 'Pixelify Sans', var(--px3-font-pixel);
+  font-size: clamp(2rem, 4.2vw, 4rem);
+  line-height: .95;
+  letter-spacing: .005em;
+  color: #2f7645;
+  text-shadow:
+    3px 0 0 #16482f,
+    -2px 0 0 #16482f,
+    0 3px 0 #16482f,
+    5px 5px 0 #b8d68d;
+}
+.pixel-app-shell .pixel-hero-notice h1 {
+  font-family: 'Pixelify Sans', var(--px3-font-pixel);
+  font-size: clamp(1.55rem, 3.25vw, 3.1rem);
+  line-height: 1.03;
+  letter-spacing: .005em;
+  text-shadow:
+    3px 0 0 var(--px3-edge-deep),
+    -2px 0 0 var(--px3-edge-deep),
+    0 3px 0 var(--px3-edge-deep),
+    5px 5px 0 #efc46c;
+}
+.pixel-app-shell .pixel-page-banner h1 {
+  font-family: 'Pixelify Sans', var(--px3-font-pixel);
+  font-size: clamp(1.65rem, 3vw, 2.8rem);
+  line-height: 1.05;
+  letter-spacing: .005em;
+  text-shadow: 4px 4px 0 #d7bd75;
+}
+
+/* Keep reading surfaces deliberately non-bitmap. */
+.pixel-app-shell .pixel-page-banner .page-lede,
+.pixel-app-shell .pixel-hero-lede,
+.pixel-app-shell .pixel-side-panel p,
+.pixel-app-shell .post-card p,
+.pixel-app-shell .pixel-reading-surface,
+.pixel-app-shell .comment-intro,
+.pixel-app-shell .field-hint,
+.pixel-app-shell .comment-list,
+.pixel-app-shell .page-lede,
+.pixel-app-shell label,
+.pixel-app-shell input,
+.pixel-app-shell textarea,
+.pixel-app-shell select {
+  font-family: var(--px3-font-body);
+}
+
+/* Make the frame read like a game viewport instead of flat CSS cards. */
+.pixel-app-shell .pixel-page-frame {
+  border: 0;
+  outline: var(--px3-step) solid var(--px3-edge-deep);
+  box-shadow:
+    0 0 0 var(--px3-step) #8bd3df,
+    var(--px3-step-2) var(--px3-step-2) 0 #1f6988;
+}
+
+.pixel-app-shell .pixel-site-header,
+.pixel-app-shell .pixel-category-strip,
+.pixel-app-shell .pixel-site-footer,
+.pixel-app-shell .pixel-surface-panel,
+.pixel-app-shell .pixel-side-panel,
+.pixel-app-shell .post-card,
+.pixel-app-shell .pixel-page-banner,
+.pixel-app-shell .pixel-reading-surface {
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,.12) 50%, transparent 50%),
+    linear-gradient(rgba(26,75,99,.035) 50%, transparent 50%);
+  background-size: 8px 8px, 8px 8px;
+  background-position: 0 0, 4px 4px;
+}
+
+.pixel-app-shell .pixel-hero-notice,
+.pixel-app-shell .post-card,
+.pixel-app-shell .pixel-side-panel,
+.pixel-app-shell .pixel-surface-panel,
+.pixel-app-shell .pixel-page-banner,
+.pixel-app-shell .pixel-category-strip,
+.pixel-app-shell .pixel-latest-panel,
+.pixel-app-shell .pixel-reading-surface,
+.pixel-app-shell .pixel-hero-button,
+.pixel-app-shell .pixel-all-posts-button,
+.pixel-app-shell .pixel-tool-button,
+.pixel-app-shell .pixel-admin-link,
+.pixel-app-shell .pixel-nav-toggle,
+.pixel-app-shell input,
+.pixel-app-shell textarea,
+.pixel-app-shell select {
+  border-radius: 0 !important;
+}
+
+/* Stepped corners and hard depth. */
+.pixel-app-shell .pixel-hero-notice,
+.pixel-app-shell .post-card,
+.pixel-app-shell .pixel-side-panel,
+.pixel-app-shell .pixel-surface-panel,
+.pixel-app-shell .pixel-page-banner,
+.pixel-app-shell .pixel-reading-surface {
+  clip-path: polygon(
+    8px 0,
+    calc(100% - 8px) 0,
+    calc(100% - 8px) 4px,
+    100% 4px,
+    100% calc(100% - 8px),
+    calc(100% - 4px) calc(100% - 8px),
+    calc(100% - 4px) 100%,
+    8px 100%,
+    8px calc(100% - 4px),
+    0 calc(100% - 4px),
+    0 8px,
+    4px 8px,
+    4px 4px,
+    8px 4px
+  );
+}
+
+.pixel-app-shell .post-card,
+.pixel-app-shell .pixel-side-panel,
+.pixel-app-shell .pixel-surface-panel {
+  box-shadow:
+    inset 0 0 0 2px var(--px3-hi),
+    4px 4px 0 rgba(26,75,99,.55);
+}
+.pixel-app-shell .pixel-hero-button,
+.pixel-app-shell .pixel-all-posts-button,
+.pixel-app-shell .button,
+.pixel-app-shell .pixel-tool-button,
+.pixel-app-shell .pixel-admin-link {
+  box-shadow:
+    inset 0 0 0 3px rgba(255,255,255,.22),
+    4px 4px 0 var(--px3-edge-deep);
+}
+.pixel-app-shell .pixel-hero-button:hover,
+.pixel-app-shell .pixel-all-posts-button:hover,
+.pixel-app-shell .button:hover,
+.pixel-app-shell .pixel-tool-button:hover,
+.pixel-app-shell .pixel-admin-link:hover {
+  transform: translate(2px, 2px);
+  box-shadow:
+    inset 0 0 0 3px rgba(255,255,255,.2),
+    2px 2px 0 var(--px3-edge-deep);
+}
+
+/* Pixel thumbnails and sprites: deliberately hard sampled. */
+.pixel-app-shell .pixel-brand-mark,
+.pixel-app-shell .pixel-side-mascot,
+.pixel-app-shell .pixel-category-icon,
+.pixel-app-shell .pixel-banner-folder,
+.pixel-app-shell .pixel-banner-book,
+.pixel-app-shell .pixel-state-block,
+.pixel-app-shell .pixel-footer-sprite,
+.pixel-app-shell .pixel-hero-world,
+.pixel-app-shell .post-card img,
+.pixel-app-shell .pixel-article-hero img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* 16-bit-ish scan/dither layers: subtle enough not to hurt text. */
+.pixel-app-shell .pixel-hero {
+  position: relative;
+}
+.pixel-app-shell .pixel-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .13;
+  background:
+    repeating-linear-gradient(0deg, rgba(10,37,67,.22) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.16) 0 1px, transparent 1px 4px);
+  mix-blend-mode: multiply;
+}
+.pixel-app-shell .pixel-hero-notice { z-index: 2; }
+
+/* Make category/nav icon blocks feel sprite-based rather than generic vector UI. */
+.pixel-app-shell .pixel-nav-icon,
+.pixel-app-shell .pixel-category-icon,
+.pixel-app-shell .pixel-brand-mark {
+  filter: drop-shadow(3px 3px 0 rgba(18,55,77,.28));
+}
+.pixel-app-shell .pixel-category-icon {
+  outline: 2px solid var(--px3-edge-deep);
+  box-shadow:
+    inset 3px 3px 0 rgba(255,255,255,.35),
+    inset -3px -3px 0 rgba(18,55,77,.18),
+    3px 3px 0 #d5a74e;
+}
+
+/* Pixel dividers and section tabs. */
+.pixel-app-shell .pixel-panel-heading,
+.pixel-app-shell .pixel-mini-heading {
+  border-bottom-style: solid;
+  border-bottom-width: 4px;
+  box-shadow: inset 0 -2px 0 rgba(255,255,255,.35);
+}
+.pixel-app-shell .pixel-category-strip {
+  box-shadow:
+    inset 0 4px 0 rgba(255,255,255,.6),
+    inset 0 -4px 0 rgba(31,105,136,.22);
+}
+
+@media (max-width: 768px) {
+  .pixel-app-shell .pixel-brand-copy strong {
+    font-size: clamp(1.7rem, 8.6vw, 2.2rem);
+  }
+  .pixel-app-shell .pixel-brand-copy small {
+    font-size: .68rem;
+  }
+  .pixel-app-shell .pixel-hero-kicker {
+    font-size: clamp(1.6rem, 8vw, 2.2rem);
+  }
+  .pixel-app-shell .pixel-hero-notice h1 {
+    font-size: clamp(1.2rem, 6.2vw, 1.8rem);
+    line-height: 1.08;
+  }
+  .pixel-app-shell .pixel-nav-link,
+  .pixel-app-shell .pixel-category-link,
+  .pixel-app-shell .pixel-tool-button,
+  .pixel-app-shell .pixel-admin-link,
+  .pixel-app-shell .button,
+  .pixel-app-shell .pixel-all-posts-button,
+  .pixel-app-shell .pixel-mini-heading,
+  .pixel-app-shell .pixel-panel-heading a {
+    font-size: .72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-hero-button:hover,
+  .pixel-app-shell .pixel-all-posts-button:hover,
+  .pixel-app-shell .button:hover,
+  .pixel-app-shell .pixel-tool-button:hover,
+  .pixel-app-shell .pixel-admin-link:hover {
+    transform: none;
+  }
+}
