@@ -9,6 +9,7 @@ import '@fontsource-variable/playfair-display/wght.css'
 import './styles.css'
 import './pixel-public.css'
 import './pixel-pages.css'
+import './pixel-v2.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
