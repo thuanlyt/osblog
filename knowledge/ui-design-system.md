@@ -1,40 +1,55 @@
 # UI design-system module card
 
 freshness: verified
-verified_on: 2026-09-05
+verified_on: 2026-09-09
 owner: supervisor
 
 ## Responsibility
 
-`design-system/osblog/MASTER.md` owns the global visual and interaction source of truth for public blog and protected admin UI. `docs/ui-design.md` explains how the contract maps to Vite/React implementation. The card does not own application components, routing code, data persistence, or deployment.
+Visual authority is now split by owner decision `knowledge/decisions/0007-pixel-public-ui.md`:
+
+- **Public frontend:** the pixel redesign program is authoritative for visual direction. The supplied pixel-game blog reference controls geometry and visual DNA; a dedicated pixel design contract will be added during P1 before broad application changes.
+- **Protected admin/login:** `design-system/osblog/MASTER.md` and `docs/ui-design.md` remain the current presentation contract unless scope is explicitly expanded.
+- **All UI:** existing accessibility, responsive, reduced-motion, semantic HTML, focus/keyboard, touch-target and performance invariants remain mandatory and cannot be weakened by the redesign.
+
+This card does not own routing, data persistence, authentication, API behavior, Markdown publishing, SEO/feeds or deployment.
 
 ## Entry points
 
-- `design-system/osblog/MASTER.md:Authority` — tokens, typography, component specs, style, accessibility, responsive, motion, and image performance rules.
-- `docs/ui-design.md:React/Vite implementation map` — shell, routing, article, forms, admin CRUD, and icon contracts.
-- `docs/ui-design.md:Responsive and accessibility gates` — 375/768/1024/1440 checks, keyboard/focus, touch, reduced motion, and zoom behavior.
+- `knowledge/decisions/0007-pixel-public-ui.md` — owner-approved public redesign outcome, reference geometry, scope boundaries, cycles and release gate.
+- `design-system/osblog/MASTER.md` — legacy tokens/components and continuing admin visual contract; no longer authoritative for public visual style.
+- `docs/ui-design.md` — existing implementation/accessibility/responsive guidance that remains applicable where it does not conflict with the public pixel direction.
 
 ## Public contracts and invariants
 
-- Components consume semantic CSS variables; page-specific overrides may not weaken accessibility, responsive, or performance rules.
-- Normal text must meet 4.5:1 contrast; the pink accent is paired with dark on-accent ink, not white.
-- Interactive areas are at least 44×44px with visible focus and keyboard semantics; icons are consistent SVGs, never emoji.
-- Mobile-first layouts preserve browser zoom, reserve image space, use responsive media, and respect `prefers-reduced-motion`.
-- The current primary button default and hover states both use `--color-accent` + `--color-on-accent` at 5.64:1.
+- Public pages must use a coherent OSBLOG-specific pixel system rather than a mixture of the legacy Swiss/editorial presentation and the new direction.
+- The reference's desktop hierarchy is a geometry contract: framed header/navigation, large pixel hero, category strip, feed + sidebar main region, then footer.
+- Do not copy OviGame branding, text, domain, mascot or artwork. Pixel assets must belong to the OSBLOG identity.
+- Components should continue to consume semantic tokens; page-specific styling must not weaken accessibility, responsive or performance rules.
+- Normal text must meet WCAG-oriented contrast requirements; visible keyboard focus and semantic controls remain required.
+- Interactive areas remain at least 44×44px where practical for touch interaction, with keyboard semantics and no essential hover-only behavior.
+- Responsive views at 375/768/1024/1440 must reflow without horizontal scrolling; do not shrink the desktop composition as a single canvas.
+- Respect `prefers-reduced-motion`; reserve media space and avoid unnecessary decorative continuous animation.
+- Do not fabricate data to mimic the visual reference.
 
 ## Dependency edges
 
-The verified UA-0020 Vite/React scaffold consumes this card for the shell, routes, tokens, focus behavior, responsive layout, and reduced-motion CSS. Future content/admin components remain separate. QA must still verify the contract at the four reference widths, both themes, keyboard-only interaction, reduced motion, and image loading behavior.
+The public shell and public routes consume this card together with decision 0007. Admin continues to consume the legacy design system. Backend/API/auth/database/Markdown/SEO/feed/comment behavior is outside the redesign boundary and should remain unchanged unless a directly evidenced compatibility bug requires a minimal fix.
 
 ## Verification
 
-```powershell
-python C:\Users\THUANLYT\.codex\skills\ui-ux-pro-max\scripts\search.py "open source bilingual editorial blog minimalist content-first" --design-system --persist -p "osblog" --output-dir F:\dev\test-useagent
-python tools/useagent.py validate
+For the pixel program, verification is source-bound and milestone-based:
+
+```text
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm run test:e2e   # milestone/release gate, not necessarily every bounded cycle
 ```
 
-UA-0005 worker report and UA-0008 review provide current evidence; independent contrast verification is recorded in the registry.
+Visual QA must additionally cover 375, 768, 1024 and 1440px and compare desktop geometry/density against the owner-supplied reference. A green code test suite alone is not evidence of visual fidelity.
 
-## Known gaps
+## Known gaps / next action
 
-The shell and placeholder routes are implemented and local deep-link checks passed under UA-0020. Visual browser QA, content/admin component coverage, and performance measurements remain pending. The canonical UI/UX search script is available from the host skill path; the target copy contains the skill instructions but not the script implementation.
+P0 only establishes the owner override and safe boundary. P1 must create the dedicated pixel visual contract (tokens, palette, typography, borders/shadows, geometry, assets and page rules) before reusable public pixel primitives or page rewrites begin.
