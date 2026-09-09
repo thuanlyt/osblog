@@ -10,7 +10,7 @@ function FilterForm({ data }: { data: PageData }) {
   const years = data.years ?? []
   const isVi = lang === 'vi'
   return (
-    <form className="filter-form" method="get" action="/archive" aria-label={isVi ? 'Lọc bài viết' : 'Filter articles'}>
+    <form className="filter-form pixel-filter-form" method="get" action="/archive" aria-label={isVi ? 'Lọc bài viết' : 'Filter articles'}>
       <input type="hidden" name="lang" value={lang} />
       <div className="filter-field filter-search">
         <label htmlFor="filter-q">{isVi ? 'Tìm kiếm' : 'Search'}</label>
@@ -52,8 +52,8 @@ function PostGrid({ data }: { data: PageData }) {
   const isVi = lang === 'vi'
   if (posts.length === 0) {
     return (
-      <div className="empty-card">
-        <span className="empty-index">—</span>
+      <div className="empty-card pixel-empty-card">
+        <span className="empty-index">?</span>
         <div>
           <h3>{isVi ? 'Chưa có bài viết phù hợp.' : 'No matching articles yet.'}</h3>
           <p>{isVi ? 'Hãy thử một chuyên mục hoặc từ khóa khác.' : 'Try a different category, year, or search term.'}</p>
@@ -62,7 +62,7 @@ function PostGrid({ data }: { data: PageData }) {
     )
   }
   return (
-    <div className="post-list">
+    <div className="post-list pixel-archive-grid">
       {posts.map((post) => <PostCard key={post.id} post={post} lang={lang} />)}
     </div>
   )
@@ -206,23 +206,48 @@ export function ArchivePage({ data }: { data: PageData }) {
   const lang = data.lang
   const isVi = lang === 'vi'
   const query = data.query ?? { q: '', category: '', year: '', sort: 'latest' }
+  const total = data.total ?? 0
+
   return (
-    <div className="content-wrap">
-      <p className="eyebrow">{isVi ? 'Kho lưu trữ' : 'Archive'}</p>
-      <h1>{data.title}</h1>
-      {data.description && <p className="page-lede">{data.description}</p>}
-      <FilterForm data={data} />
-      <div aria-live="polite" className="archive-results">
-        <PostGrid data={data} />
-      </div>
-      <Pagination
-        path={data.path.split('?')[0]}
-        query={{ q: query.q, category: query.category, year: query.year, sort: query.sort, lang }}
-        page={data.page ?? 1}
-        limit={data.limit ?? 9}
-        total={data.total ?? 0}
-        lang={lang}
-      />
+    <div className="content-wrap pixel-inner-page pixel-archive-page">
+      <section className="pixel-page-banner" aria-labelledby="archive-title">
+        <div className="pixel-page-banner-copy">
+          <p className="eyebrow">{isVi ? 'KHO LƯU TRỮ OSBLOG' : 'OSBLOG ARCHIVE'}</p>
+          <h1 id="archive-title">{data.title}</h1>
+          {data.description && <p className="page-lede">{data.description}</p>}
+        </div>
+        <div className="pixel-page-banner-art" aria-hidden="true">
+          <span className="pixel-banner-folder" />
+          <span className="pixel-banner-spark pixel-banner-spark-a" />
+          <span className="pixel-banner-spark pixel-banner-spark-b" />
+        </div>
+      </section>
+
+      <section className="pixel-surface-panel pixel-filter-panel" aria-labelledby="archive-filter-title">
+        <div className="pixel-mini-heading">
+          <strong id="archive-filter-title">{isVi ? 'TÌM & LỌC BÀI VIẾT' : 'FIND & FILTER POSTS'}</strong>
+          <span>{total} {isVi ? 'bài' : 'posts'}</span>
+        </div>
+        <FilterForm data={data} />
+      </section>
+
+      <section className="pixel-surface-panel pixel-results-panel" aria-labelledby="archive-results-title">
+        <div className="pixel-panel-heading pixel-results-heading">
+          <h2 id="archive-results-title"><span aria-hidden="true">★</span> {isVi ? 'KẾT QUẢ' : 'RESULTS'}</h2>
+          <span className="pixel-result-count">{total}</span>
+        </div>
+        <div aria-live="polite" className="archive-results">
+          <PostGrid data={data} />
+        </div>
+        <Pagination
+          path={data.path.split('?')[0]}
+          query={{ q: query.q, category: query.category, year: query.year, sort: query.sort, lang }}
+          page={data.page ?? 1}
+          limit={data.limit ?? 9}
+          total={total}
+          lang={lang}
+        />
+      </section>
     </div>
   )
 }
