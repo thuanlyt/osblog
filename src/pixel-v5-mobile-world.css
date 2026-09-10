@@ -1,0 +1,262 @@
+/* OSBLOG Pixel V5 — mobile world composition.
+   Bounded outcome: make the 375–768px first viewport read as an actual 16-bit game scene,
+   not a giant flat announcement card. Desktop is intentionally untouched. */
+
+@media (max-width: 768px) {
+  /* Compact game-header: brand first, utilities as a small HUD row, menu remains a real control. */
+  .pixel-app-shell .pixel-header-inner {
+    grid-template-columns: minmax(0, 1fr) 46px;
+    align-items: center;
+    min-height: 0;
+    padding: 8px 10px 9px;
+    gap: 6px 8px;
+  }
+
+  .pixel-app-shell .pixel-brand {
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .pixel-app-shell .pixel-brand-mark {
+    width: 54px;
+    height: 50px;
+    border-width: 4px;
+    box-shadow:
+      inset 5px 5px 0 #8dd9e8,
+      inset -5px -5px 0 #2d8fb7,
+      4px 4px 0 var(--px4-gold);
+  }
+
+  .pixel-app-shell .pixel-brand-antenna {
+    top: -14px;
+    height: 13px;
+  }
+
+  .pixel-app-shell .pixel-brand-eye { top: 18px; width: 6px; height: 8px; }
+  .pixel-app-shell .pixel-brand-eye-left { left: 13px; }
+  .pixel-app-shell .pixel-brand-eye-right { right: 13px; }
+  .pixel-app-shell .pixel-brand-mouth { bottom: 8px; width: 13px; height: 6px; }
+
+  .pixel-app-shell .pixel-brand-copy strong {
+    font-size: clamp(1.45rem, 7vw, 1.95rem);
+    line-height: 1;
+    text-shadow: 3px 0 0 var(--px4-dark-2), 3px 3px 0 var(--px4-gold);
+  }
+
+  .pixel-app-shell .pixel-brand-copy small {
+    max-width: 245px;
+    font-size: .55rem;
+    line-height: 1.2;
+    letter-spacing: .04em;
+    white-space: normal;
+  }
+
+  .pixel-app-shell .pixel-nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 8px;
+    border: 4px solid var(--px4-dark-2);
+    background: var(--px4-cream);
+    box-shadow: 4px 4px 0 var(--px4-gold);
+  }
+
+  .pixel-app-shell .pixel-header-tools {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    width: auto;
+    margin: 0 0 0 63px;
+    gap: 6px;
+  }
+
+  .pixel-app-shell .pixel-tool-button,
+  .pixel-app-shell .pixel-header-tools .icon-button,
+  .pixel-app-shell .pixel-admin-link {
+    min-width: 40px;
+    min-height: 38px;
+    height: 38px;
+    padding: 5px 8px;
+    border: 3px solid var(--px4-dark-2);
+    box-shadow: 3px 3px 0 var(--px4-gold);
+    font-size: .58rem;
+  }
+
+  .pixel-app-shell .pixel-admin-link { min-width: 58px; }
+
+  .pixel-app-shell .pixel-site-nav[data-open='true'] {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    margin-top: 4px;
+    padding-top: 6px;
+    border-top: 4px solid var(--px4-dark-2);
+    background: var(--px4-cream-hi);
+  }
+
+  .pixel-app-shell .pixel-site-nav[data-open='true'] .pixel-nav-link {
+    min-height: 52px;
+    padding: 7px 8px;
+    border: 0;
+    border-right: 2px dashed #d9b36a;
+    border-bottom: 2px dashed #d9b36a;
+    font-size: .62rem;
+  }
+
+  .pixel-app-shell .pixel-site-nav[data-open='true'] .pixel-nav-icon,
+  .pixel-app-shell .pixel-site-nav[data-open='true'] .pixel-search-icon {
+    width: 27px;
+    height: 27px;
+    transform: scale(.86);
+  }
+
+  /* Portrait-specific world: keep actual sprites visible around and below the signboard. */
+  .pixel-app-shell .pixel-hero {
+    min-height: 500px;
+    background:
+      url('/pixel/hero/osblog-world-mobile.svg') center bottom / 100% 100% no-repeat,
+      #78cbea;
+  }
+
+  .pixel-app-shell .pixel-hero-world {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .pixel-app-shell .pixel-hero-notice {
+    width: calc(100% - 30px);
+    min-height: 0;
+    margin: 18px auto 0;
+    padding: 13px 14px 16px;
+    border: 4px solid var(--px4-dark-2);
+    background-color: rgba(255,240,200,.955);
+    background-size: 12px 12px;
+    box-shadow:
+      inset 0 0 0 3px rgba(255,255,255,.58),
+      4px 4px 0 var(--px4-gold),
+      8px 8px 0 rgba(20,56,76,.28);
+  }
+
+  .pixel-app-shell .pixel-hero-notice::before,
+  .pixel-app-shell .pixel-hero-notice::after {
+    width: 12px;
+    height: 12px;
+    box-shadow: 6px 0 0 var(--px4-gold), 0 6px 0 var(--px4-gold);
+  }
+
+  .pixel-app-shell .pixel-hero-notice::before { left: 10px; top: 10px; }
+  .pixel-app-shell .pixel-hero-notice::after { right: 10px; bottom: 10px; }
+
+  .pixel-app-shell .pixel-hero-kicker {
+    margin: 0 0 8px;
+    font-size: clamp(1.22rem, 6.3vw, 1.65rem);
+    line-height: 1.05;
+    text-shadow:
+      3px 0 0 #173f31,
+      -3px 0 0 #173f31,
+      0 3px 0 #173f31,
+      4px 4px 0 #aacb76;
+  }
+
+  .pixel-app-shell .pixel-hero-notice h1 {
+    margin: 0;
+    font-size: clamp(.95rem, 4.9vw, 1.3rem);
+    line-height: 1.25;
+    text-shadow:
+      2px 0 0 var(--px4-dark-2),
+      -2px 0 0 var(--px4-dark-2),
+      0 2px 0 var(--px4-dark-2),
+      3px 3px 0 #e9b658;
+  }
+
+  .pixel-app-shell .pixel-hero-lede {
+    width: min(100%, 330px);
+    margin: 12px auto 0;
+    font-size: .78rem;
+    line-height: 1.42;
+  }
+
+  .pixel-app-shell .pixel-hero-button {
+    width: min(100%, 320px);
+    min-width: 0;
+    min-height: 48px;
+    margin: 14px auto 0;
+    padding: 8px 10px;
+    gap: 8px;
+    border-width: 3px;
+    font-size: .62rem;
+    line-height: 1.35;
+    box-shadow:
+      inset 0 0 0 3px var(--px4-blue-hi),
+      inset 0 -6px 0 rgba(23,54,101,.22),
+      4px 4px 0 #243b6d;
+  }
+
+  .pixel-app-shell .pixel-button-star { transform: scale(.5); }
+  .pixel-app-shell .pixel-hero-pager { bottom: 8px; }
+
+  /* Mobile category inventory behaves like a game selection grid instead of a giant banner. */
+  .pixel-app-shell .pixel-category-strip {
+    grid-template-columns: 1fr;
+    padding-bottom: 8px;
+  }
+
+  .pixel-app-shell .pixel-category-title {
+    min-height: 44px;
+    margin: 8px 10px 6px;
+    padding: 8px 12px;
+    font-size: .7rem;
+  }
+
+  .pixel-app-shell .pixel-category-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-inline: 8px;
+    gap: 4px;
+  }
+
+  .pixel-app-shell .pixel-category-link {
+    min-height: 60px;
+    padding: 7px 6px;
+    gap: 7px;
+    border: 2px solid #86a29b;
+    background: rgba(255,248,223,.74);
+    font-size: .62rem;
+  }
+
+  .pixel-app-shell .pixel-category-icon {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+    box-shadow: inset 2px 2px 0 rgba(255,255,255,.4), 3px 3px 0 var(--px4-gold);
+  }
+
+  .pixel-app-shell .pixel-home-main { padding: 12px 10px 18px; }
+  .pixel-app-shell .pixel-home-sidebar { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 430px) {
+  .pixel-app-shell .pixel-header-inner { padding-inline: 8px; }
+  .pixel-app-shell .pixel-brand-mark { width: 50px; height: 46px; }
+  .pixel-app-shell .pixel-brand-copy strong { font-size: clamp(1.3rem, 6.6vw, 1.62rem); }
+  .pixel-app-shell .pixel-brand-copy small { max-width: 225px; font-size: .5rem; }
+  .pixel-app-shell .pixel-header-tools { margin-left: 59px; }
+
+  .pixel-app-shell .pixel-hero { min-height: 476px; }
+  .pixel-app-shell .pixel-hero-notice { width: calc(100% - 24px); margin-top: 14px; padding: 12px 11px 14px; }
+  .pixel-app-shell .pixel-hero-kicker { font-size: clamp(1.08rem, 5.8vw, 1.34rem); }
+  .pixel-app-shell .pixel-hero-notice h1 { font-size: clamp(.86rem, 4.55vw, 1.08rem); line-height: 1.28; }
+  .pixel-app-shell .pixel-hero-lede { margin-top: 10px; font-size: .74rem; line-height: 1.38; }
+  .pixel-app-shell .pixel-hero-button { min-height: 46px; margin-top: 11px; font-size: .58rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-hero-world { transition: none; }
+}
