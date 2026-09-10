@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 288 48" shape-rendering="crispEdges" role="img" aria-label="OSBLOG 16-bit category icon sprite sheet">
+  <rect width="288" height="48" fill="none"/>
+
+  <!-- 1: article / page -->
+  <g transform="translate(0 0)">
+    <rect x="6" y="5" width="34" height="38" fill="#14384c"/>
+    <rect x="9" y="8" width="28" height="32" fill="#f8e8ad"/>
+    <rect x="9" y="8" width="24" height="4" fill="#fff8df"/>
+    <rect x="13" y="16" width="20" height="4" fill="#4c70bd"/>
+    <rect x="13" y="23" width="16" height="3" fill="#78a95d"/>
+    <rect x="13" y="30" width="20" height="3" fill="#d2676e"/>
+    <rect x="33" y="8" width="4" height="4" fill="#e4a843"/>
+    <rect x="37" y="12" width="3" height="28" fill="#0d2d40"/>
+  </g>
+
+  <!-- 2: docs / open book -->
+  <g transform="translate(48 0)">
+    <rect x="4" y="9" width="40" height="32" fill="#14384c"/>
+    <rect x="8" y="12" width="15" height="25" fill="#fff2ca"/>
+    <rect x="25" y="12" width="15" height="25" fill="#fff2ca"/>
+    <rect x="22" y="12" width="4" height="29" fill="#e4a843"/>
+    <rect x="11" y="17" width="9" height="3" fill="#4c70bd"/>
+    <rect x="11" y="23" width="8" height="3" fill="#76a75d"/>
+    <rect x="28" y="17" width="9" height="3" fill="#d2676e"/>
+    <rect x="28" y="23" width="8" height="3" fill="#4c70bd"/>
+    <rect x="8" y="37" width="15" height="3" fill="#d7bd75"/>
+    <rect x="25" y="37" width="15" height="3" fill="#d7bd75"/>
+  </g>
+
+  <!-- 3: popular / star medal -->
+  <g transform="translate(96 0)">
+    <rect x="19" y="4" width="10" height="6" fill="#14384c"/>
+    <rect x="15" y="10" width="18" height="5" fill="#14384c"/>
+    <rect x="10" y="15" width="28" height="18" fill="#14384c"/>
+    <rect x="15" y="12" width="18" height="18" fill="#687ec3"/>
+    <rect x="19" y="16" width="10" height="10" fill="#ffd66a"/>
+    <rect x="22" y="13" width="4" height="16" fill="#ffd66a"/>
+    <rect x="16" y="19" width="16" height="4" fill="#ffd66a"/>
+    <rect x="14" y="31" width="8" height="12" fill="#d2676e"/>
+    <rect x="26" y="31" width="8" height="12" fill="#78a95d"/>
+    <rect x="17" y="35" width="5" height="8" fill="#b64f59"/>
+    <rect x="26" y="35" width="5" height="8" fill="#4f8445"/>
+  </g>
+
+  <!-- 4: guide / compass -->
+  <g transform="translate(144 0)">
+    <rect x="16" y="4" width="16" height="4" fill="#14384c"/>
+    <rect x="10" y="8" width="28" height="4" fill="#14384c"/>
+    <rect x="6" y="12" width="36" height="24" fill="#14384c"/>
+    <rect x="10" y="12" width="28" height="24" fill="#f4b94d"/>
+    <rect x="14" y="16" width="20" height="16" fill="#fff2ca"/>
+    <rect x="22" y="13" width="4" height="22" fill="#4c70bd"/>
+    <rect x="13" y="22" width="22" height="4" fill="#4c70bd"/>
+    <rect x="20" y="18" width="4" height="4" fill="#d2676e"/>
+    <rect x="24" y="26" width="4" height="4" fill="#78a95d"/>
+    <rect x="10" y="36" width="28" height="4" fill="#0d2d40"/>
+  </g>
+
+  <!-- 5: source / terminal -->
+  <g transform="translate(192 0)">
+    <rect x="5" y="8" width="38" height="32" fill="#14384c"/>
+    <rect x="9" y="12" width="30" height="24" fill="#d98ab5"/>
+    <rect x="9" y="12" width="30" height="5" fill="#f0b5cf"/>
+    <rect x="12" y="20" width="5" height="5" fill="#14384c"/>
+    <rect x="17" y="25" width="5" height="5" fill="#14384c"/>
+    <rect x="12" y="30" width="5" height="3" fill="#14384c"/>
+    <rect x="26" y="20" width="9" height="4" fill="#fff2ca"/>
+    <rect x="26" y="27" width="7" height="4" fill="#78a95d"/>
+    <rect x="16" y="40" width="16" height="4" fill="#0d2d40"/>
+  </g>
+
+  <!-- 6: about / bot face -->
+  <g transform="translate(240 0)">
+    <rect x="21" y="3" width="6" height="7" fill="#14384c"/>
+    <rect x="17" y="8" width="14" height="4" fill="#14384c"/>
+    <rect x="7" y="12" width="34" height="28" fill="#14384c"/>
+    <rect x="11" y="16" width="26" height="20" fill="#72b8cd"/>
+    <rect x="15" y="21" width="6" height="6" fill="#0d2d40"/>
+    <rect x="27" y="21" width="6" height="6" fill="#0d2d40"/>
+    <rect x="19" y="31" width="10" height="3" fill="#d2676e"/>
+    <rect x="11" y="16" width="26" height="4" fill="#a8deea"/>
+    <rect x="3" y="20" width="4" height="12" fill="#e4a843"/>
+    <rect x="41" y="20" width="4" height="12" fill="#e4a843"/>
+    <rect x="13" y="40" width="22" height="4" fill="#0d2d40"/>
+  </g>
+</svg>
