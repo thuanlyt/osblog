@@ -1,0 +1,64 @@
+/* OSBLOG Pixel V6 — category sprite fidelity.
+   Bounded scope: replace the six flat CSS category chips with one real 16-bit sprite sheet.
+   No layout, routing, data, admin, feed, comments, or article behavior changes. */
+
+.pixel-app-shell .pixel-category-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  background-image: url('/pixel/sprites/category-strip.svg');
+  background-repeat: no-repeat;
+  background-size: 600% 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  box-shadow: none;
+  filter: drop-shadow(3px 3px 0 rgba(13,45,64,.34));
+  transform: none;
+}
+
+.pixel-app-shell .pixel-category-icon::before,
+.pixel-app-shell .pixel-category-icon::after {
+  content: none;
+  display: none;
+}
+
+.pixel-app-shell .pixel-category-icon-1 { background-position: 0% 0; }
+.pixel-app-shell .pixel-category-icon-2 { background-position: 20% 0; }
+.pixel-app-shell .pixel-category-icon-3 { background-position: 40% 0; }
+.pixel-app-shell .pixel-category-icon-4 { background-position: 60% 0; transform: none; }
+.pixel-app-shell .pixel-category-icon-5 { background-position: 80% 0; }
+.pixel-app-shell .pixel-category-icon-6 { background-position: 100% 0; }
+
+.pixel-app-shell .pixel-category-link {
+  transition: none;
+}
+
+.pixel-app-shell .pixel-category-link:hover .pixel-category-icon,
+.pixel-app-shell .pixel-category-link:focus-visible .pixel-category-icon {
+  transform: translate(-2px, -2px);
+  filter: drop-shadow(5px 5px 0 rgba(13,45,64,.34));
+}
+
+.pixel-app-shell .pixel-category-link:active .pixel-category-icon {
+  transform: translate(1px, 1px);
+  filter: drop-shadow(2px 2px 0 rgba(13,45,64,.3));
+}
+
+@media (max-width: 768px) {
+  .pixel-app-shell .pixel-category-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-category-link:hover .pixel-category-icon,
+  .pixel-app-shell .pixel-category-link:focus-visible .pixel-category-icon,
+  .pixel-app-shell .pixel-category-link:active .pixel-category-icon {
+    transform: none;
+  }
+}
