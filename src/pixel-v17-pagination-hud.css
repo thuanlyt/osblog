@@ -1,0 +1,138 @@
+/* OSBLOG Pixel V17 — pagination HUD controls.
+   Bounded scope: presentation only; href generation, page math, bilingual labels and disabled semantics stay unchanged. */
+
+.pixel-app-shell .pagination {
+  gap: 10px;
+  margin-top: 22px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.pixel-app-shell .pagination .button {
+  min-height: 42px;
+  padding: 9px 12px;
+  gap: 7px;
+  border: 3px solid var(--px-ink-deep);
+  border-radius: 0;
+  background: #fff4c8;
+  box-shadow:
+    inset 0 3px 0 #fffdf0,
+    inset 0 -3px 0 #e5bd5d,
+    3px 3px 0 #527f9a;
+  color: var(--px-ink-deep);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    transform 80ms steps(1, end),
+    background-color 80ms steps(1, end),
+    box-shadow 80ms steps(1, end);
+}
+
+.pixel-app-shell .pagination .button .icon {
+  display: none;
+}
+
+.pixel-app-shell .pagination .button::before,
+.pixel-app-shell .pagination .button::after {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background-image: url('/pixel/ui/pagination-arrows.svg');
+  background-repeat: no-repeat;
+  background-size: 32px 16px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.pixel-app-shell .pagination > .button:first-child::before {
+  content: "";
+  background-position: 0 0;
+}
+
+.pixel-app-shell .pagination > .button:last-child::after {
+  content: "";
+  background-position: -16px 0;
+}
+
+.pixel-app-shell .pagination a.button:hover {
+  background: #fff0a8;
+  transform: translate(1px, 1px);
+  box-shadow:
+    inset 0 3px 0 #fffdf0,
+    inset 0 -3px 0 #d8a93e,
+    2px 2px 0 #527f9a;
+}
+
+.pixel-app-shell .pagination a.button:focus-visible {
+  outline: 3px solid var(--px-blue);
+  outline-offset: 3px;
+}
+
+.pixel-app-shell .pagination .button[aria-disabled='true'] {
+  opacity: .52;
+  filter: grayscale(.45);
+  cursor: not-allowed;
+  box-shadow:
+    inset 0 3px 0 #fffdf0,
+    inset 0 -3px 0 #c6b98e,
+    2px 2px 0 #8a9aa3;
+}
+
+.pixel-app-shell .pagination-status {
+  position: relative;
+  min-width: 126px;
+  padding: 10px 16px;
+  border: 3px solid var(--px-ink-deep);
+  background: #dcefe7;
+  box-shadow:
+    inset 0 3px 0 #f7fff9,
+    inset 0 -3px 0 #9fc9bb,
+    3px 3px 0 #d2a955;
+  color: var(--px-ink-deep);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pixel-app-shell .pagination-status::before,
+.pixel-app-shell .pagination-status::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  transform: translateY(-50%);
+  background: var(--px-gold);
+  box-shadow: 0 -4px 0 var(--px-ink-deep), 0 4px 0 var(--px-ink-deep);
+}
+
+.pixel-app-shell .pagination-status::before { left: 5px; }
+.pixel-app-shell .pagination-status::after { right: 5px; }
+
+@media (max-width: 520px) {
+  .pixel-app-shell .pagination {
+    gap: 8px;
+  }
+
+  .pixel-app-shell .pagination .button {
+    min-height: 40px;
+    padding: 8px 10px;
+    font-size: .66rem;
+  }
+
+  .pixel-app-shell .pagination-status {
+    order: 3;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pagination .button {
+    transition: none;
+  }
+}
