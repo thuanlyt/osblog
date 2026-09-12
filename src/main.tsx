@@ -24,6 +24,7 @@ import './pixel-v12-feed-controls.css'
 import './pixel-v13-post-meta.css'
 import './pixel-v14-category-badge.css'
 import './pixel-v15-thumbnail-frame.css'
+import './pixel-v16-post-title.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
