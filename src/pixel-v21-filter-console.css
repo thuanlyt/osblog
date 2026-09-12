@@ -1,0 +1,221 @@
+/* V21 — archive filter console as a compact 16-bit control deck.
+   Bounded scope: presentation only; preserve GET form names, values, action, and native control semantics. */
+
+.pixel-app-shell .pixel-filter-form {
+  position: relative;
+  gap: 12px;
+  padding: 12px;
+  border: 3px solid var(--px-ink);
+  background:
+    linear-gradient(rgba(255,255,255,.28) 1px, transparent 1px) 0 0 / 8px 8px,
+    #e7efe2;
+  box-shadow:
+    inset 3px 3px 0 #fffdf2,
+    inset -3px -3px 0 #b8c7a8,
+    4px 4px 0 #d0ad61;
+}
+
+.pixel-app-shell .pixel-filter-form::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  pointer-events: none;
+  border: 1px dashed rgba(21,52,87,.28);
+}
+
+.pixel-app-shell .pixel-filter-form .filter-field,
+.pixel-app-shell .pixel-filter-form > .button {
+  position: relative;
+  z-index: 1;
+}
+
+.pixel-app-shell .pixel-filter-form label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  margin: 0 0 7px;
+  padding: 2px 6px;
+  border-left: 3px solid var(--px-blue);
+  background: #fff4c8;
+  color: #29475d;
+  font: 900 .66rem/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+
+.pixel-app-shell .pixel-filter-form input,
+.pixel-app-shell .pixel-filter-form select {
+  min-height: 46px;
+  border: 3px solid var(--px-ink);
+  border-radius: 0;
+  background-color: #fffdf4;
+  color: var(--px-ink-deep);
+  box-shadow:
+    inset 3px 3px 0 #e6dcc0,
+    inset -2px -2px 0 #fff;
+  font: 800 .78rem/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  transition: none;
+}
+
+.pixel-app-shell .pixel-filter-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0 38px 0 10px;
+  background-image: url('/pixel/ui/filter-controls.svg');
+  background-repeat: no-repeat;
+  background-size: 64px 16px;
+  background-position: right -32px center;
+  image-rendering: pixelated;
+}
+
+.pixel-app-shell .pixel-filter-form #filter-sort {
+  background-position: right -16px center;
+}
+
+.pixel-app-shell .pixel-filter-form .filter-search-input {
+  position: relative;
+  min-height: 46px;
+  padding-left: 38px;
+  border: 3px solid var(--px-ink);
+  background: #fffdf4;
+  box-shadow:
+    inset 3px 3px 0 #e6dcc0,
+    inset -2px -2px 0 #fff;
+}
+
+.pixel-app-shell .pixel-filter-form .filter-search-input::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%) scale(1.2);
+  background: url('/pixel/ui/filter-controls.svg') 0 0 / 64px 16px no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  pointer-events: none;
+}
+
+.pixel-app-shell .pixel-filter-form .filter-search-input > svg {
+  display: none;
+}
+
+.pixel-app-shell .pixel-filter-form .filter-search-input input {
+  min-height: 40px;
+  padding: 0 8px 0 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.pixel-app-shell .pixel-filter-form input::placeholder {
+  color: #728394;
+  opacity: 1;
+}
+
+.pixel-app-shell .pixel-filter-form input:hover,
+.pixel-app-shell .pixel-filter-form select:hover,
+.pixel-app-shell .pixel-filter-form .filter-search-input:hover {
+  background-color: #fff7d2;
+}
+
+.pixel-app-shell .pixel-filter-form input:focus-visible,
+.pixel-app-shell .pixel-filter-form select:focus-visible,
+.pixel-app-shell .pixel-filter-form .filter-search-input:focus-within {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.pixel-app-shell .pixel-filter-form .filter-search-input input:focus-visible {
+  outline: 0;
+}
+
+.pixel-app-shell .pixel-filter-form > .button.button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 3px solid var(--px-ink);
+  border-radius: 0;
+  background: #78b966;
+  color: #102f43;
+  box-shadow:
+    inset 3px 3px 0 #bce39a,
+    inset -3px -3px 0 #4e8b4a,
+    4px 4px 0 #d0ad61;
+  font: 950 .7rem/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: none;
+}
+
+.pixel-app-shell .pixel-filter-form > .button.button-primary::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background: url('/pixel/ui/filter-controls.svg') -48px 0 / 64px 16px no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transform: scale(1.2);
+}
+
+.pixel-app-shell .pixel-filter-form > .button.button-primary:hover,
+.pixel-app-shell .pixel-filter-form > .button.button-primary:focus-visible {
+  background: #8fcb72;
+}
+
+.pixel-app-shell .pixel-filter-form > .button.button-primary:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.pixel-app-shell .pixel-filter-form > .button.button-primary:active {
+  transform: translate(3px, 3px);
+  box-shadow:
+    inset 3px 3px 0 #4e8b4a,
+    inset -3px -3px 0 #bce39a,
+    1px 1px 0 #d0ad61;
+}
+
+@media (max-width: 760px) {
+  .pixel-app-shell .pixel-filter-form {
+    gap: 10px;
+    padding: 10px;
+    box-shadow:
+      inset 2px 2px 0 #fffdf2,
+      inset -2px -2px 0 #b8c7a8,
+      3px 3px 0 #d0ad61;
+  }
+
+  .pixel-app-shell .pixel-filter-form > .button.button-primary {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 520px) {
+  .pixel-app-shell .pixel-filter-form {
+    margin-inline: -1px;
+    padding: 9px;
+  }
+
+  .pixel-app-shell .pixel-filter-form label {
+    font-size: .63rem;
+  }
+
+  .pixel-app-shell .pixel-filter-form input,
+  .pixel-app-shell .pixel-filter-form select,
+  .pixel-app-shell .pixel-filter-form .filter-search-input {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-filter-form > .button.button-primary:active {
+    transform: none;
+  }
+}
