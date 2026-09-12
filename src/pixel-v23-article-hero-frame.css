@@ -1,0 +1,71 @@
+/* OSBLOG Pixel V23 — article hero 9-slice game-window frame.
+   Bounded scope: presentation-only framing for the existing article cover image.
+   Reuses the proven V15 post thumbnail frame asset; image URL, alt text, loading/decoding and article behavior stay unchanged. */
+
+.pixel-app-shell .pixel-article-hero {
+  position: relative;
+  overflow: hidden;
+  border: 6px solid transparent;
+  border-image-source: url('/pixel/ui/post-thumb-frame.svg');
+  border-image-slice: 4;
+  border-image-width: 6px;
+  border-image-repeat: repeat;
+  background: #8ecddd;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.24),
+    5px 5px 0 #d0b263,
+    8px 8px 0 rgba(23,56,77,.16);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.pixel-app-shell .pixel-article-hero::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,248,223,.5),
+    inset 0 -4px 0 rgba(13,45,64,.18);
+}
+
+.pixel-app-shell .pixel-article-hero::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.12) 0 8px, transparent 8px calc(100% - 8px), rgba(13,45,64,.1) calc(100% - 8px)),
+    repeating-linear-gradient(0deg, transparent 0 7px, rgba(13,45,64,.04) 7px 8px);
+}
+
+.pixel-app-shell .pixel-article-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: auto;
+}
+
+@media (max-width: 768px) {
+  .pixel-app-shell .pixel-article-hero {
+    border-width: 4px;
+    border-image-width: 4px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.2),
+      4px 4px 0 #d0b263,
+      6px 6px 0 rgba(23,56,77,.13);
+  }
+
+  .pixel-app-shell .pixel-article-hero::before,
+  .pixel-app-shell .pixel-article-hero::after {
+    inset: 4px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .pixel-app-shell .pixel-article-hero::after {
+    display: none;
+  }
+}
