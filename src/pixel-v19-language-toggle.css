@@ -1,0 +1,111 @@
+/* V19 — global language switch as a 16-bit world selector.
+   Bounded scope: presentation only; preserve bilingual routing, target language, href, lang and aria-label semantics. */
+
+.pixel-app-shell .lang-switch.pixel-tool-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 64px;
+  height: 44px;
+  padding: 0 9px;
+  border: 3px solid var(--px-ink);
+  border-radius: 0;
+  background: var(--px-paper-light);
+  color: var(--px-ink-deep);
+  box-shadow:
+    inset 3px 3px 0 #fffdf2,
+    inset -3px -3px 0 #e8c979,
+    4px 4px 0 var(--px-gold);
+  font: 900 .72rem/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .08em;
+  text-decoration: none;
+  transition: none;
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button > svg {
+  display: none;
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background: url('/pixel/ui/language-toggle.svg') 0 0 / 16px 16px no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transform: scale(1.35);
+  transform-origin: center;
+  filter: drop-shadow(1px 1px 0 rgba(21,52,87,.28));
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button > span {
+  min-width: 2ch;
+  text-align: center;
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button:hover {
+  background: #fff0bd;
+  color: var(--px-blue);
+  box-shadow:
+    inset 3px 3px 0 #fffdf2,
+    inset -3px -3px 0 #d8b75f,
+    4px 4px 0 var(--px-gold);
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button:hover::before,
+.pixel-app-shell .lang-switch.pixel-tool-button:focus-visible::before {
+  transform: translate(-1px, -1px) scale(1.35);
+  filter: drop-shadow(2px 2px 0 rgba(21,52,87,.3));
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button:active {
+  transform: translate(3px, 3px);
+  box-shadow:
+    inset 3px 3px 0 #d8b75f,
+    inset -3px -3px 0 #fffdf2,
+    1px 1px 0 var(--px-gold);
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button:active::before {
+  transform: scale(1.35);
+  filter: drop-shadow(1px 1px 0 rgba(21,52,87,.24));
+}
+
+.pixel-app-shell .lang-switch.pixel-tool-button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .pixel-app-shell .lang-switch.pixel-tool-button {
+    min-width: 58px;
+    height: 40px;
+    padding-inline: 7px;
+    border-width: 2px;
+    gap: 6px;
+    box-shadow:
+      inset 2px 2px 0 #fffdf2,
+      inset -2px -2px 0 #e8c979,
+      3px 3px 0 var(--px-gold);
+  }
+
+  .pixel-app-shell .lang-switch.pixel-tool-button::before {
+    transform: scale(1.2);
+  }
+
+  .pixel-app-shell .lang-switch.pixel-tool-button:hover::before,
+  .pixel-app-shell .lang-switch.pixel-tool-button:focus-visible::before {
+    transform: translate(-1px, -1px) scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .lang-switch.pixel-tool-button:active,
+  .pixel-app-shell .lang-switch.pixel-tool-button:hover::before,
+  .pixel-app-shell .lang-switch.pixel-tool-button:focus-visible::before {
+    transform: none;
+  }
+}

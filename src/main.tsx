@@ -27,6 +27,7 @@ import './pixel-v15-thumbnail-frame.css'
 import './pixel-v16-post-title.css'
 import './pixel-v17-pagination-hud.css'
 import './pixel-v18-theme-toggle.css'
+import './pixel-v19-language-toggle.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
