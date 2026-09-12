@@ -1,0 +1,101 @@
+/* OSBLOG Pixel V9 — secondary mascot sprite fidelity.
+   Bounded scope: replace the remaining CSS-geometry mascots (sidebar bot + footer cat)
+   with authored 16-bit sprites. Layout, copy, links and application behavior stay unchanged. */
+
+.pixel-app-shell .pixel-side-mascot {
+  width: 66px;
+  height: 58px;
+  border: 0;
+  outline: 0;
+  background: transparent url('/pixel/sprites/sidebar-bot.svg') center / 66px 58px no-repeat;
+  box-shadow: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter:
+    drop-shadow(3px 3px 0 rgba(230,172,76,.8))
+    drop-shadow(5px 5px 0 rgba(23,63,87,.16));
+}
+
+.pixel-app-shell .pixel-side-mascot::before,
+.pixel-app-shell .pixel-side-mascot::after,
+.pixel-app-shell .pixel-side-mascot i,
+.pixel-app-shell .pixel-side-mascot b {
+  content: none;
+  display: none;
+}
+
+.pixel-app-shell .pixel-about-panel:hover .pixel-side-mascot,
+.pixel-app-shell .pixel-about-panel:focus-within .pixel-side-mascot {
+  transform: translate(-1px, -1px);
+  filter:
+    drop-shadow(4px 4px 0 rgba(230,172,76,.82))
+    drop-shadow(6px 6px 0 rgba(23,63,87,.18));
+}
+
+.pixel-app-shell .pixel-footer-cat {
+  right: 18px;
+  bottom: 6px;
+  width: 86px;
+  height: 54px;
+  border: 0;
+  outline: 0;
+  background: transparent url('/pixel/sprites/footer-cat.svg') center / 86px 54px no-repeat;
+  box-shadow: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter:
+    drop-shadow(3px 3px 0 rgba(230,172,76,.72))
+    drop-shadow(5px 5px 0 rgba(23,63,87,.14));
+}
+
+.pixel-app-shell .pixel-footer-cat::before,
+.pixel-app-shell .pixel-footer-cat::after,
+.pixel-app-shell .pixel-footer-cat i,
+.pixel-app-shell .pixel-footer-cat b {
+  content: none;
+  display: none;
+}
+
+.pixel-app-shell .pixel-site-footer:hover .pixel-footer-cat {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 700px) {
+  .pixel-app-shell .pixel-side-mascot {
+    width: 62px;
+    height: 54px;
+    background-size: 62px 54px;
+  }
+
+  .pixel-app-shell .pixel-footer-cat {
+    right: 10px;
+    bottom: 5px;
+    width: 72px;
+    height: 46px;
+    background-size: 72px 46px;
+  }
+
+  .pixel-app-shell .pixel-site-footer {
+    padding-right: 92px;
+  }
+}
+
+@media (max-width: 430px) {
+  .pixel-app-shell .pixel-footer-cat {
+    width: 66px;
+    height: 42px;
+    background-size: 66px 42px;
+  }
+
+  .pixel-app-shell .pixel-site-footer {
+    padding-right: 82px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-about-panel:hover .pixel-side-mascot,
+  .pixel-app-shell .pixel-about-panel:focus-within .pixel-side-mascot,
+  .pixel-app-shell .pixel-site-footer:hover .pixel-footer-cat {
+    transform: none;
+  }
+}
