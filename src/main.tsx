@@ -22,6 +22,7 @@ import './pixel-v10-section-sprites.css'
 import './pixel-v11-stat-sprites.css'
 import './pixel-v12-feed-controls.css'
 import './pixel-v13-post-meta.css'
+import './pixel-v14-category-badge.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
