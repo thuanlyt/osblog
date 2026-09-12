@@ -1,0 +1,99 @@
+/* OSBLOG Pixel V12 — feed HUD controls.
+   Bounded scope: make RSS/Atom controls read as authored 16-bit cartridges while preserving feed URLs and link semantics. */
+
+.pixel-app-shell .pixel-feed-actions {
+  gap: 9px;
+}
+
+.pixel-app-shell .pixel-feed-actions a {
+  position: relative;
+  min-height: 46px;
+  padding: 7px 10px 7px 42px;
+  border: 3px solid var(--px4-dark-2);
+  background: var(--px4-cream-hi);
+  color: var(--px4-dark-2);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.72),
+    inset 0 -5px 0 rgba(228,168,67,.16),
+    3px 3px 0 var(--px4-gold);
+  font-family: 'Press Start 2P', 'Silkscreen', 'Pixelify Sans', ui-monospace, monospace;
+  font-size: .58rem;
+  line-height: 1.3;
+  letter-spacing: .02em;
+  text-decoration: none;
+}
+
+.pixel-app-shell .pixel-feed-actions a::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  transform: translateY(-50%);
+  background-image: url('/pixel/ui/feed-controls.svg');
+  background-repeat: no-repeat;
+  background-size: 56px 28px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(2px 2px 0 rgba(20,56,76,.22));
+}
+
+.pixel-app-shell .pixel-feed-actions a:first-child::before {
+  background-position: 0 0;
+}
+
+.pixel-app-shell .pixel-feed-actions a:last-child::before {
+  background-position: -28px 0;
+}
+
+.pixel-app-shell .pixel-feed-actions a::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-top: 2px solid rgba(255,255,255,.52);
+  border-left: 2px solid rgba(255,255,255,.3);
+  pointer-events: none;
+}
+
+.pixel-app-shell .pixel-feed-actions a:hover,
+.pixel-app-shell .pixel-feed-actions a:focus-visible {
+  background: #fff0bd;
+  color: var(--px4-dark-2);
+  transform: translate(1px, 1px);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.72),
+    inset 0 -4px 0 rgba(228,168,67,.16),
+    2px 2px 0 var(--px4-gold);
+}
+
+.pixel-app-shell .pixel-feed-actions a:focus-visible {
+  outline: 3px solid #536fc0;
+  outline-offset: 3px;
+}
+
+@media (max-width: 430px) {
+  .pixel-app-shell .pixel-feed-actions a {
+    min-height: 44px;
+    padding-left: 39px;
+    font-size: .54rem;
+  }
+
+  .pixel-app-shell .pixel-feed-actions a::before {
+    left: 6px;
+    width: 26px;
+    height: 26px;
+    background-size: 52px 26px;
+  }
+
+  .pixel-app-shell .pixel-feed-actions a:last-child::before {
+    background-position: -26px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-feed-actions a:hover,
+  .pixel-app-shell .pixel-feed-actions a:focus-visible {
+    transform: none;
+  }
+}
