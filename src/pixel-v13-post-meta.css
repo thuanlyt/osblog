@@ -1,0 +1,112 @@
+/* OSBLOG Pixel V13 — post metadata HUD strip.
+   Bounded scope: upgrade only the date/read-time footer inside public post cards.
+   Data, links, card structure and article behavior remain unchanged. */
+
+.pixel-app-shell .post-card .post-meta {
+  display: grid;
+  grid-template-columns: max-content 6px minmax(0, max-content);
+  align-items: center;
+  justify-content: start;
+  gap: 7px;
+  margin-top: auto;
+  padding: 7px 9px 8px;
+  border: 3px solid #17384d;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.18) 50%, transparent 50%) 0 0 / 8px 8px,
+    #f6e7ba;
+  color: #17384d;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.62),
+    inset 0 -3px 0 rgba(228,168,67,.24),
+    3px 3px 0 #e4a843;
+  font-family: 'Pixelify Sans', 'Silkscreen', ui-monospace, monospace;
+  font-size: .66rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .015em;
+}
+
+.pixel-app-shell .post-card .post-meta > span:first-child,
+.pixel-app-shell .post-card .post-meta > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 5px;
+}
+
+.pixel-app-shell .post-card .post-meta > span:first-child::before,
+.pixel-app-shell .post-card .post-meta > span:last-child::before {
+  content: '';
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  background-image: url('/pixel/ui/post-meta.svg');
+  background-repeat: no-repeat;
+  background-size: 36px 18px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(2px 2px 0 rgba(23,56,77,.18));
+}
+
+.pixel-app-shell .post-card .post-meta > span:first-child::before {
+  background-position: 0 0;
+}
+
+.pixel-app-shell .post-card .post-meta > span:last-child::before {
+  background-position: -18px 0;
+}
+
+.pixel-app-shell .post-card .post-meta .post-meta-sep {
+  display: block;
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+  color: transparent;
+  background: #ce6268;
+  border: 1px solid #17384d;
+  box-shadow: 1px 1px 0 #e4a843;
+}
+
+.pixel-app-shell .post-card .post-meta > span:last-child > svg {
+  display: none;
+}
+
+.pixel-app-shell .post-card:hover .post-meta,
+.pixel-app-shell .post-card:focus-within .post-meta {
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.2) 50%, transparent 50%) 0 0 / 8px 8px,
+    #fff0c8;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.7),
+    inset 0 -3px 0 rgba(228,168,67,.26),
+    2px 2px 0 #e4a843;
+  transform: translate(1px, 1px);
+}
+
+@media (max-width: 520px) {
+  .pixel-app-shell .post-card .post-meta {
+    grid-template-columns: max-content 5px minmax(0, max-content);
+    gap: 5px;
+    padding: 6px 7px 7px;
+    font-size: .61rem;
+  }
+
+  .pixel-app-shell .post-card .post-meta > span:first-child::before,
+  .pixel-app-shell .post-card .post-meta > span:last-child::before {
+    flex-basis: 16px;
+    width: 16px;
+    height: 16px;
+    background-size: 32px 16px;
+  }
+
+  .pixel-app-shell .post-card .post-meta > span:last-child::before {
+    background-position: -16px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .post-card:hover .post-meta,
+  .pixel-app-shell .post-card:focus-within .post-meta {
+    transform: none;
+  }
+}
