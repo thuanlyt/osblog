@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 32" shape-rendering="crispEdges" aria-hidden="true">
+  <!-- 0: star -->
+  <g transform="translate(0 0)">
+    <rect x="13" y="2" width="6" height="6" fill="#173f57"/>
+    <rect x="9" y="6" width="14" height="6" fill="#173f57"/>
+    <rect x="3" y="12" width="26" height="8" fill="#173f57"/>
+    <rect x="8" y="20" width="16" height="6" fill="#173f57"/>
+    <rect x="12" y="26" width="8" height="4" fill="#173f57"/>
+    <rect x="14" y="5" width="4" height="5" fill="#fff3a8"/>
+    <rect x="10" y="10" width="12" height="5" fill="#f7c94f"/>
+    <rect x="6" y="14" width="20" height="4" fill="#f7c94f"/>
+    <rect x="11" y="18" width="10" height="5" fill="#df9b32"/>
+    <rect x="14" y="23" width="4" height="4" fill="#b66d28"/>
+  </g>
+  <!-- 1: heart -->
+  <g transform="translate(32 0)">
+    <rect x="5" y="6" width="8" height="4" fill="#173f57"/><rect x="19" y="6" width="8" height="4" fill="#173f57"/>
+    <rect x="2" y="10" width="28" height="10" fill="#173f57"/>
+    <rect x="6" y="20" width="20" height="4" fill="#173f57"/><rect x="10" y="24" width="12" height="4" fill="#173f57"/><rect x="14" y="28" width="4" height="2" fill="#173f57"/>
+    <rect x="6" y="9" width="6" height="4" fill="#ffb3b5"/><rect x="20" y="9" width="6" height="4" fill="#ff9da4"/>
+    <rect x="5" y="13" width="22" height="7" fill="#e85f69"/><rect x="8" y="20" width="16" height="3" fill="#d44756"/><rect x="12" y="23" width="8" height="3" fill="#c63c4c"/>
+    <rect x="7" y="12" width="5" height="4" fill="#ffd8d5"/>
+  </g>
+  <!-- 2: stats bars -->
+  <g transform="translate(64 0)">
+    <rect x="3" y="3" width="26" height="26" fill="#173f57"/>
+    <rect x="6" y="6" width="20" height="20" fill="#fff3d1"/>
+    <rect x="8" y="17" width="4" height="7" fill="#e4a843"/><rect x="14" y="12" width="4" height="12" fill="#69a75e"/><rect x="20" y="8" width="4" height="16" fill="#657dc3"/>
+    <rect x="8" y="15" width="4" height="2" fill="#ffd572"/><rect x="14" y="10" width="4" height="2" fill="#9bd27a"/><rect x="20" y="6" width="4" height="2" fill="#9aace0"/>
+    <rect x="8" y="24" width="16" height="2" fill="#b88741"/>
+  </g>
+  <!-- 3: mail -->
+  <g transform="translate(96 0)">
+    <rect x="3" y="6" width="26" height="20" fill="#173f57"/>
+    <rect x="6" y="9" width="20" height="14" fill="#eef7ff"/>
+    <path d="M6 9h20v4h-4v3h-4v3h-4v-3h-4v-3H6z" fill="#8ea4e0"/>
+    <rect x="8" y="11" width="4" height="3" fill="#c9d7f4"/><rect x="20" y="11" width="4" height="3" fill="#c9d7f4"/>
+    <rect x="7" y="20" width="18" height="3" fill="#d9e7f5"/>
+    <rect x="25" y="10" width="2" height="12" fill="#d5a44a"/>
+  </g>
+</svg>
