@@ -1,0 +1,111 @@
+/* OSBLOG Pixel V7 — primary navigation sprite fidelity.
+   Bounded scope: replace flat CSS/nav SVG geometry for primary nav + menu toggle with one real 16-bit sprite sheet.
+   No routing, labels, layout structure, data, admin, feed, comments, or article behavior changes. */
+
+.pixel-app-shell .pixel-nav-icon,
+.pixel-app-shell .pixel-search-icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  background-image: url('/pixel/sprites/header-nav.svg');
+  background-repeat: no-repeat;
+  background-size: 700% 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  box-shadow: none;
+  filter: drop-shadow(3px 3px 0 rgba(13,45,64,.28));
+  transform: none;
+}
+
+.pixel-app-shell .pixel-nav-icon::before,
+.pixel-app-shell .pixel-nav-icon::after,
+.pixel-app-shell .pixel-search-icon::before,
+.pixel-app-shell .pixel-search-icon::after {
+  content: none;
+  display: none;
+}
+
+.pixel-app-shell .pixel-nav-icon-home { background-position: 0% 0; }
+.pixel-app-shell .pixel-nav-icon-posts { background-position: 16.6667% 0; }
+.pixel-app-shell .pixel-nav-icon-docs { background-position: 33.3333% 0; }
+.pixel-app-shell .pixel-nav-icon-about { background-position: 50% 0; }
+.pixel-app-shell .pixel-search-icon { background-position: 66.6667% 0; }
+.pixel-app-shell .pixel-search-icon svg { display: none; }
+
+.pixel-app-shell .pixel-nav-link {
+  transition: none;
+}
+
+.pixel-app-shell .pixel-nav-link:hover .pixel-nav-icon,
+.pixel-app-shell .pixel-nav-link:hover .pixel-search-icon,
+.pixel-app-shell .pixel-nav-link:focus-visible .pixel-nav-icon,
+.pixel-app-shell .pixel-nav-link:focus-visible .pixel-search-icon,
+.pixel-app-shell .pixel-nav-link[aria-current='page'] .pixel-nav-icon {
+  transform: translate(-2px, -2px);
+  filter: drop-shadow(5px 5px 0 rgba(13,45,64,.3));
+}
+
+.pixel-app-shell .pixel-nav-link:active .pixel-nav-icon,
+.pixel-app-shell .pixel-nav-link:active .pixel-search-icon {
+  transform: translate(1px, 1px);
+  filter: drop-shadow(2px 2px 0 rgba(13,45,64,.28));
+}
+
+/* Preserve the existing accessible menu button and only replace its visual glyph. */
+.pixel-app-shell .pixel-nav-toggle svg { display: none; }
+.pixel-app-shell .pixel-nav-toggle::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 32px;
+  background-image: url('/pixel/sprites/header-nav.svg');
+  background-repeat: no-repeat;
+  background-size: 700% 100%;
+  background-position: 83.3333% 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(2px 2px 0 rgba(13,45,64,.26));
+}
+
+.pixel-app-shell .pixel-nav-toggle[aria-expanded='true']::before {
+  background-position: 100% 0;
+}
+
+.pixel-app-shell .pixel-nav-toggle:hover::before,
+.pixel-app-shell .pixel-nav-toggle:focus-visible::before {
+  transform: translate(-1px, -1px);
+  filter: drop-shadow(3px 3px 0 rgba(13,45,64,.28));
+}
+
+.pixel-app-shell .pixel-nav-toggle:active::before {
+  transform: translate(1px, 1px);
+  filter: drop-shadow(1px 1px 0 rgba(13,45,64,.24));
+}
+
+@media (max-width: 768px) {
+  .pixel-app-shell .pixel-site-nav[data-open='true'] .pixel-nav-icon,
+  .pixel-app-shell .pixel-site-nav[data-open='true'] .pixel-search-icon {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-nav-link:hover .pixel-nav-icon,
+  .pixel-app-shell .pixel-nav-link:hover .pixel-search-icon,
+  .pixel-app-shell .pixel-nav-link:focus-visible .pixel-nav-icon,
+  .pixel-app-shell .pixel-nav-link:focus-visible .pixel-search-icon,
+  .pixel-app-shell .pixel-nav-link[aria-current='page'] .pixel-nav-icon,
+  .pixel-app-shell .pixel-nav-link:active .pixel-nav-icon,
+  .pixel-app-shell .pixel-nav-link:active .pixel-search-icon,
+  .pixel-app-shell .pixel-nav-toggle:hover::before,
+  .pixel-app-shell .pixel-nav-toggle:focus-visible::before,
+  .pixel-app-shell .pixel-nav-toggle:active::before {
+    transform: none;
+  }
+}
