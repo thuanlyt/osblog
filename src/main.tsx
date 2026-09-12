@@ -18,6 +18,7 @@ import './pixel-v6-category-sprites.css'
 import './pixel-v7-nav-sprites.css'
 import './pixel-v8-brand-sprite.css'
 import './pixel-v9-secondary-mascots.css'
+import './pixel-v10-section-sprites.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
