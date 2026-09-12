@@ -1,0 +1,98 @@
+/* OSBLOG Pixel V15 — post thumbnail 9-slice game-window frame.
+   Bounded scope: presentation-only framing for existing post thumbnails; image sources, loading, links and card behavior stay unchanged. */
+
+.pixel-app-shell .pixel-post-grid .post-thumb,
+.pixel-app-shell .pixel-archive-grid .post-thumb,
+.pixel-app-shell .pixel-related-grid .post-thumb {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 4px solid transparent;
+  border-image-source: url('/pixel/ui/post-thumb-frame.svg');
+  border-image-slice: 4;
+  border-image-width: 4px;
+  border-image-repeat: repeat;
+  background: #8ecddd;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.22),
+    0 4px 0 rgba(20,56,76,.22);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.pixel-app-shell .pixel-post-grid .post-thumb img,
+.pixel-app-shell .pixel-archive-grid .post-thumb img,
+.pixel-app-shell .pixel-related-grid .post-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+  transition: transform 120ms steps(2, end), filter 120ms steps(2, end);
+}
+
+.pixel-app-shell .pixel-post-grid .post-thumb::before,
+.pixel-app-shell .pixel-archive-grid .post-thumb::before,
+.pixel-app-shell .pixel-related-grid .post-thumb::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,248,223,.42),
+    inset 0 -3px 0 rgba(13,45,64,.16);
+}
+
+.pixel-app-shell .pixel-post-grid .post-thumb::after,
+.pixel-app-shell .pixel-archive-grid .post-thumb::after,
+.pixel-app-shell .pixel-related-grid .post-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 5px, rgba(13,45,64,.055) 5px 6px),
+    repeating-linear-gradient(90deg, transparent 0 15px, rgba(255,255,255,.035) 15px 16px);
+}
+
+.pixel-app-shell .pixel-post-grid .post-card:hover .post-thumb img,
+.pixel-app-shell .pixel-archive-grid .post-card:hover .post-thumb img,
+.pixel-app-shell .pixel-related-grid .post-card:hover .post-thumb img {
+  transform: scale(1.0125);
+  filter: saturate(1.04) contrast(1.02);
+}
+
+@media (max-width: 768px) {
+  .pixel-app-shell .pixel-post-grid .post-thumb,
+  .pixel-app-shell .pixel-archive-grid .post-thumb,
+  .pixel-app-shell .pixel-related-grid .post-thumb {
+    border-width: 3px;
+    border-image-width: 3px;
+    box-shadow: 0 3px 0 rgba(20,56,76,.2);
+  }
+
+  .pixel-app-shell .pixel-post-grid .post-thumb::before,
+  .pixel-app-shell .pixel-archive-grid .post-thumb::before,
+  .pixel-app-shell .pixel-related-grid .post-thumb::before,
+  .pixel-app-shell .pixel-post-grid .post-thumb::after,
+  .pixel-app-shell .pixel-archive-grid .post-thumb::after,
+  .pixel-app-shell .pixel-related-grid .post-thumb::after {
+    inset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-post-grid .post-thumb img,
+  .pixel-app-shell .pixel-archive-grid .post-thumb img,
+  .pixel-app-shell .pixel-related-grid .post-thumb img {
+    transition: none;
+  }
+
+  .pixel-app-shell .pixel-post-grid .post-card:hover .post-thumb img,
+  .pixel-app-shell .pixel-archive-grid .post-card:hover .post-thumb img,
+  .pixel-app-shell .pixel-related-grid .post-card:hover .post-thumb img {
+    transform: none;
+  }
+}
