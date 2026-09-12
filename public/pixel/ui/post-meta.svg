@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 32" shape-rendering="crispEdges" role="img" aria-label="Post metadata pixel sprites">
+  <!-- calendar tile: 0..31 -->
+  <g>
+    <rect x="4" y="5" width="24" height="23" fill="#17384d"/>
+    <rect x="6" y="7" width="20" height="19" fill="#fff0c8"/>
+    <rect x="6" y="7" width="20" height="6" fill="#536fc0"/>
+    <rect x="9" y="3" width="4" height="8" fill="#17384d"/>
+    <rect x="19" y="3" width="4" height="8" fill="#17384d"/>
+    <rect x="9" y="16" width="4" height="4" fill="#ce6268"/>
+    <rect x="15" y="16" width="4" height="4" fill="#e4a843"/>
+    <rect x="21" y="16" width="3" height="4" fill="#3b7f48"/>
+    <rect x="9" y="22" width="4" height="3" fill="#8ea4e0"/>
+    <rect x="15" y="22" width="4" height="3" fill="#536fc0"/>
+    <rect x="22" y="8" width="3" height="3" fill="#fff8df"/>
+  </g>
+
+  <!-- clock tile: 32..63 -->
+  <g>
+    <rect x="42" y="2" width="12" height="3" fill="#17384d"/>
+    <rect x="38" y="5" width="20" height="3" fill="#17384d"/>
+    <rect x="35" y="8" width="26" height="16" fill="#17384d"/>
+    <rect x="38" y="24" width="20" height="3" fill="#17384d"/>
+    <rect x="42" y="27" width="12" height="3" fill="#17384d"/>
+    <rect x="39" y="9" width="18" height="14" fill="#fff0c8"/>
+    <rect x="42" y="7" width="12" height="18" fill="#fff0c8"/>
+    <rect x="46" y="10" width="4" height="8" fill="#536fc0"/>
+    <rect x="49" y="16" width="6" height="4" fill="#536fc0"/>
+    <rect x="40" y="10" width="3" height="3" fill="#fff8df"/>
+    <rect x="54" y="20" width="3" height="3" fill="#e4a843"/>
+  </g>
+</svg>
