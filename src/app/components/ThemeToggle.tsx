@@ -23,7 +23,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <button type="button" className="icon-button" onClick={toggle} aria-pressed={theme === 'dark'} aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}>
+    <button type="button" className="icon-button pixel-theme-toggle" onClick={toggle} aria-pressed={theme === 'dark'} aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}>
       {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
     </button>
   )

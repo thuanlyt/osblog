@@ -1,0 +1,88 @@
+/* V18 — global theme switch as a true 16-bit HUD control. */
+.pixel-theme-toggle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  padding: 0;
+  border: 3px solid var(--color-primary);
+  border-radius: 0;
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  box-shadow:
+    inset 3px 3px 0 color-mix(in srgb, var(--color-surface) 72%, white),
+    inset -3px -3px 0 color-mix(in srgb, var(--color-surface) 72%, black),
+    4px 4px 0 var(--color-accent-ink);
+  transition: none;
+}
+
+.pixel-theme-toggle::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background-image: url('/pixel/ui/theme-toggle.svg');
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 32px 16px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transform: scale(1.5);
+  transform-origin: center;
+}
+
+.pixel-theme-toggle[aria-pressed='true']::before {
+  background-position: -16px 0;
+}
+
+.pixel-theme-toggle > .icon {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.pixel-theme-toggle:hover {
+  background: var(--color-muted);
+  box-shadow:
+    inset 3px 3px 0 color-mix(in srgb, var(--color-muted) 72%, white),
+    inset -3px -3px 0 color-mix(in srgb, var(--color-muted) 72%, black),
+    4px 4px 0 var(--color-accent-ink);
+}
+
+.pixel-theme-toggle:active {
+  transform: translate(3px, 3px);
+  box-shadow:
+    inset 3px 3px 0 color-mix(in srgb, var(--color-muted) 72%, black),
+    inset -3px -3px 0 color-mix(in srgb, var(--color-muted) 72%, white),
+    1px 1px 0 var(--color-accent-ink);
+}
+
+.pixel-theme-toggle:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .pixel-theme-toggle {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    border-width: 2px;
+    box-shadow:
+      inset 2px 2px 0 color-mix(in srgb, var(--color-surface) 72%, white),
+      inset -2px -2px 0 color-mix(in srgb, var(--color-surface) 72%, black),
+      3px 3px 0 var(--color-accent-ink);
+  }
+
+  .pixel-theme-toggle::before {
+    transform: scale(1.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-theme-toggle:active {
+    transform: none;
+  }
+}
