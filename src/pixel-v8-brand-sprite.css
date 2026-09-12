@@ -1,0 +1,80 @@
+/* OSBLOG Pixel V8 — brand mascot sprite fidelity.
+   Bounded scope: replace the header brand mascot's layered CSS geometry with one authentic 16-bit sprite.
+   No layout structure, routing, labels, content, data, admin, feed, comments, or article behavior changes. */
+
+.pixel-app-shell .pixel-brand-mark {
+  width: 82px;
+  height: 72px;
+  flex: 0 0 82px;
+  border: 0;
+  outline: 0;
+  border-radius: 0;
+  clip-path: none;
+  background: transparent url('/pixel/sprites/brand-bot.svg') center / 100% 100% no-repeat;
+  box-shadow: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter:
+    drop-shadow(4px 4px 0 rgba(230,172,76,.78))
+    drop-shadow(7px 7px 0 rgba(23,63,87,.18));
+  transition: none;
+}
+
+.pixel-app-shell .pixel-brand-mark::before,
+.pixel-app-shell .pixel-brand-mark::after,
+.pixel-app-shell .pixel-brand-mark .pixel-brand-antenna,
+.pixel-app-shell .pixel-brand-mark .pixel-brand-eye,
+.pixel-app-shell .pixel-brand-mark .pixel-brand-mouth {
+  content: none;
+  display: none;
+}
+
+.pixel-app-shell .pixel-brand:hover .pixel-brand-mark,
+.pixel-app-shell .pixel-brand:focus-visible .pixel-brand-mark {
+  transform: translate(-2px, -2px);
+  filter:
+    drop-shadow(6px 6px 0 rgba(230,172,76,.82))
+    drop-shadow(9px 9px 0 rgba(23,63,87,.2));
+}
+
+.pixel-app-shell .pixel-brand:active .pixel-brand-mark {
+  transform: translate(1px, 1px);
+  filter:
+    drop-shadow(3px 3px 0 rgba(230,172,76,.78))
+    drop-shadow(5px 5px 0 rgba(23,63,87,.18));
+}
+
+@media (max-width: 940px) {
+  .pixel-app-shell .pixel-brand-mark {
+    width: 62px;
+    height: 56px;
+    flex-basis: 62px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pixel-app-shell .pixel-brand-mark {
+    width: 54px;
+    height: 50px;
+    flex-basis: 54px;
+    filter:
+      drop-shadow(3px 3px 0 rgba(230,172,76,.78))
+      drop-shadow(5px 5px 0 rgba(23,63,87,.16));
+  }
+}
+
+@media (max-width: 430px) {
+  .pixel-app-shell .pixel-brand-mark {
+    width: 50px;
+    height: 46px;
+    flex-basis: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-app-shell .pixel-brand:hover .pixel-brand-mark,
+  .pixel-app-shell .pixel-brand:focus-visible .pixel-brand-mark,
+  .pixel-app-shell .pixel-brand:active .pixel-brand-mark {
+    transform: none;
+  }
+}
