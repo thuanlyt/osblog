@@ -1,0 +1,45 @@
+/* OSBLOG Pixel V11 — stats HUD sprite fidelity.
+   Bounded scope: replace the three flat CSS stat blocks with authored 16-bit mini sprites.
+   Content, counts, layout, links and behavior remain unchanged. */
+
+.pixel-app-shell .pixel-stat-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background-color: transparent;
+  background-image: url('/pixel/ui/stat-icons.svg');
+  background-repeat: no-repeat;
+  background-size: 72px 24px;
+  box-shadow: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(2px 2px 0 rgba(20,56,76,.26));
+}
+
+.pixel-app-shell .pixel-stat-posts { background-position: 0 0; }
+.pixel-app-shell .pixel-stat-cats { background-position: -24px 0; }
+.pixel-app-shell .pixel-stat-docs { background-position: -48px 0; }
+
+.pixel-app-shell .pixel-stat-grid-three > div {
+  gap: 5px;
+}
+
+.pixel-app-shell .pixel-stat-grid-three strong {
+  font-family: 'Pixelify Sans', 'Silkscreen', ui-monospace, monospace;
+  font-size: 1.08rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 2px 2px 0 rgba(228,168,67,.22);
+}
+
+@media (max-width: 430px) {
+  .pixel-app-shell .pixel-stat-icon {
+    width: 22px;
+    height: 22px;
+    background-size: 66px 22px;
+  }
+
+  .pixel-app-shell .pixel-stat-cats { background-position: -22px 0; }
+  .pixel-app-shell .pixel-stat-docs { background-position: -44px 0; }
+}
