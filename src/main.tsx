@@ -21,6 +21,7 @@ import './pixel-v9-secondary-mascots.css'
 import './pixel-v10-section-sprites.css'
 import './pixel-v11-stat-sprites.css'
 import './pixel-v12-feed-controls.css'
+import './pixel-v13-post-meta.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
