@@ -16,6 +16,7 @@ import './pixel-v4-authentic.css'
 import './pixel-v5-mobile-world.css'
 import './pixel-v6-category-sprites.css'
 import './pixel-v7-nav-sprites.css'
+import './pixel-v8-brand-sprite.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
