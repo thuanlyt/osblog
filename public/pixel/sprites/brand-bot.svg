@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 72" role="img" aria-labelledby="title desc" shape-rendering="crispEdges">
+  <title id="title">OSBLOG 16-bit brand bot</title>
+  <desc id="desc">Original aqua pixel robot mascot with antenna, ears, face, highlights and deep navy outline.</desc>
+
+  <!-- antenna -->
+  <rect x="36" y="0" width="8" height="8" fill="#173f57"/>
+  <rect x="38" y="0" width="4" height="4" fill="#d7656d"/>
+  <rect x="38" y="8" width="4" height="8" fill="#173f57"/>
+
+  <!-- ears / silhouette -->
+  <rect x="12" y="12" width="12" height="8" fill="#173f57"/>
+  <rect x="56" y="12" width="12" height="8" fill="#173f57"/>
+  <rect x="8" y="16" width="16" height="12" fill="#173f57"/>
+  <rect x="56" y="16" width="16" height="12" fill="#173f57"/>
+
+  <!-- outer head stepped outline -->
+  <rect x="16" y="12" width="48" height="4" fill="#173f57"/>
+  <rect x="12" y="16" width="56" height="4" fill="#173f57"/>
+  <rect x="8" y="20" width="64" height="40" fill="#173f57"/>
+  <rect x="12" y="60" width="56" height="4" fill="#173f57"/>
+  <rect x="16" y="64" width="48" height="4" fill="#173f57"/>
+
+  <!-- shell -->
+  <rect x="16" y="20" width="48" height="40" fill="#45b1d3"/>
+  <rect x="12" y="24" width="56" height="32" fill="#45b1d3"/>
+  <rect x="20" y="16" width="40" height="48" fill="#45b1d3"/>
+
+  <!-- 16-bit highlight / shadow blocks -->
+  <rect x="16" y="20" width="32" height="4" fill="#9be3ee"/>
+  <rect x="16" y="24" width="8" height="24" fill="#83d4e7"/>
+  <rect x="20" y="24" width="8" height="8" fill="#b7edf4"/>
+  <rect x="56" y="28" width="8" height="28" fill="#2d8fb7"/>
+  <rect x="48" y="52" width="16" height="8" fill="#2d8fb7"/>
+  <rect x="52" y="48" width="8" height="4" fill="#389fc2"/>
+
+  <!-- face inset -->
+  <rect x="20" y="28" width="40" height="24" fill="#72c9df"/>
+  <rect x="24" y="32" width="32" height="16" fill="#88d8e7"/>
+
+  <!-- eyes -->
+  <rect x="24" y="34" width="8" height="10" fill="#173f57"/>
+  <rect x="48" y="34" width="8" height="10" fill="#173f57"/>
+  <rect x="26" y="34" width="3" height="3" fill="#fff8e3"/>
+  <rect x="50" y="34" width="3" height="3" fill="#fff8e3"/>
+
+  <!-- mouth -->
+  <rect x="30" y="48" width="20" height="4" fill="#173f57"/>
+  <rect x="34" y="52" width="12" height="4" fill="#173f57"/>
+  <rect x="34" y="48" width="12" height="4" fill="#d7656d"/>
+
+  <!-- cheek / status lights -->
+  <rect x="16" y="48" width="4" height="4" fill="#ffd878"/>
+  <rect x="60" y="44" width="4" height="4" fill="#e6ac4c"/>
+
+  <!-- tiny dither pixels -->
+  <rect x="28" y="20" width="4" height="4" fill="#b7edf4"/>
+  <rect x="48" y="24" width="4" height="4" fill="#66bfd9"/>
+  <rect x="20" y="56" width="4" height="4" fill="#60bdd7"/>
+  <rect x="52" y="56" width="4" height="4" fill="#287da2"/>
+</svg>
