@@ -30,6 +30,7 @@ import './pixel-v18-theme-toggle.css'
 import './pixel-v19-language-toggle.css'
 import './pixel-v20-admin-access.css'
 import './pixel-v21-filter-console.css'
+import './pixel-v22-article-meta.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')

@@ -1,0 +1,112 @@
+/* OSBLOG Pixel V22 — article metadata HUD strip.
+   Bounded scope: presentation only for published date + read-time in the public article banner.
+   Reuses the existing V13 metadata sprite; article data, links, Markdown, comments and routing stay untouched. */
+
+.pixel-app-shell .pixel-article-meta {
+  display: inline-grid;
+  grid-template-columns: max-content 6px max-content;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  max-width: 100%;
+  margin-top: 15px;
+  padding: 7px 10px 8px;
+  border: 3px solid #17384d;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.18) 50%, transparent 50%) 0 0 / 8px 8px,
+    #f6e7ba;
+  color: #17384d;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.66),
+    inset 0 -3px 0 rgba(228,168,67,.24),
+    3px 3px 0 #e4a843;
+  font-family: 'Pixelify Sans', 'Silkscreen', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .015em;
+}
+
+.pixel-app-shell .pixel-article-meta > span:first-child,
+.pixel-app-shell .pixel-article-meta > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.pixel-app-shell .pixel-article-meta > span:first-child::before,
+.pixel-app-shell .pixel-article-meta > span:last-child::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  background-image: url('/pixel/ui/post-meta.svg');
+  background-repeat: no-repeat;
+  background-size: 36px 18px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(2px 2px 0 rgba(23,56,77,.18));
+}
+
+.pixel-app-shell .pixel-article-meta > span:first-child::before {
+  background-position: 0 0;
+}
+
+.pixel-app-shell .pixel-article-meta > span:last-child::before {
+  background-position: -18px 0;
+}
+
+.pixel-app-shell .pixel-article-meta .post-meta-sep {
+  display: block;
+  width: 5px;
+  height: 5px;
+  overflow: hidden;
+  color: transparent;
+  background: #ce6268;
+  border: 1px solid #17384d;
+  box-shadow: 1px 1px 0 #e4a843;
+}
+
+.pixel-app-shell .pixel-article-meta > span:last-child > svg {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .pixel-app-shell .pixel-article-meta {
+    grid-template-columns: max-content 5px max-content;
+    gap: 6px;
+    padding: 6px 8px 7px;
+    font-size: .62rem;
+  }
+
+  .pixel-app-shell .pixel-article-meta > span:first-child::before,
+  .pixel-app-shell .pixel-article-meta > span:last-child::before {
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+    background-size: 32px 16px;
+  }
+
+  .pixel-app-shell .pixel-article-meta > span:last-child::before {
+    background-position: -16px 0;
+  }
+}
+
+@media (max-width: 390px) {
+  .pixel-app-shell .pixel-article-meta {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+    width: 100%;
+  }
+
+  .pixel-app-shell .pixel-article-meta .post-meta-sep {
+    display: none;
+  }
+
+  .pixel-app-shell .pixel-article-meta > span:first-child,
+  .pixel-app-shell .pixel-article-meta > span:last-child {
+    white-space: normal;
+  }
+}
