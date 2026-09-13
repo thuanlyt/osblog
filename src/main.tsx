@@ -34,6 +34,7 @@ import './pixel-v22-article-meta.css'
 import './pixel-v23-article-hero-frame.css'
 import './pixel-v24-reading-headings.css'
 import './pixel-v25-code-terminal.css'
+import './pixel-v26-reading-tables.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')
