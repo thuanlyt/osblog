@@ -1,0 +1,94 @@
+/* V25 — bounded article fenced-code terminal treatment. Presentation only; SafeMarkdown structure/content stays unchanged. */
+.pixel-app-shell .pixel-reading-surface pre,
+.pixel-app-shell .pixel-reading-surface .md-pre {
+  position: relative;
+  margin-block: 1.6rem;
+  padding: 38px 16px 16px;
+  overflow: auto;
+  border: 3px solid #274760;
+  border-radius: 0;
+  background: #10263a;
+  color: #eef6e8;
+  box-shadow: 4px 4px 0 #cdb367, inset 0 0 0 2px #41647a;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: .86rem;
+  line-height: 1.62;
+  tab-size: 2;
+  scrollbar-color: #6f92a2 #173248;
+  scrollbar-width: thin;
+}
+
+.pixel-app-shell .pixel-reading-surface pre::after,
+.pixel-app-shell .pixel-reading-surface .md-pre::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 auto;
+  height: 27px;
+  border-bottom: 3px solid #274760;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 8px, transparent 8px 16px),
+    #31566d;
+  pointer-events: none;
+}
+
+.pixel-app-shell .pixel-reading-surface pre::before,
+.pixel-app-shell .pixel-reading-surface .md-pre::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  left: 8px;
+  width: 48px;
+  height: 16px;
+  background: url('/pixel/ui/code-terminal-lights.svg') 0 0 / 48px 16px no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.pixel-app-shell .pixel-reading-surface pre > code,
+.pixel-app-shell .pixel-reading-surface .md-pre > code {
+  position: relative;
+  z-index: 2;
+  display: block;
+  min-width: max-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.pixel-app-shell .pixel-reading-surface .md-pre:focus-visible {
+  outline: 3px solid #efb54e;
+  outline-offset: 3px;
+}
+
+.pixel-app-shell .pixel-reading-surface pre::-webkit-scrollbar,
+.pixel-app-shell .pixel-reading-surface .md-pre::-webkit-scrollbar {
+  height: 12px;
+}
+
+.pixel-app-shell .pixel-reading-surface pre::-webkit-scrollbar-track,
+.pixel-app-shell .pixel-reading-surface .md-pre::-webkit-scrollbar-track {
+  background: #173248;
+  border-top: 2px solid #274760;
+}
+
+.pixel-app-shell .pixel-reading-surface pre::-webkit-scrollbar-thumb,
+.pixel-app-shell .pixel-reading-surface .md-pre::-webkit-scrollbar-thumb {
+  background: #6f92a2;
+  border: 2px solid #173248;
+}
+
+@media (max-width: 640px) {
+  .pixel-app-shell .pixel-reading-surface pre,
+  .pixel-app-shell .pixel-reading-surface .md-pre {
+    margin-inline: -6px;
+    padding: 35px 12px 13px;
+    border-width: 3px;
+    box-shadow: 3px 3px 0 #cdb367, inset 0 0 0 1px #41647a;
+    font-size: .8rem;
+    line-height: 1.58;
+  }
+}
