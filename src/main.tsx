@@ -36,6 +36,7 @@ import './pixel-v24-reading-headings.css'
 import './pixel-v25-code-terminal.css'
 import './pixel-v26-reading-tables.css'
 import './pixel-v27-reading-blockquote.css'
+import './pixel-v28-reading-lists.css'
 
 const rootElement = document.getElementById('root')
 const dataElement = document.getElementById('osblog-data')

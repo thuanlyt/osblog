@@ -1,0 +1,81 @@
+/* V28 — bounded Markdown list marker treatment. Presentation only; list semantics/content remain unchanged. */
+.pixel-app-shell .pixel-reading-surface ul:not(.contains-task-list),
+.pixel-app-shell .pixel-reading-surface ol {
+  margin: 1.25rem 0 1.5rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.pixel-app-shell .pixel-reading-surface ul:not(.contains-task-list) > li,
+.pixel-app-shell .pixel-reading-surface ol > li {
+  position: relative;
+  min-height: 24px;
+  margin: .58rem 0;
+  padding-left: 34px;
+}
+
+.pixel-app-shell .pixel-reading-surface ul:not(.contains-task-list) > li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: .58em;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  background: url('/pixel/ui/reading-list-markers.svg') 0 0 / 32px 16px no-repeat;
+  image-rendering: pixelated;
+}
+
+.pixel-app-shell .pixel-reading-surface ul:not(.contains-task-list) ul:not(.contains-task-list) > li::before {
+  background-position: -16px 0;
+}
+
+.pixel-app-shell .pixel-reading-surface ol {
+  counter-reset: px-reading-list;
+}
+
+.pixel-app-shell .pixel-reading-surface ol > li {
+  counter-increment: px-reading-list;
+}
+
+.pixel-app-shell .pixel-reading-surface ol > li::before {
+  content: counter(px-reading-list, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: .18em;
+  display: grid;
+  place-items: center;
+  min-width: 25px;
+  height: 20px;
+  padding-inline: 3px;
+  border: 2px solid #35526d;
+  background: #fff1aa;
+  color: #28455a;
+  box-shadow: 2px 2px 0 #cdb367, inset 1px 1px 0 #fff9d9;
+  font: 900 .62rem/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: -.04em;
+}
+
+.pixel-app-shell .pixel-reading-surface li > ul:not(.contains-task-list),
+.pixel-app-shell .pixel-reading-surface li > ol {
+  margin-top: .55rem;
+  margin-bottom: .45rem;
+}
+
+.pixel-app-shell .pixel-reading-surface li::marker {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+@media (max-width: 640px) {
+  .pixel-app-shell .pixel-reading-surface ul:not(.contains-task-list) > li,
+  .pixel-app-shell .pixel-reading-surface ol > li {
+    padding-left: 31px;
+  }
+
+  .pixel-app-shell .pixel-reading-surface ol > li::before {
+    min-width: 23px;
+    height: 19px;
+    font-size: .58rem;
+    box-shadow: 1px 2px 0 #cdb367, inset 1px 1px 0 #fff9d9;
+  }
+}
